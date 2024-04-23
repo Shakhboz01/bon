@@ -8,3 +8,20 @@
 
   <%= button_to "Destroy this buyer", @buyer, method: :delete %>
 </div>
+<!-- app/views/clients/show.html.erb -->
+<div id="map" style="height: 400px;"></div>
+
+<script>
+  function initMap() {
+    var location = { lat: <%= @buyer.latitude %>, lng: <%= @buyer.longitude %> };
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 15,
+      center: location
+    });
+    var marker = new google.maps.Marker({
+      position: location,
+      map: map
+    });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCrf73WQ7VitOY7_PP0pSGmeBDw-Tiz38&libraries=places&callback=initMap"></script>
