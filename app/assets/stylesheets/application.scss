@@ -24,6 +24,12 @@
   background-color: blue;
   color: white;
 }
+#map-container{
+  position: relative;
+  z-index: 2;
+  width: 200px;
+  margin: 10px auto;
+}
 
 #eye{
   cursor: pointer;
