@@ -81,9 +81,10 @@ Rails.application.routes.draw do
       post "accept_new_participation", action: :accept_new_participation, as: :accept_new_participation
     end
   end
-  root "pages#main_page"
+  root "pages#maps_page"
   get "pages#define_sale_destination", to: "pages#define_sale_destination", as: :define_sale_destination
   get "pages#shortcut", to: "pages#shortcut", as: :shortcut
+  get "pages#maps_page", to: "pages#maps_page", as: :maps_page
   get "daily_report", to: "pages#daily_report", as: :daily_report
   get "admin_page", to: "pages#admin_page", as: :admin_page
   devise_for :users, controllers: { sessions: "sessions" }

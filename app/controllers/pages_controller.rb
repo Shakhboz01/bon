@@ -97,4 +97,8 @@ class PagesController < ApplicationController
     @overall_income_in_usd = @sales_in_usd - (@expenditures_in_usd + @delivery_from_counterparties_in_usd)
     @overall_income_in_uzs = @sales_in_uzs - (@prepayment + @salaries + @expenditures_in_uzs + @delivery_from_counterparties_in_uzs)
   end
+
+  def maps_page
+    @buyers = Buyer.all
+  end
 end
