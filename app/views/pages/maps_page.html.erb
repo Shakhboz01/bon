@@ -11,10 +11,13 @@
     </style>
   </head>
  <body>
+    <div class='text-center'>
+      <%= link_to 'Ko\'rinishni o\'zgartirish', main_page_url, class: 'btn btn-primary' %><hr>
+    </div>
     <div id="map-container" style="position: relative;">
-        <div class="input-group mb-3" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%);">
-            <input id="search-box" type="text" class="form-control" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
-        </div>
+      <div class="input-group mb-3" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%);">
+        <input id="search-box" type="text" class="form-control" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
+      </div>
     </div>
     <div id="map"></div>
     <script>

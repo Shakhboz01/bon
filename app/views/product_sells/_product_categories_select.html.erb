@@ -1,6 +1,6 @@
 <script>
   $(document).ready(function() {
-    function triggerCategoryRowClick(categoryId) {
+    function triggerCategoryRowClick(categoryId)
       $('.category-row[data-category-id="' + categoryId + '"]').addClass('active-category');
       $('#product-table tbody tr').each(function() {
         var productCategoryId = $(this).data('category-id');
@@ -44,7 +44,7 @@
 </script>
 
 <div class='categories' id='product-categories'>
-  <span id="show-all-products" class='category-row active-category'>Все</span>
+  <span id="show-all-products" class='category-row'>Все</span>
   <% ProductCategory.all.order(:name).each do |category| %>
     <span class="category-row" data-category-id="<%= category.id %>"><%= category.name %></span>
   <% end %>

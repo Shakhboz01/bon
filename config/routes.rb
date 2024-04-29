@@ -87,6 +87,7 @@ Rails.application.routes.draw do
   get "pages#maps_page", to: "pages#maps_page", as: :maps_page
   get "daily_report", to: "pages#daily_report", as: :daily_report
   get "admin_page", to: "pages#admin_page", as: :admin_page
+  get "main_page", to: "pages#main_page", as: :main_page
   devise_for :users, controllers: { sessions: "sessions" }
 
   resources :users do

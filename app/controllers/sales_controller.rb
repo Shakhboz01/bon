@@ -76,7 +76,7 @@ class SalesController < ApplicationController
       if last_one.product_sells.empty?
         last_one.update(created_at: DateTime.current)
       end
-
+      last_one.update(user_id: current_user.id)
       redirect_to sale_url(last_one), notice: "Теперь добавьте продажу товаров"
     else
       sfs = Sale.new(buyer: buyer, user: current_user, price_in_usd: ENV.fetch('PRICE_IN_USD'))

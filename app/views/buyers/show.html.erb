@@ -1,15 +1,39 @@
-<p style="color: green"><%= notice %></p>
+<body>
+<main class='body-head'>
+  <div class="wrapper shadow-card">
+    <%= link_to default_create_sales_path(buyer_id: @buyer.id), method: :post, class: 'btn btn-block btn-lg btn-warning mr-2' do %>
+      Savdoga o'tish <i class="fa-solid fa-chevron-right"></i>
+    <% end %>
+    <div class="header">
+      <div class="picture"></div>
+    </div>
+    <div class="content">
+      <h1><%= @buyer.name %></h1>
+      <p class="separator"></p>
+      <h4><%= @buyer.phone_number %></h4>
+      <ul>
+        <li><div class="check"></div><p><%= num_to_usd(3433400340) %> so'mlik yuk olingan</p></li>
+        <li><div class="check"></div><p><%= num_to_usd(30000000) %> so'm to'langan</p></li>
+        <li><div class="check"></div><p><%= num_to_usd(30000000) %> so'm qarz</p></li>
+        <p class="separator"></p>
+      </ul>
+      <div class='d-flex justify-content-around flex-wrap'>
+        <%= link_to sales_url(q: {buyer_id_eq: @buyer.id}), class: 'btn btn-sm btn-primary' do %>
+          Sotuv tarixni ko'rish <i class="fa-solid fa-clock-rotate-left"></i>
+        <% end %>
+        <%= link_to edit_buyer_path(@buyer), class: "btn btn-sm btn-info" do %>
+          Malumotni o'zgartirish <i class="fa-solid fa-edit"></i>
+        <% end %>
 
-<%= render @buyer %>
-
-<div>
-  <%= link_to "Edit this buyer", edit_buyer_path(@buyer) %> |
-  <%= link_to "Back to buyers", buyers_path %>
-
-  <%= button_to "Destroy this buyer", @buyer, method: :delete %>
-</div>
-<!-- app/views/clients/show.html.erb -->
-<div id="map" style="height: 400px;"></div>
+      </div>
+      <p class="separator"></p><hr>
+      <div id="map" style="height: 180px;"></div>
+    </div>
+  </div>
+</main>
+<footer></footer>
+</body>
+<%= stylesheet_link_tag 'buyer_info' %>
 
 <script>
   function initMap() {

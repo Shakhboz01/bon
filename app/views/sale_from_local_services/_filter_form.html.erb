@@ -1,8 +1,7 @@
-<br>
-<div class='card' id='filter-toggle'>
+<div class='sale_from_local_services/filter_form' id='filter-toggle'>
+  <h2 class='p-2'>Filtr:</h2>
   <%= search_form_for q, url: url, html: { class: 'form form-horizontal filter-form' } do |f| %>
-    <h5>Bu yerda tarixni filterlash mumkin:</h5>
-    <div class="card shadow-lg">
+    <div class="shadow-lg">
       <div class='row card-body'>
         <div class="form-group col-xs-12 col-sm-2">
           <%= f.label :created_at_gteq, 'Dan:', class: 'control-label' %>

@@ -1,6 +1,5 @@
 <div class="container my-5">
   <div class="card shadow-lg">
-    <h1 class='text-center'>Yuklar kelishi tarixi</h1>
     <div class="card-header d-flex justify-content-between align-items-center">
       <div class="btn-group" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-primary">Umumiy malumot</button>
@@ -9,9 +8,10 @@
     </div>
     <%= render 'filter_form', q: @q, url: request.path %>
     <div class="card-body">
+      <h1 class='text-center'>Yuklar kelishi tarixi</h1>
       <%= render 'delivery_from_counterparties', delivery_from_counterparties: @delivery_from_counterparties %>
       <%= paginate @delivery_from_counterparties %>
-      <table class='table-bordered'>
+      <table class='table-bordered bg-warning'>
         <thead>
           <tr>
             <th></th>
