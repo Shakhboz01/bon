@@ -1,11 +1,11 @@
 <body>
 <main class='body-head'>
   <div class="wrapper shadow-card">
-    <%= link_to default_create_sales_path(buyer_id: @buyer.id), method: :post, class: 'btn btn-block btn-lg btn-warning mr-2' do %>
+    <%= link_to default_create_sales_path(buyer_id: @buyer.id), method: :post, class: 'btn btn-block btn-lg btn-warning' do %>
       Savdoga o'tish <i class="fa-solid fa-chevron-right"></i>
     <% end %>
     <div class="header">
-      <div class="picture"></div>
+      <%= link_to image_tag(@buyer.image, size: '50x50'), @buyer.image.url, target: "_blank", class: 'picture' %>
     </div>
     <div class="content">
       <h1><%= @buyer.name %></h1>
