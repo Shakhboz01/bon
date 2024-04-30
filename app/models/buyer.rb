@@ -5,10 +5,9 @@ class Buyer < ApplicationRecord
   attr_accessor :debt_in_uzs
 
   geocoded_by :address
-  has_one_attached :image
   validates_presence_of :name
   validates_uniqueness_of :name
-  has_one_attached :image
+  has_many_attached :images
   has_many :sales
   has_many :sale_from_local_services
   has_many :sale_from_services

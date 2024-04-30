@@ -7,7 +7,7 @@
     <%= f.input :latitude, as: :hidden, input_html: {id: 'latitude_field'} %>
     <%= f.input :longitude, as: :hidden, input_html: {id: 'longitude_field'} %>
     <%= f.input :name, label: 'Ism' %><br/>
-    <%= f.input :image %><br/>
+    <%= f.input :images, input_html: { multiple: true } %><br/>
     <%= f.input :phone_number, label: 'Telefon nomer' %>
     <% unless buyer.persisted? %>
       <%= f.input :debt_in_uzs, label: "So'mda qarzi", as: :numeric %>

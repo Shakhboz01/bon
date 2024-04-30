@@ -21,8 +21,8 @@
         <% end %>
         <td>
           <%= link_to buyer.name, default_create_sales_path(buyer_id: buyer.id), method: :post %>
-          <% if buyer.image.persisted? %>
-            <%= link_to image_tag(buyer.image, style: 'width: 60px; height:55px; object-fit:contain'), buyer.image %>
+          <% if buyer.images.present? %>
+            <%= link_to image_tag(buyer.images.last, style: 'width: 60px; height:55px; object-fit:contain'), buyer.images.last %>
           <% end %>
         </td>
         <td>

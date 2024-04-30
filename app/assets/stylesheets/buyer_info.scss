@@ -6,7 +6,9 @@
   align-items: center;
   font-family: Montserrat;
 }
-
+.image-header {
+  overflow: auto;
+}
 .wrapper {
   margin: 10px auto;
   max-width: 400px;
@@ -28,7 +30,7 @@
   height: 140px;
   border-radius: 50%;
   border: 1px solid gray;
-  margin-top: 50px;
+  margin: 50px 5px 0 5px;
   background-size: 100%;
   transition: 1s;
 }
