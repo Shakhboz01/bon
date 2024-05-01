@@ -8,7 +8,7 @@ module ApplicationHelper
   end
 
   def clink_to(title, link, image_name, method = :get)
-    styled_image = image_tag(image_url("#{image_name}.png"), style: 'width: 25px; height: 25px; object-fit: cover;')
+    styled_image = raw("<i class=\"fa fa-fw #{image_name}\"></i>")
     if method == :get
       link_to link, title: title, method: method do
         styled_image
@@ -22,7 +22,7 @@ module ApplicationHelper
 
   def cdlink_to(title, link, icon = "fa-remove", confirm_text = "вы уверены?")
     button_to link, title: title, style: 'color: blue; cursor: pointer; border: none; background: none', method: :delete, data: { confirm: strip_tags(confirm_text) } do
-      image_tag(image_url("delete.png"), style: 'width: 30px; height: 25px; object-fit: cover;')
+      content_tag(:i, '', class: %i[fa fa-fw].push(icon))
     end
   end
 
