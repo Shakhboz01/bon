@@ -19,7 +19,6 @@ class SalesController < ApplicationController
     @product_sell = ProductSell.new(sale_id: @sale.id)
     @products = Product.active.order(:name)
     @rate = CurrencyRate.last.rate
-    @sales = @sale.buyer.sales.where.not(id: @sale.id).order(created_at: :desc).page(params[:page]).per(7)
     @packs = Pack.includes(:product_category).where(active: true).order(:name)
   end
 

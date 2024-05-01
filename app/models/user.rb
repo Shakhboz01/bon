@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :participations
-  enum role: %i[руководитель бухгалтер менеджер сотрудник другой складчик кассир]
+  enum role: %i[админ менеджер агент диллер сотрудник складчик]
   validates :name, uniqueness: true
 
   scope :active, -> { where(:active => true) }

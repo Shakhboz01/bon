@@ -4,17 +4,18 @@
       <div style='box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;' class='form-inputs col-sm-12 col-md-10 m-2'>
         <%= f.error_notification %>
         <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-        <%= f.input :name, label: 'Tovar nomi', input_html: {autofocus: 'true'} %>
-        <%= f.input :code, label: 'Kodi', input_html: {value: @random_code} %>
+        <%= f.input :name, label: 'Tovar nomi', required: true, input_html: {autofocus: 'true'} %>
+        <%= f.input :code, label: 'Gram' %>
         <%= f.input :delivery_id, input_html: {value: params[:delivery_id] }, as: :hidden  %>
-        <div>
-          <%= f.association :product_category, label: 'Papkani tanlang', include_blank: false  %>
-          <%= link_to "yangi papka qo'shish", new_product_category_path %>
-        </div>
+        <%= f.association :product_category, label: 'Assortimentni tanlang', include_blank: false  %>
+        <%= link_to new_product_category_path do %>
+          <i class="fa-solid fa-circle-info"></i> Kerakli assortiment topilmadimi?
+        <% end %>
+        <br/>
         <%= f.input :initial_remaining, label: 'Ostatkasi' %>
-        <%= f.input :price_in_usd, label: 'Dollarda', input_html: {checked: ENV.fetch('PRICE_IN_USD') == 'true'} %>
-        <%= f.input :sell_price, label: 'Sotish narxi (1 dona)' %>
-        <%= f.input :buy_price, label: 'Sotib olgan narximiz (1 dona)' %>
+        <%= f.input :price_in_usd, label: false, as: :hidden %>
+        <%= f.input :sell_price, label: 'Sotish narxi (1 dona)', required: true %>
+        <%= f.input :buy_price, label: 'Sotib olgan narximiz (1 dona)', required: true %>
         <%= f.submit 'Saqlash', class: 'btn btn-primary' %>
       </div>
     </div>

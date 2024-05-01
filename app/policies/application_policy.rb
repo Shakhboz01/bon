@@ -60,14 +60,18 @@ class ApplicationPolicy
   end
 
   def user_is_manager?
-    %w[админ менеджер бухгалтер].include?(user.role)
+    %w[админ менеджер].include?(user.role)
   end
 
   def everyone_is_allowed?
-    %w[админ менеджер продавец упаковщик оператор механик резчик колбасник дробильщик приёмщик].include?(user.role)
+    %w[админ менеджер].include?(user.role)
   end
 
   def user_is_accaontant?
-    %w[бухгалтер].include?(user.role)
+    %w[админ].include?(user.role)
+  end
+
+  def user_is_agent?
+    %w[админ менеджер агент].include?(user.role)
   end
 end

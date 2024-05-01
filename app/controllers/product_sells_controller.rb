@@ -1,5 +1,6 @@
 class ProductSellsController < ApplicationController
   before_action :set_product_sell, only: %i[ show edit update destroy ]
+  include Pundit::Authorization
 
   # GET /product_sells or /product_sells.json
   def index
@@ -27,10 +28,13 @@ class ProductSellsController < ApplicationController
 
   # GET /product_sells/1/edit
   def edit
+    authorize ProductSell, :create?
   end
 
   # POST /product_sells or /product_sells.json
   def create
+    authorize ProductSell, :create?
+
     @product_sell = ProductSell.new(product_sell_params)
 
     unless (pack_name = product_sell_params[:pack_name]).empty?
@@ -56,6 +60,8 @@ class ProductSellsController < ApplicationController
 
   # PATCH/PUT /product_sells/1 or /product_sells/1.json
   def update
+    authorize ProductSell, :create?
+
     respond_to do |format|
       if @product_sell.update(product_sell_params)
         format.html { redirect_to product_sell_url(@product_sell), notice: "Product sell was successfully updated." }
@@ -69,6 +75,8 @@ class ProductSellsController < ApplicationController
 
   # DELETE /product_sells/1 or /product_sells/1.json
   def destroy
+    authorize ProductSell, :create?
+
     @product_sell.destroy
     respond_to do |format|
       format.html { redirect_to "#{request.referrer}?reload=true" }

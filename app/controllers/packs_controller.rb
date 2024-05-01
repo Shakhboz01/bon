@@ -20,16 +20,11 @@ class PacksController < ApplicationController
 
   # GET /packs/new
   def new
-    @random_code = Product.generate_code
-    @random_barcode = Product.generate_barcode
     @pack = Pack.new
   end
 
   # GET /packs/1/edit
-  def edit
-    @random_code = @pack.code
-    @random_barcode = @pack.barcode
-  end
+  def edit; end
 
   # POST /packs or /packs.json
   def create
