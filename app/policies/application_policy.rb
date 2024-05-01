@@ -68,7 +68,7 @@ class ApplicationPolicy
   end
 
   def user_is_accaontant?
-    %w[админ].include?(user.role)
+    %w[админ менеджер].include?(user.role)
   end
 
   def user_is_agent?

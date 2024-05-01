@@ -91,6 +91,13 @@ class SalesController < ApplicationController
     authorize Sale, :manage?
 
     @sale.update(status: @sale.closed? ? 0 : 1)
+    if @sale.processing?
+      message = "&#9888 Заверщённая продажа № <a href=\"#{ENV.fetch('HOST_URL')}/sales/#{@sale.id}\">#{@sale.id}</a> была снова открыта!\n" \
+        "Пожалуйста, уточните причину переоткрытия!\n"
+        "Нажмите <a href=\"#{ENV.fetch('HOST_URL')}/sales/#{self.id}\">здесь</a> для просмотра"
+      SendMessage.run(message: message)
+    end
+
     redirect_to sale_path(@sale)
   end
 

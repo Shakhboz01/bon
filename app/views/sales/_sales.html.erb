@@ -23,9 +23,9 @@
         <% unless defined?(shrink) %>
           <td>
             <% if sale.closed? %>
-              <%= clink_to 'Open', toggle_status_sale_path(sale),'fa-lock', :post %>
+              <%= clink_to 'Ochish', toggle_status_sale_path(sale),'fa-lock', :post %>
             <% else %>
-              <%= clink_to 'Close', toggle_status_sale_path(sale),'fa-lock-open', :post %>
+              <%= clink_to 'Qulflash', toggle_status_sale_path(sale),'fa-unlock', :post %>
             <% end %>
           </td>
         <% end %>
