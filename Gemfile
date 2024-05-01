@@ -62,7 +62,7 @@ gem 'font-awesome-rails'
 gem 'google-cloud-storage', require: false
 
 # Use Sass to process CSS
-# gem "sassc-rails"
+gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 
