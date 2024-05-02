@@ -3,6 +3,8 @@ class Sale < ApplicationRecord
   attr_accessor :discount_price
   belongs_to :buyer
   belongs_to :user
+  belongs_to :agent, class_name: 'User',
+                    foreign_key: 'agent_user_id', optional: true
   enum status: %i[processing closed]
   enum payment_type: %i[наличные карта click предоплата перечисление дригие]
   has_many :product_sells
@@ -19,6 +21,7 @@ class Sale < ApplicationRecord
           end
         }
   before_update :update_product_sales_currencies
+  before_update :send_notify_if_verified_by_agent
   after_save :process_status_change, if: :saved_change_to_status?
 
   def calculate_total_price(enable_to_alter = true)
@@ -67,5 +70,14 @@ class Sale < ApplicationRecord
     end
 
     self.total_price = product_sells.sum(('sell_price * amount'))
+  end
+
+  def send_notify_if_verified_by_agent
+    byebug
+    return if verified_by_agent == verified_by_agent_was
+
+    message = "Агент оформил заказ от #{buyer.name}\n" \
+              "<a href=\"#{ENV.fetch('HOST_URL')}/sales/#{id}\">Посмотреть</a>"
+    SendMessage.run(message: message, chat: 'agent')
   end
 end

@@ -15,6 +15,8 @@ class SendMessage < ActiveInteraction::Base
         ENV["TELEGRAM_WARNING_CHAT_ID"]
       when 'report'
         ENV["TELEGRAM_REPORT_CHAT_ID"]
+      when 'agent'
+        ENV["TELEGRAM_AGENT_CHAT_ID"]
       end
     begin
       bot.api.send_message(

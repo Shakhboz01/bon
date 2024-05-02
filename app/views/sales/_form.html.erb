@@ -20,11 +20,11 @@
 <% end %>
 
 
-<% if policy(sale).hide_for_diller? %>
+<% if policy(sale).hide_for_diller? && !sale.verified_by_agent %>
   <div class='p-3' style='color: black;'>
     <%= simple_form_for(sale) do |f| %>
-      <%= f.input :price_in_usd, label: false, as: :hidden, input_html: {value: !sale.price_in_usd} %>
-      <%= f.button :submit, 'Valyutani almashtirish', class: 'btn-warning' %>
+      <%= f.input :verified_by_agent, label: false, as: :hidden, input_html: {value: true} %>
+      <%= f.button :submit, 'Buyurtmani yakunlash', class: 'btn-warning' %>
     <% end %>
   </div>
 <% end %>

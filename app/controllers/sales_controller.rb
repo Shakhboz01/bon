@@ -95,7 +95,7 @@ class SalesController < ApplicationController
       message = "&#9888 Заверщённая продажа № <a href=\"#{ENV.fetch('HOST_URL')}/sales/#{@sale.id}\">#{@sale.id}</a> была снова открыта!\n" \
         "Пожалуйста, уточните причину переоткрытия!\n"
         "Нажмите <a href=\"#{ENV.fetch('HOST_URL')}/sales/#{self.id}\">здесь</a> для просмотра"
-      SendMessage.run(message: message)
+      SendMessage.run(message: message, chat: 'agent')
     end
 
     redirect_to sale_path(@sale)
@@ -138,7 +138,7 @@ class SalesController < ApplicationController
   def sale_params
     params.require(:sale).permit(
       :total_paid, :payment_type, :buyer_id, :total_price, :comment,
-      :user_id, :status, :discount_price, :price_in_usd
+      :user_id, :status, :discount_price, :price_in_usd, :verified_by_agent
     )
   end
 end
