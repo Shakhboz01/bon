@@ -1,25 +1,25 @@
-<% if policy(@sale).hide_for_diller? %>
+<% if policy(@sale).hide_for_diller? && @sale.processing? %>
   <%= render 'product_sells/product_categories_select' %>
 <% end %>
-<div>
-  <div class='row'>
-    <% if @sale.processing? && policy(@product_sell).create? %>
-      <div class='col-sm-12 col-md-4'>
-        <%= render 'product_sells/form', product_sell: @product_sell, rate: @rate %>
-      </div>
-    <% end %>
+<div class='row'>
+  <% if @sale.processing? && policy(@product_sell).create? %>
+    <div class='col-sm-12 col-md-4'>
+      <%= render 'product_sells/form', product_sell: @product_sell, rate: @rate %>
+    </div>
+  <% end %>
 
-    <% if !@product_sells.count.zero? && policy(@sale).hide_for_diller? %>
-      <div class='col-sm-12 col-md-4' style='max-height: 800px; overflow: auto'>
-        <div style='border: 5px solid #6bf56b ' id='active-sale'>
-          <%= render 'product_sells/product_sells', shrink: true, sale: @sale, buyer: @sale.buyer, product_sells: @product_sells, rate: @rate %>
-        </div>
+  <% if !@product_sells.count.zero? && policy(@sale).hide_for_diller? %>
+    <div class='col-sm-12 col-md-4' style='max-height: 800px; overflow: auto'>
+      <div style='border: 5px solid #6bf56b ' id='active-sale'>
+        <%= render 'product_sells/product_sells', shrink: true, sale: @sale, buyer: @sale.buyer, product_sells: @product_sells, rate: @rate %>
       </div>
-    <% end %>
+    </div>
+  <% end %>
 
+  <% if policy(@sale).hide_for_agent? && @sale.processing? %>
     <div class='col-sm-12'>
       <%= render 'sales/form', sale: @sale %>
     </div>
-  </div>
+  <% end %>
 </div>
 <input id='last-category' value="<%= @sale.product_sells.last&.product_category&.id %>" hidden=true >
