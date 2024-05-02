@@ -49,6 +49,7 @@ class SalesController < ApplicationController
   # PATCH/PUT /sales/1 or /sales/1.json
   def update
     currency_was_in_usd = @sale.price_in_usd
+    @sale.diller_user_id = current_user.id if current_user.диллер?
     if @sale.update(sale_params.merge(status: sale_params[:status].to_i))
       handle_redirect(currency_was_in_usd, @sale.price_in_usd)
     else
@@ -94,8 +95,8 @@ class SalesController < ApplicationController
     if @sale.processing?
       message = "&#9888 Заверщённая продажа № <a href=\"#{ENV.fetch('HOST_URL')}/sales/#{@sale.id}\">#{@sale.id}</a> была снова открыта!\n" \
         "Пожалуйста, уточните причину переоткрытия!\n"
-        "Нажмите <a href=\"#{ENV.fetch('HOST_URL')}/sales/#{self.id}\">здесь</a> для просмотра"
-      SendMessage.run(message: message, chat: 'agent')
+        "Нажмите <a href=\"#{ENV.fetch('HOST_URL')}/sales/#{@sale.id}\">здесь</a> для просмотра"
+      SendMessage.run(message: message)
     end
 
     redirect_to sale_path(@sale)
@@ -138,7 +139,7 @@ class SalesController < ApplicationController
   def sale_params
     params.require(:sale).permit(
       :total_paid, :payment_type, :buyer_id, :total_price, :comment,
-      :user_id, :status, :discount_price, :price_in_usd, :verified_by_agent
+      :user_id, :status, :discount_price, :price_in_usd, :verified_by_agent, :diller_user_id
     )
   end
 end

@@ -1,5 +1,6 @@
 class Sale < ApplicationRecord
   include HandleTransactionHistory
+  include ApplicationHelper
   attr_accessor :discount_price
   belongs_to :buyer
   belongs_to :user
@@ -52,8 +53,9 @@ class Sale < ApplicationRecord
           "<b>Mijoz</b>: #{buyer.name}\n" \
           "<b>To'lov turi</b>: #{payment_type}\n" \
           "<b>Jami narx:</b> #{total_price} #{price_sign}\n"
-        message << "&#9888<b>To'landi:</b> #{total_paid} #{price_sign}\n" if total_price > total_paid
+        message << "&#9888<b>To'landi:</b> #{total_paid} #{price_sign}\n" if total_price != total_paid
         message << "<b>Комментарие:</b> #{comment}\n" if comment.present?
+        message << "<b>Mijoz qarzdorligi:</b> #{buyer.calculate_debt_in_uzs}\n"
         SendMessage.run(message: message)
       else
         self.enable_to_send_sms = false
@@ -73,7 +75,6 @@ class Sale < ApplicationRecord
   end
 
   def send_notify_if_verified_by_agent
-    byebug
     return if verified_by_agent == verified_by_agent_was
 
     message = "Агент оформил заказ от #{buyer.name}\n" \

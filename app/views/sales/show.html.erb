@@ -1,7 +1,7 @@
 <% if policy(@sale).hide_for_diller? %>
   <%= render 'product_sells/product_categories_select' %>
 <% end %>
-<div class='mx-2'>
+<div>
   <div class='row'>
     <% if @sale.processing? && policy(@product_sell).create? %>
       <div class='col-sm-12 col-md-4'>
@@ -10,18 +10,16 @@
     <% end %>
 
     <% if !@product_sells.count.zero? && policy(@sale).hide_for_diller? %>
-      <div class='col-sm-12 col-md-6' style='max-height: 800px; overflow: auto'>
+      <div class='col-sm-12 col-md-4' style='max-height: 800px; overflow: auto'>
         <div style='border: 5px solid #6bf56b ' id='active-sale'>
           <%= render 'product_sells/product_sells', shrink: true, sale: @sale, buyer: @sale.buyer, product_sells: @product_sells, rate: @rate %>
         </div>
       </div>
     <% end %>
 
-    <% unless @sale.closed? %>
-      <div class='col-sm-12 col-md-2'>
-        <%= render 'sales/form', sale: @sale %>
-      </div>
-    <% end %>
+    <div class='col-sm-12'>
+      <%= render 'sales/form', sale: @sale %>
+    </div>
   </div>
 </div>
 <input id='last-category' value="<%= @sale.product_sells.last&.product_category&.id %>" hidden=true >
