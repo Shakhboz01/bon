@@ -29,7 +29,7 @@ $(document).on('turbo:load', function() {
         const productName = product.dataset.productName.toLowerCase();
         let displayStyle = 'none'; // Default: hide the product
 
-        if (productName.startsWith(searchTerm)) {
+        if (productName.includes(searchTerm)) {
           displayStyle = 'revert'; // Show the product if it starts with the search term
         }
         product.style.display = displayStyle;
@@ -84,7 +84,7 @@ $(document).on('turbo:load', function() {
       const productCategoryId = product.dataset.categoryId;
 
       // Check if the product name includes the search term and if it belongs to the selected category
-      if ((productName.startsWith(searchTerm) || searchTerm === '') &&
+      if ((productName.includes(searchTerm) || searchTerm === '') &&
           (selectedCategoryId === undefined || productCategoryId == selectedCategoryId)) {
         product.style.display = 'revert'; // Show the product
       } else {

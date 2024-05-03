@@ -40,9 +40,9 @@
         <%= f.association :product, label: 'выберите размера', as: :hidden, collection: Product.all.order('LOWER(name) ASC'), include_blank: false, input_html: { id: 'product-select', placeholder: 'выберите размер' } %>
       </div>
       <div class='row'>
-        <div class='col-sm-4'><%= f.input :amount, label: 'Soni', input_html: {value: 1} %></div>
-        <div class='col-sm-4'><%= f.input :sell_price, label: 'dona narxi' %></div>
-        <div class='col-sm-4 align-self-center'>
+        <div class='col-xs-4'><%= f.input :amount, label: 'Soni', input_html: {value: 1} %></div>
+        <div class='col-xs-4  '><%= f.input :sell_price, label: 'dona narxi' %></div>
+        <div class='col-xs-4 align-self-center'>
           <%= f.submit "Sotish", class: 'btn btn-primary'%><br/>
         </div>
       </div>
