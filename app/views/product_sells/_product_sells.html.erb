@@ -1,24 +1,4 @@
 <%= turbo_frame_tag 'product_sells' do %>
-  <% if defined?(shrink) %>
-    <div class='d-flex table-warning justify-content-around'>
-      <% if defined?(datetime) %>
-        <b>Sana: <%= strf_datetime(datetime, true)  %></b>
-      <% end %>
-
-      <% unless defined?(datetime) %>
-        <b>UMUMIY TOVARLAR SONI: <%= product_sells.sum(:amount) %></b>
-      <% end %>
-
-      <b>Jami: <%= currency_convert sale.price_in_usd, sale.total_price %></b>
-      <% if defined?(total_paid) %>
-        <b>Jami to'landi: <%= currency_convert(sale.price_in_usd, total_paid) %></b>
-      <% end %>
-
-      <% if defined?(buyer) %>
-        <b>Jami qarzi bilan: <%= num_to_usd(buyer.calculate_debt_in_uzs) %>
-      <% end %>
-    </div>
-  <% end %>
   <table class="table table-sm table-hover table-bordered table-striped">
     <thead>
       <tr>
@@ -39,6 +19,15 @@
       <tbody>
         <% product_sells.order(created_at: :desc).each do |product_sell| %>
           <%= render 'product_sells/product_sell', product_sell: product_sell, shrink: shrink, show_delete_button: defined?(buyer) %>
+        <% end %>
+        <% if defined?(shrink) %>
+          <tr>
+            <th></th>
+            <th><%= product_sells.sum(:amount) %></th>
+            <th></th>
+            <th><%= currency_convert sale.price_in_usd, sale.total_price %></th>
+            <th></th>
+          </tr>
         <% end %>
       </tbody>
   </table>

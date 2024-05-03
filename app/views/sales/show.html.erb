@@ -3,21 +3,21 @@
 <% end %>
 <div class='row'>
   <% if @sale.processing? && policy(@product_sell).create? %>
-    <div class='col-sm-12 col-md-4'>
+    <div class='col-xs-12 col-md-4'>
       <%= render 'product_sells/form', product_sell: @product_sell, rate: @rate %>
     </div>
   <% end %>
 
+    <div class='col-xs-12 col-md-6' style='max-height: 800px; overflow: auto'>
   <% if !@product_sells.count.zero? && policy(@sale).hide_for_diller? %>
-    <div class='col-sm-12 col-md-4' style='max-height: 800px; overflow: auto'>
       <div style='border: 5px solid #6bf56b ' id='active-sale'>
         <%= render 'product_sells/product_sells', shrink: true, sale: @sale, buyer: @sale.buyer, product_sells: @product_sells, rate: @rate %>
       </div>
-    </div>
   <% end %>
+    </div>
 
   <% if policy(@sale).hide_for_agent? && @sale.processing? %>
-    <div class='col-sm-12 col-md-8'>
+    <div class='col-xs-12 col-md-2'>
       <%= render 'sales/form', sale: @sale %>
     </div>
   <% end %>

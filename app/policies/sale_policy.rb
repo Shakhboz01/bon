@@ -11,6 +11,10 @@ class SalePolicy < ApplicationPolicy
     !%w[диллер].include?(user.role)
   end
 
+  def only_for_agent?
+    %w[агент].include?(user.role)
+  end
+
   def hide_for_agent?
     !%w[агент].include?(user.role)
   end
