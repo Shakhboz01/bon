@@ -45,7 +45,7 @@
 
 <div class='categories' id='product-categories'>
   <span id="show-all-products" class='category-row'>Все</span>
-  <% ProductCategory.all.order(:name).each do |category| %>
+  <% ProductCategory.all.order(weight: :desc).each do |category| %>
     <span class="category-row" data-category-id="<%= category.id %>"><%= category.name %></span>
   <% end %>
 </div>

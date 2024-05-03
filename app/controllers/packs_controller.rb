@@ -97,7 +97,7 @@ class PacksController < ApplicationController
     def pack_params
       params.require(:pack).permit(
         :name, :code, :barcode, :delivery_id, :buy_price, :sell_price, :price_in_usd, :initial_remaining,
-        :product_category_id,
+        :product_category_id, :weight,
         product_size_colors_attributes: [:size, :color_id, :amount]
       )
     end

@@ -16,6 +16,7 @@
         <%= f.input :price_in_usd, label: false, as: :hidden %>
         <%= f.input :sell_price, label: 'Sotish narxi (1 dona)', required: true %>
         <%= f.input :buy_price, label: 'Tan narxi (1 dona)', required: true %>
+        <%= f.input :weight, label: 'Ahamiyat darajasi' %>
         <%= f.submit 'Saqlash', class: 'btn btn-primary' %>
       </div>
     </div>
@@ -24,15 +25,9 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Get all color input elements
     var colorInputs = document.querySelectorAll('.color-input');
-
-    // Event listener for the change event on the first color input
     colorInputs[0].addEventListener('change', function() {
-      // Get the value of the first color input
       var firstColorValue = this.value;
-
-      // Set the same value for all other color inputs
       colorInputs.forEach(function(input) {
         input.value = firstColorValue;
       });

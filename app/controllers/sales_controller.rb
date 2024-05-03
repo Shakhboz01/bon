@@ -19,7 +19,7 @@ class SalesController < ApplicationController
     @product_sell = ProductSell.new(sale_id: @sale.id)
     @products = Product.active.order(:name)
     @rate = CurrencyRate.last.rate
-    @packs = Pack.includes(:product_category).where(active: true).order(:name)
+    @packs = Pack.includes(:product_category).where(active: true).order(weight: :desc)
   end
 
   # GET /sales/new
