@@ -1,6 +1,6 @@
 <script>
   $(document).ready(function() {
-    function triggerCategoryRowClick(categoryId)
+    function triggerCategoryRowClick(categoryId) {
       $('.category-row[data-category-id="' + categoryId + '"]').addClass('active-category');
       $('#product-table tbody tr').each(function() {
         var productCategoryId = $(this).data('category-id');
@@ -10,7 +10,7 @@
           $(this).hide();
         }
       });
-      $('#product_search_input').focus()
+      $('#product_search_input').focus();
     }
 
     $('.category-row').click(function() {
