@@ -38,12 +38,28 @@
       </tr>
     </tbody>
   </table>
-  <ul style='font-size: large; font-weight: bold'>
-    <li>Jami to'landi:  <%= currency_convert(@sale.price_in_usd, @sale.total_paid) %></li>
-    <li>Hariddan keyingi qarzdorlik holati (<%= strf_datetime DateTime.now %> holatiga ko'ra): <%= num_to_usd @total_debt_in_uzs %> | <%= number_to_currency @total_debt_in_usd %></li>
-  </ul>
+  <div class='d-flex justify-content-between'>
+    <ul style='font-size: large; font-weight: bold'>
+      <li>Jami to'landi:  <%= currency_convert(@sale.price_in_usd, @sale.total_paid) %></li>
+      <li>Hariddan keyingi qarzdorlik holati (<%= strf_datetime DateTime.now %> holatiga ko'ra): <%= num_to_usd @total_debt_in_uzs %></li>
+    </ul>
+    <div id="qrcode"></div>
+  </div>
 </div>
 
+<%= javascript_include_tag "qrcode" %>
+<%= javascript_include_tag "qrcode.min" %>
+
+<script type="text/javascript">
+var qrcode = new QRCode("qrcode", {
+    text: "<%= ENV.fetch('HOST_URL') %>/sales/<%= @sale.id %>",
+    width: 100,
+    height: 100,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+});
+</script>
 <script>
   $(document).ready(function(){
     window.print();
