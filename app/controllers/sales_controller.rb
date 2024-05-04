@@ -74,7 +74,7 @@ class SalesController < ApplicationController
     last_one = buyer.sales.order(created_at: :asc).last
     if !last_one.nil? && !last_one.closed?
       if last_one.product_sells.empty?
-        last_one.update(created_at: DateTime.current)
+        last_one.update(created_at: DateTime.current, user_id: current_user.id)
       end
       last_one.update(user_id: current_user.id)
       redirect_to sale_url(last_one), notice: "Теперь добавьте продажу товаров"

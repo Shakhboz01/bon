@@ -21,5 +21,6 @@
       <%= render 'sales/form', sale: @sale %>
     </div>
   <% end %>
+  <%= render 'closed_sale_info', sale: @sale %>
 </div>
 <input id='last-category' value="<%= @sale.product_sells.last&.product_category&.id %>" hidden=true >

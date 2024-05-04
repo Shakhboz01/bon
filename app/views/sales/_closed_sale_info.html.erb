@@ -1,0 +1,10 @@
+<% if sale.closed? %>
+  <ul class='col-sm-5 p-3' style='font-size: large; list-style: none; color: black; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;'>
+    <li>Agent: <%= sale.user.name %></li>
+    <li>Agent qabul qildi: <%= strf_datetime(sale.created_at) %></li>
+
+    <% if sale.diller_user_id %>
+      <li>Diller: <%= sale.diller_user.name %></li>
+    <% end %>
+  </ul>
+<% end %>
