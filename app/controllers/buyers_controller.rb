@@ -4,7 +4,7 @@ class BuyersController < ApplicationController
   # GET /buyers or /buyers.json
   def index
     @q = Buyer.ransack(params[:q])
-    @buyers = @q.result.order(active: :desc).page(params[:pahe]).per(70)
+    @buyers = @q.result.order(active: :desc).page(params[:pahe]).per(40)
   end
 
   # GET /buyers/1 or /buyers/1.json

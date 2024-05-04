@@ -6,6 +6,9 @@
         width: 80%;
         margin: 10px auto;
       }
+      img {
+        border-radius: 0 0 15px 15px;
+      }
     </style>
   </head>
  <body>
@@ -13,7 +16,7 @@
       <%= link_to 'Ko\'rinishni o\'zgartirish', main_page_url, class: 'btn btn-primary' %><hr>
     </div>
     <div id="map-container" style="position: relative;">
-      <div class="input-group mb-3" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%);">
+      <div class="input-group mb-3" style="position: absolute; top: 45px; left: 50%; transform: translateX(-50%); width: 130px;">
         <input id="search-box" type="text" class="form-control" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
       </div>
     </div>
@@ -69,14 +72,31 @@
 
                     // Add markers for buyers
                     <% @buyers.each do |buyer| %>
+                        var buyerMarkerIcon = '<%= asset_path("location.png") %>';
+
+                        // If buyer has images, use the first one as marker icon
+                        <% if buyer.images.attached? %>
+                            buyerMarkerIcon = '<%= rails_blob_path(buyer.images.first) %>';
+                        <% end %>
+
                         var buyerMarker = new google.maps.Marker({
                             position: { lat: <%= buyer.latitude %>, lng: <%= buyer.longitude %> },
                             map: samarkand,
+                            // label: {
+                            //     text: '<%= buyer.name %>',
+                            //     color: 'green',
+                            //     fontSize: '28px',
+                            //     fontWeight: 'bold',
+                            //     fontFamily: '"Courier New", Courier,Monospace',
+                            //     zIndex: 2
+                            // },
                             title: '<%= buyer.name %>',
                             mapId: "7802c15fc3df6792",
                             icon: {
-                                url: '<%= asset_path("location.png") %>',
-                                scaledSize: new google.maps.Size(70, 70)
+                                url: buyerMarkerIcon,
+                                scaledSize: new google.maps.Size(55, 60),
+                                shape:{coords:[17,17,18],type:'circle'},
+                                optimized:false
                             }
                         });
                         buyerMarker.addListener('click', function () {

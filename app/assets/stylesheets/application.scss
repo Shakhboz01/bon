@@ -1,6 +1,14 @@
 @import "jquery-ui/datepicker";
 @import "font-awesome";
 
+.buyer-label {
+  color: white;
+  background-color: black;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  padding: 4px;
+  border-radius: 4px;
+}
 .categories span {
   padding: 5px 10px;
   border: 1px solid grey;
