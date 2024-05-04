@@ -6,6 +6,7 @@ class Expenditure < ApplicationRecord
   attr_accessor :image
 
   belongs_to :user
+  has_many_attached :images
   belongs_to :combination_of_local_product, optional: true
   belongs_to :delivery_from_counterparty, optional: true
   has_many :transaction_histories, dependent: :destroy

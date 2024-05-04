@@ -1,5 +1,5 @@
 <div class="card-body">
-  <table class="table table-hover table-bordered table-striped">
+  <table class="table table-sm table-hover table-bordered table-striped">
     <thead>
       <tr>
         <% unless defined?(shrink) %>
@@ -29,9 +29,7 @@
           <td><%= expenditure.comment %></td>
           <td><%= strf_datetime(expenditure.created_at) %></td>
           <td>
-            <% unless expenditure.sale_ids.nil? %>
-              <%= clink_to 'Посмотреть от каких продаж взяты деньги', expenditure, 'fa-search' %>
-            <% end %>
+            <%= clink_to 'Посмотреть', expenditure, 'fa-search' %>
           </td>
         </tr>
       <% end %>

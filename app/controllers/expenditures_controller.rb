@@ -90,6 +90,11 @@ class ExpendituresController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def expenditure_params
-    params.require(:expenditure).permit(:combination_of_local_product_id, :sale_ids, :price_in_usd, :comment, :image, :delivery_from_counterparty_id, :price, :price_in_usd, :price_in_uzs, :payment_type, :total_paid, :expenditure_type)
+    params.require(:expenditure).permit(
+      :combination_of_local_product_id, :sale_ids, :price_in_usd,
+      :comment, :image, :delivery_from_counterparty_id, :price,
+      :price_in_usd, :price_in_uzs, :payment_type, :total_paid, :expenditure_type,
+      images: []
+    )
   end
 end

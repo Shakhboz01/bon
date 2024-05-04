@@ -6,10 +6,11 @@
     <%= f.association :combination_of_local_product, as: :hidden %>
     <%= f.association :delivery_from_counterparty, as: :hidden %>
     <%= f.input :payment_type, label: 'Tolov turini tanlang', collection: Expenditure.payment_types.keys.map { |unit| [Expenditure.human_attribute_name("unit.#{unit}"), unit] }, include_blank: false %>
-    <%= f.input :price_in_usd, label: 'Dollarda', input_html: {checked: ENV.fetch('PRICE_IN_USD') == 'true'} %>
-    <%= f.input :price, as: :numeric, label: 'Narxni kiriting:' %>
+    <%= f.input :price_in_usd, label: false, input_html: {checked: ENV.fetch('PRICE_IN_USD') == 'true'}, as: :hidden %>
+    <%= f.input :price, as: :numeric, label: 'Narxni kiriting:', required: true %>
     <%= f.input :expenditure_type, label: 'xarajat turini tanlang', collection: Expenditure.expenditure_types.keys.map { |unit| [Expenditure.human_attribute_name("unit.#{unit}"), unit] }, include_blank: false %>
     <%= f.input :comment, label: 'Kommentariya', input_html: { placeholder: 'Shart emas' } %>
+    <%= f.input :images, input_html: { multiple: true, accept: "image/*" }, label: 'Rasm yuklash' %><br/>
   </div>
 
   <div class="form-actions">

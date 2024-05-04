@@ -1,3 +1,15 @@
+<style>
+.expenditure-image{
+  width: 100%;
+  object-fit: contain;
+}
+</style>
 <div class='container'>
-  <%= render 'sales/sales', sales: @sales %>
+  <div class='d-flex'>
+    <% @expenditure.images.each do |image| %>
+      <div style='width: 330px; height: 350px;'>
+        <%= image_tag image, class: 'expenditure-image' %>
+      </div>
+    <% end %>
+  </div>
 </div>
