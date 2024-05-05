@@ -6,7 +6,7 @@
     <% end %>
     <div class="image-header header">
       <% @buyer.images.each do |image| %>
-        <%= link_to image_tag(image, size: '50x50'), image.url, target: "_blank", class: 'picture' %>
+        <%= link_to image_tag(image, size: '50x50'), image.url, class: 'picture' %>
       <% end %>
     </div>
     <div class="content">
