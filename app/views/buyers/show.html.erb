@@ -2,7 +2,7 @@
 <main class='body-head'>
   <div class="wrapper shadow-card">
     <%= link_to default_create_sales_path(buyer_id: @buyer.id), method: :post, class: 'btn btn-block btn-lg btn-warning' do %>
-      Savdoga o'tish <i class="fa-solid fa-chevron-right"></i>
+      Savdoga o'tish <i class="fa fa-solid fa-chevron-right"></i>
     <% end %>
     <div class="image-header header">
       <% @buyer.images.each do |image| %>
@@ -21,10 +21,10 @@
       </ul>
       <div class='d-flex justify-content-around flex-wrap'>
         <%= link_to sales_url(q: {buyer_id_eq: @buyer.id}), class: 'btn btn-sm btn-primary' do %>
-          Sotuv tarixni ko'rish <i class="fa-solid fa-clock-rotate-left"></i>
+          Sotuv tarixni ko'rish <i class="fa fa-solid fa-clock-rotate-left"></i>
         <% end %>
         <%= link_to edit_buyer_path(@buyer), class: "btn btn-sm btn-info" do %>
-          Malumotni o'zgartirish <i class="fa-solid fa-edit"></i>
+          Malumotni o'zgartirish <i class="fa fa-solid fa-edit"></i>
         <% end %>
 
       </div>

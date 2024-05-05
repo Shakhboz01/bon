@@ -1,11 +1,15 @@
-@import "jquery-ui/datepicker";
 @import "font-awesome";
-@import "bootstrap";
+@import "jquery-ui/datepicker";
 .bottom_buttons{
   display: none;
   position: fixed;
   bottom: 0;
   left: 0;
+}
+
+.modal-body{
+  height: 72vh;
+  overflow-y: auto;
 }
 .bottom_buttons button {
   width: 50vw;

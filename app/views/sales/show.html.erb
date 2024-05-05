@@ -26,10 +26,11 @@
 
 <% if @sale.processing? %>
   <div class='bottom_buttons'>
-    <button class='btn btn-warning' data-toggle="modal" data-target="#historyModal">Ro'yxat</button>
-    <button class='btn btn-info' data-toggle="modal" data-target="#saleFormModal">Yakunlash</button>
+    <button class='btn btn-warning' data-toggle="modal" data-target="#historyModal">Jami <%= num_to_usd @sale.total_price %> <i class="fa fa-solid fa-chevron-down"></i></button>
+    <button class='btn btn-info' data-toggle="modal" data-target="#saleFormModal">Yakunlash <i class="fa fa-solid fa-chevron-right"></i></button>
   </div>
 <% end %>
 
 <%= render 'sale_modals' %>
 <input id='last-category' value="<%= @sale.product_sells.last&.product_category&.id %>" hidden=true >
+<%= stylesheet_link_tag 'sales_show' %>
