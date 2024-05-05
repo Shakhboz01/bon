@@ -16,7 +16,7 @@
       <%= link_to 'Ko\'rinishni o\'zgartirish', main_page_url, class: 'btn btn-primary' %><hr>
     </div>
     <div id="map-container" style="position: relative;">
-      <div class="input-group mb-3" style="position: absolute; top: 45px; left: 50%; transform: translateX(-50%); width: 130px;">
+      <div class="input-group mb-3">
         <input id="search-box" type="text" class="form-control" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
       </div>
     </div>
@@ -44,6 +44,7 @@
                         mapId: "7802c15fc3df6792",
                     });
                     const locationButton = document.createElement("button");
+                    const searchInput = document.getElementById("map-container");
                     locationButton.classList.add("custom-map-button");
 
                     const chevronIcon = document.createElement("i");
@@ -52,6 +53,7 @@
                     locationButton.appendChild(document.createTextNode(" "));
                     locationButton.appendChild(chevronIcon);
                     samarkand.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
+                    samarkand.controls[google.maps.ControlPosition.LEFT_TOP].push(searchInput);
                     locationButton.addEventListener("click", () => {
                         // Try HTML5 geolocation.
                     if (navigator.geolocation) {
