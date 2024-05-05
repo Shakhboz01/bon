@@ -19,16 +19,6 @@
   </div><br/>
 <% end %>
 
-
-<% if policy(sale).only_for_agent? && !sale.verified_by_agent %>
-  <div class='p-3' style='color: black;'>
-    <%= simple_form_for(sale) do |f| %>
-      <%= f.input :verified_by_agent, label: false, as: :hidden, input_html: {value: true} %>
-      <%= f.button :submit, 'Buyurtmani yakunlash', class: 'btn-warning' %>
-    <% end %>
-  </div>
-<% end %>
-
 <script>
   document.querySelector('#sale_total_paid').addEventListener('focus', function(e) {
     toggleTotalPaid()

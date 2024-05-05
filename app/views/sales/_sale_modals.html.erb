@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <% if !@product_sells.count.zero? && policy(@sale).hide_for_diller? %>
+        <% if !@product_sells.count.zero? %>
           <div style='border: 5px solid #6bf56b ' id='active-sale'>
             <%= render 'product_sells/product_sells', shrink: true, sale: @sale, buyer: @sale.buyer, product_sells: @product_sells, rate: @rate %>
           </div>

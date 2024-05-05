@@ -9,7 +9,7 @@
   <% end %>
 
   <div class='col-xs-12 col-md-6 product-sells' style='max-height: 800px; overflow: auto'>
-    <% if !@product_sells.count.zero? && policy(@sale).hide_for_diller? %>
+    <% if !@product_sells.count.zero? %>
       <div style='border: 5px solid #6bf56b ' id='active-sale'>
         <%= render 'product_sells/product_sells', shrink: true, sale: @sale, buyer: @sale.buyer, product_sells: @product_sells, rate: @rate %>
       </div>
@@ -25,9 +25,21 @@
 </div>
 
 <% if @sale.processing? %>
+  <% if current_user.диллер? %>
+    <%= render 'sales/form', sale: @sale %>
+  <% end %>
   <div class='bottom_buttons'>
     <button class='btn btn-warning' data-toggle="modal" data-target="#historyModal">Jami <%= num_to_usd @sale.total_price %> <i class="fa fa-solid fa-chevron-down"></i></button>
-    <button class='btn btn-info' data-toggle="modal" data-target="#saleFormModal">Yakunlash <i class="fa fa-solid fa-chevron-right"></i></button>
+    <% if policy(@sale).only_for_agent? && !sale.verified_by_agent %>
+      <div class='p-3' style='color: black;'>
+        <%= simple_form_for(sale) do |f| %>
+          <%= f.input :verified_by_agent, label: false, as: :hidden, input_html: {value: true} %>
+          <%= f.button :submit, 'Buyurtmani yakunlash', class: 'btn-warning' %>
+        <% end %>
+      </div>
+    <% elsif !current_user.диллер? %>
+      <button class='btn btn-info' data-toggle="modal" data-target="#saleFormModal">Yakunlash <i class="fa fa-solid fa-chevron-right"></i></button>
+    <% end %>
   </div>
 <% end %>
 
