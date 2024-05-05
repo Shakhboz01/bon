@@ -1,6 +1,15 @@
 @import "jquery-ui/datepicker";
 @import "font-awesome";
-
+@import "bootstrap";
+.bottom_buttons{
+  // display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+.bottom_buttons button {
+  width: 50vw;
+}
 .buyer-label {
   color: white;
   background-color: black;
@@ -10,8 +19,7 @@
   border-radius: 4px;
 }
 .categories span {
-  padding: 5px 10px;
-  border: 1px solid grey;
+  padding: 5px 1px;
   font-size: large;
   font-weight: bold;
   cursor: pointer;
@@ -67,13 +75,34 @@
   max-height: 720px;
   overflow: auto
 }
+.category-image{
+  width: 90px;
+  height: 70px;
+  overflow: hidden;
+}
+.category-image img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
 
+.category-row {
+  border: 2px solid grey;
+  text-align: center;
+}
 @media screen and (max-width: 1000px){
   .categories{
     top: 85px;
   }
   .categories span {
-    padding: 4px 8px;
     font-size: medium;
+  }
+}
+@media screen and (max-width: 700px){
+  .product-sells{
+    display: none;
+  }
+  .bottom_buttons{
+    display: flex;
   }
 }

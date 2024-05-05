@@ -4,4 +4,5 @@ class ProductCategory < ApplicationRecord
   validates_uniqueness_of :name
   has_many :products
   has_many :packs
+  has_one_attached :image
 end

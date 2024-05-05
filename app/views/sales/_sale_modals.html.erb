@@ -1,0 +1,41 @@
+<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="historyModalLabel">Ro'yxat</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <% if !@product_sells.count.zero? && policy(@sale).hide_for_diller? %>
+          <div style='border: 5px solid #6bf56b ' id='active-sale'>
+            <%= render 'product_sells/product_sells', shrink: true, sale: @sale, buyer: @sale.buyer, product_sells: @product_sells, rate: @rate %>
+          </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close <i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="saleFormModal" tabindex="-1" role="dialog" aria-labelledby="saleFormModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="saleFormModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <% if policy(@sale).hide_for_agent? && @sale.processing? %>
+          <%= render 'sales/form', sale: @sale %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

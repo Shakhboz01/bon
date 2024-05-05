@@ -79,7 +79,7 @@ class ProductSellsController < ApplicationController
 
     @product_sell.destroy
     respond_to do |format|
-      format.html { redirect_to "#{request.referrer}?reload=true" }
+      format.html { redirect_to "#{request.referrer}?reload=true", notice: "Product sell was successfully deleted."}
       format.json { head :no_content }
     end
   end

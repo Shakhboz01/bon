@@ -26,11 +26,11 @@
       <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
       <%= f.association :sale, as: :hidden %>
       <%= f.input :sell_by_piece, label: false, as: :hidden %>
+      <div class='pack-select'>
+        <%= f.association :pack, label: false, collection: Pack.where(active: true).order(:name), include_blank: true, input_html: { hidden: true, id: 'pack-select' } %>
+      </div>
       <div class='row'>
-        <div class='col-sm-8'>
-          <div class='pack-select'>
-            <%= f.association :pack, label: false, collection: Pack.where(active: true).order(:name), include_blank: true, input_html: { hidden: true, id: 'pack-select' } %>
-          </div>
+        <div class='col-sm-12'>
           <div id='pack_name' style='display: none'>
             <%= f.input :pack_name, label: 'Xizmat nomini kiriting' %>
           </div>
@@ -39,10 +39,10 @@
       <div class='product-select-tag'>
         <%= f.association :product, label: 'выберите размера', as: :hidden, collection: Product.all.order('LOWER(name) ASC'), include_blank: false, input_html: { id: 'product-select', placeholder: 'выберите размер' } %>
       </div>
-      <div class='row'>
-        <div class='col-xs-4'><%= f.input :amount, label: 'Soni', input_html: {value: 1} %></div>
-        <div class='col-xs-4  '><%= f.input :sell_price, label: 'dona narxi' %></div>
-        <div class='col-xs-4 align-self-center'>
+      <div class='d-flex'>
+        <div class='min-width'><%= f.input :amount, label: 'Soni', input_html: {value: 1} %></div>
+        <div class='min-width'><%= f.input :sell_price, label: 'dona narxi' %></div>
+        <div class='min-width align-self-center'>
           <%= f.submit "Sotish", class: 'btn btn-primary'%><br/>
         </div>
       </div>

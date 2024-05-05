@@ -46,6 +46,15 @@
 <div class='categories' id='product-categories'>
   <span id="show-all-products" class='category-row'>Все</span>
   <% ProductCategory.all.order(weight: :desc).each do |category| %>
-    <span class="category-row" data-category-id="<%= category.id %>"><%= category.name %></span>
+    <div data-category-id="<%= category.id %>" class='d-flex category-row flex-column'>
+      <% cache category do %>
+        <% if category.image.persisted? %>
+          <div class='category-image'>
+            <%= image_tag category.image %>
+          </div>
+        <% end %>
+        <span><%= category.name %></span>
+      <% end %>
+    </div>
   <% end %>
 </div>

@@ -100,17 +100,16 @@
     // Event listener for backspace key press
     productSearchInput.addEventListener('keydown', function(event) {
       if (event.key === 'Backspace') {
-        // Call the filterProducts function when the backspace key is pressed
         filterProducts();
       }
     });
-
   });
 </script>
+
 <% rate = CurrencyRate.last.rate %>
 <div class='row'>
   <div class='col-sm-12'>
-    <div class="form-group decimal required product_sell_amount">
+    <div class="decimal required product_sell_amount">
       <input class="form-control text required"  type="text" id="product_search_input" placeholder='Qidirish' autocomplete="off" style='box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;'/>
     </div>
   </div>

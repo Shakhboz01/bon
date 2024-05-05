@@ -8,19 +8,28 @@
     </div>
   <% end %>
 
-    <div class='col-xs-12 col-md-6' style='max-height: 800px; overflow: auto'>
-  <% if !@product_sells.count.zero? && policy(@sale).hide_for_diller? %>
+  <div class='col-xs-12 col-md-6 product-sells' style='max-height: 800px; overflow: auto'>
+    <% if !@product_sells.count.zero? && policy(@sale).hide_for_diller? %>
       <div style='border: 5px solid #6bf56b ' id='active-sale'>
         <%= render 'product_sells/product_sells', shrink: true, sale: @sale, buyer: @sale.buyer, product_sells: @product_sells, rate: @rate %>
       </div>
-  <% end %>
-    </div>
+    <% end %>
+  </div>
 
   <% if policy(@sale).hide_for_agent? && @sale.processing? %>
-    <div class='col-xs-12 col-md-2'>
+    <div class='col-xs-12 col-md-2 product-sells'>
       <%= render 'sales/form', sale: @sale %>
     </div>
   <% end %>
   <%= render 'closed_sale_info', sale: @sale %>
 </div>
+
+<% if @sale.processing? %>
+  <div class='bottom_buttons'>
+    <button class='btn btn-warning' data-toggle="modal" data-target="#historyModal">Ro'yxat</button>
+    <button class='btn btn-info' data-toggle="modal" data-target="#saleFormModal">Yakunlash</button>
+  </div>
+<% end %>
+
+<%= render 'sale_modals' %>
 <input id='last-category' value="<%= @sale.product_sells.last&.product_category&.id %>" hidden=true >
