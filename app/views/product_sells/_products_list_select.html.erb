@@ -2,6 +2,7 @@
   $(document).on('turbo:load', function() {
     var productSearchInput = document.getElementById('product_search_input');
     var products = document.querySelectorAll('.product_list');
+    var categoryNames = document.querySelectorAll('.category-names');
     let activeIndex = -1;
 
     function setActive(index) {
@@ -37,8 +38,14 @@
         }
       });
 
-      setActive(-1);
-      activeIndex = -1;
+      categoryNames.forEach(function(categoryName) {
+        const dataCategoryName = categoryName.dataset.categoryName.toLowerCase();
+        let displayStyle = 'none'; // Default: hide the product
+        if (dataCategoryName.includes(searchTerm) || searchTerm == '') {
+          displayStyle = 'block'; // Show the product if it starts with the search term
+        }
+        categoryName.style.display = displayStyle;
+      });
     });
 
     document.addEventListener('keydown', function(event) {

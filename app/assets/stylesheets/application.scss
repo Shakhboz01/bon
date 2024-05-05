@@ -2,7 +2,7 @@
 @import "font-awesome";
 @import "bootstrap";
 .bottom_buttons{
-  // display: none;
+  display: none;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -62,8 +62,7 @@
 }
 
 .active {
-  background: blue;
-  color: white
+  color: blue
 }
 
 .clicked{
