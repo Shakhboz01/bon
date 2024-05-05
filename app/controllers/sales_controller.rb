@@ -139,7 +139,8 @@ class SalesController < ApplicationController
   def sale_params
     params.require(:sale).permit(
       :total_paid, :payment_type, :buyer_id, :total_price, :comment,
-      :user_id, :status, :discount_price, :price_in_usd, :verified_by_agent, :diller_user_id
+      :user_id, :status, :discount_price, :price_in_usd, :verified_by_agent,
+      :diller_user_id, images: []
     )
   end
 end

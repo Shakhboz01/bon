@@ -13,6 +13,7 @@
         <%= f.input :total_paid, label: 'Mijoz to\'lagan summa' %>
         <%= f.input :payment_type, label: false, collection: Sale.payment_types.keys.map { |unit| [Sale.human_attribute_name("unit.#{unit}"), unit] }, include_blank: false, as: :hidden %>
         <%= f.input :comment, label: 'Kommentariya' %>
+        <%= f.input :images, input_html: { multiple: true, accept: "image/*" }, label: 'Rasm yuklash' %><br/>
         <%= f.button :submit, 'Sotuvni yakunlash' %>
       </div>
     <% end %>

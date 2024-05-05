@@ -4,7 +4,16 @@
     <li>Agent qabul qildi: <%= strf_datetime(sale.created_at) %></li>
 
     <% if sale.diller_user_id %>
-      <li>Diller: <%= sale.diller_user.name %></li>
+      <li>Diller: <%= User.find(sale.diller_user_id).name %></li>
     <% end %>
   </ul>
+  <div class='d-flex justify-content-between'>
+    <% @sale.images.each do |image| %>
+      <div class='sale-image'>
+        <%= link_to image do %>
+          <%= image_tag image %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 <% end %>

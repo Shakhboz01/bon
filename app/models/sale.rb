@@ -4,13 +4,14 @@ class Sale < ApplicationRecord
   attr_accessor :discount_price
   belongs_to :buyer
   belongs_to :user
-  belongs_to :agent, class_name: 'User',
-                    foreign_key: 'agent_user_id', optional: true
+  belongs_to :diller, class_name: 'User',
+                    foreign_key: 'diller_user_id', optional: true
   enum status: %i[processing closed]
   enum payment_type: %i[наличные карта click предоплата перечисление дригие]
   has_many :product_sells
   has_one :discount
   has_many :transaction_histories, dependent: :destroy
+  has_many_attached :images
   scope :unpaid, -> { where("total_price > total_paid") }
   scope :price_in_uzs, -> { where('price_in_usd = ?', false) }
   scope :price_in_usd, -> { where('price_in_usd = ?', true) }
