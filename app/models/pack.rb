@@ -5,6 +5,7 @@ class Pack < ApplicationRecord
   has_many :pack_usages
   has_many :product_entries
   has_many :products
+  has_one_attached :image
   validates :sell_price, comparison: { greater_than: 0 }
   validates :code, presence: true, uniqueness: { scope: [:name], message: "combination already exists" }
   validates :name, presence: true, uniqueness: { scope: [:code], message: "combination already exists" }

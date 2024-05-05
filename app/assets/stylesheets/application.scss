@@ -57,14 +57,20 @@
 }
 
 .product_list:hover {
-  background: blue;
-  color: white;
+  color: blue;
+  background: wheat;
 }
 
 .active {
-  color: blue
+  color: blue;
+  background: wheat;
 }
-
+.pack-image img{
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 5px;
+}
 .clicked{
   background-color: yellow;
   transition: background-color 2s;

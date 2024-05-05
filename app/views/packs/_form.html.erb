@@ -17,6 +17,7 @@
         <%= f.input :sell_price, label: 'Sotish narxi (1 dona)', required: true %>
         <%= f.input :buy_price, label: 'Tan narxi (1 dona)', required: true %>
         <%= f.input :weight, label: 'Ahamiyat darajasi' %>
+        <%= f.input :image, input_html: { accept: "image/*" }, label: 'Rasm yuklash' %><br/>
         <%= f.submit 'Saqlash', class: 'btn btn-primary' %>
       </div>
     </div>

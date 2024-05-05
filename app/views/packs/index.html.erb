@@ -21,7 +21,14 @@
         <tbody>
           <% @packs.each do |pack| %>
             <tr class="<%= active_tr(pack.active) %>">
-              <td><%= pack.name %></td>
+              <td class='d-flex align-items-center'>
+                <% if pack.image.persisted? %>
+                  <div class='pack-image'>
+                    <%= image_tag pack.image %>
+                  </div>
+                <% end %>
+                <%= pack.name %>
+              </td>
               <td><%= pack.code %></td>
               <td><%= pack.initial_remaining %></td>
               <td><%= currency_convert(pack.price_in_usd, pack.sell_price) %></td>

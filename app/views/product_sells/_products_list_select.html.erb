@@ -126,7 +126,7 @@
     <table class='table table-sm' id="product-table">
       <thead>
         <tr>
-          <th>Nomi</th>
+          <th class='text-center'>Nomi</th>
           <th>Narxi</th>
           <th>Ostatka</th>
         </tr>
@@ -134,7 +134,14 @@
       <tbody>
         <% @packs.each do |product| %>
           <tr data-category-id="<%= product.product_category.id %>" data-product-sell-price="<%= product.sell_price_based_on_sale_currency(sale_in_usd, rate) %>" data-product-name="<%= product.name %>" data-product-id="<%= product.id %>" class='product_list'>
-            <td><%= product.name %></td>
+            <td class='d-flex align-items-center'>
+              <% if product.image.persisted? %>
+                <div class='pack-image'>
+                  <%= image_tag product.image %>
+                </div>
+              <% end %>
+              <%= product.name %>
+            </td>
             <td><%= currency_convert sale_in_usd, product.sell_price_based_on_sale_currency(sale_in_usd, rate) %></td>
             <td><%= product.initial_remaining %></td>
           </tr>
