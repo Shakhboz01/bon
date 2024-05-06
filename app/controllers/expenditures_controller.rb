@@ -34,23 +34,16 @@ class ExpendituresController < ApplicationController
 
   # POST /expenditures or /expenditures.json
   def create
-    @expenditure = Expenditure.new(expenditure_params)
+    @expenditure = Expenditure.new(expenditure_params.except(:images))
     @expenditure.user_id = current_user.id
+
     respond_to do |format|
       if @expenditure.save
-        if @expenditure.combination_of_local_product_id.present?
-          format.html { redirect_to combination_of_local_product_path(@expenditure.combination_of_local_product), notice: "Expenditure was successfully created." }
-        end
-
-        if @expenditure.delivery_from_counterparty_id.present?
-          format.html { redirect_to delivery_from_counterparty_path(@expenditure.delivery_from_counterparty), notice: "Expenditure was successfully created." }
-        end
-
         format.html { redirect_to expenditures_url, notice: "Expenditure was successfully created." }
         format.json { render :show, status: :created, location: @expenditure }
+        save_images_to_temporary_location(expenditure_params[:images], @expenditure)
       else
-        Rails.logger.warn "ERROR OCCURED #{@expenditure.errors.messages}"
-        format.html { render :new, expenditure_type: @expenditure_type, status: :unprocessable_entity }
+        format.html { render :new, expenditure_type: @expenditure_type, status: :unprocessable_entity, notice: 'Errors' }
         format.json { render json: @expenditure.errors, status: :unprocessable_entity }
       end
     end
@@ -82,6 +75,20 @@ class ExpendituresController < ApplicationController
   end
 
   private
+
+  def save_images_to_temporary_location(images, expenditure)
+    Array(images).each do |image|
+      next unless image.present? && image.respond_to?(:tempfile)
+
+      file_path = Rails.root.join('tmp', 'uploads', image.original_filename)
+      FileUtils.mkdir_p(File.dirname(file_path))
+      File.open(file_path, 'wb') do |file|
+        file.write(image.tempfile.read)
+      end
+      # Pass the file path to the background job
+      UploadExpenditureImagesJob.perform_later(expenditure.id, file_path.to_s)
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_expenditure
