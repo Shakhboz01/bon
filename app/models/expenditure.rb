@@ -1,5 +1,6 @@
 class Expenditure < ApplicationRecord
   include ProtectEditAfterDay
+  include ImageUploadable
   include ProtectDestroyAfterDay
   include SendImage
   attr_accessor :rate

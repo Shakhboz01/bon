@@ -41,7 +41,7 @@ class ExpendituresController < ApplicationController
       if @expenditure.save
         format.html { redirect_to expenditures_url, notice: "Expenditure was successfully created." }
         format.json { render :show, status: :created, location: @expenditure }
-        save_images_to_temporary_location(expenditure_params[:images], @expenditure)
+        @expenditure.save_images_to_temporary_location(expenditure_params[:images], @expenditure.id, 'Expenditure')
       else
         format.html { render :new, expenditure_type: @expenditure_type, status: :unprocessable_entity, notice: 'Errors' }
         format.json { render json: @expenditure.errors, status: :unprocessable_entity }
@@ -75,20 +75,6 @@ class ExpendituresController < ApplicationController
   end
 
   private
-
-  def save_images_to_temporary_location(images, expenditure)
-    Array(images).each do |image|
-      next unless image.present? && image.respond_to?(:tempfile)
-
-      file_path = Rails.root.join('tmp', 'uploads', image.original_filename)
-      FileUtils.mkdir_p(File.dirname(file_path))
-      File.open(file_path, 'wb') do |file|
-        file.write(image.tempfile.read)
-      end
-      # Pass the file path to the background job
-      UploadExpenditureImagesJob.perform_later(expenditure.id, file_path.to_s)
-    end
-  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_expenditure
