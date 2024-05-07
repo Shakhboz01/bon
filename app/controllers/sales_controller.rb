@@ -51,8 +51,9 @@ class SalesController < ApplicationController
   def update
     currency_was_in_usd = @sale.price_in_usd
     @sale.diller_user_id = current_user.id if current_user.диллер?
-    if @sale.update(sale_params.merge(status: sale_params[:status].to_i))
+    if @sale.update(sale_params.except(:images).merge(status: sale_params[:status].to_i))
       handle_redirect(currency_was_in_usd, @sale.price_in_usd)
+      @sale.save_images_to_temporary_location(sale_params[:images], @sale)
     else
       redirect_to request.referrer, notice: @sale.errors.messages.values
     end
