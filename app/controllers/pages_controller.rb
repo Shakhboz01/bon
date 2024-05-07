@@ -16,6 +16,8 @@ class PagesController < ApplicationController
     end
   end
 
+  def qr_scanner; end
+
   def admin_page
     authorize PagesController, :access?
 
