@@ -3,7 +3,7 @@ module ImageUploadable
   extend ActiveSupport::Concern
 
   included do
-    def save_images_to_temporary_location(images, model_id, model_class)
+    def save_images_to_temporary_location(images, model)
       Array(images).each do |image|
         next unless image.present? && image.respond_to?(:tempfile)
 
@@ -13,7 +13,7 @@ module ImageUploadable
           file.write(image.tempfile.read)
         end
         # Pass the file path to the background job
-        UploadImagesJob.perform_later(model_id, model_class, file_path.to_s)
+        UploadImagesJob.perform_later(model, file_path.to_s)
       end
     end
   end

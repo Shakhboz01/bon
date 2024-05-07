@@ -2,9 +2,7 @@
 class UploadImagesJob < ApplicationJob
   queue_as :default
 
-  def perform(model_id, model_class, file_path)
-    model = model_class.constantize.find(model_id)
-
+  def perform(model, file_path)
     # Attach the image to the model
     model.images.attach(io: File.open(file_path), filename: File.basename(file_path))
 

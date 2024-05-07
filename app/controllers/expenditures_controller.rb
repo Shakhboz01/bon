@@ -41,7 +41,7 @@ class ExpendituresController < ApplicationController
       if @expenditure.save
         format.html { redirect_to expenditures_url, notice: "Expenditure was successfully created." }
         format.json { render :show, status: :created, location: @expenditure }
-        @expenditure.save_images_to_temporary_location(expenditure_params[:images], @expenditure.id, 'Expenditure')
+        @expenditure.save_images_to_temporary_location(expenditure_params[:images], @expenditure)
       else
         format.html { render :new, expenditure_type: @expenditure_type, status: :unprocessable_entity, notice: 'Errors' }
         format.json { render json: @expenditure.errors, status: :unprocessable_entity }

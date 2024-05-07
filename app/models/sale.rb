@@ -1,5 +1,6 @@
 class Sale < ApplicationRecord
   include HandleTransactionHistory
+  include ImageUploadable
   include ApplicationHelper
   attr_accessor :discount_price
   belongs_to :buyer

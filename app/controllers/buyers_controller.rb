@@ -22,7 +22,7 @@ class BuyersController < ApplicationController
 
   # POST /buyers or /buyers.json
   def create
-    @buyer = Buyer.new(buyer_params)
+    @buyer = Buyer.new(buyer_params.except(:images))
 
     respond_to do |format|
       if @buyer.save
@@ -32,6 +32,8 @@ class BuyersController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @buyer.errors, status: :unprocessable_entity }
       end
+
+      @buyer.save_images_to_temporary_location(buyer_params[:images], @buyer)
     end
   end
 

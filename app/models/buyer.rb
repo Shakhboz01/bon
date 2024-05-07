@@ -1,5 +1,6 @@
 class Buyer < ApplicationRecord
   include ProtectDestroyable
+  include ImageUploadable
 
   attr_accessor :debt_in_usd
   attr_accessor :debt_in_uzs

@@ -33,12 +33,13 @@ class SalesController < ApplicationController
 
   # POST /sales or /sales.json
   def create
-    @sale = Sale.new(sale_params)
+    @sale = Sale.new(sale_params.except(:images))
     @sale.user_id = current_user.id
     respond_to do |format|
       if @sale.save
         format.html { redirect_to sales_url(@sale), notice: "Sale was successfully created." }
         format.json { render :show, status: :created, location: @sale }
+        @sale.save_images_to_temporary_location(sale_params[:images], @sale)
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @sale.errors, status: :unprocessable_entity }
