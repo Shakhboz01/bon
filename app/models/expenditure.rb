@@ -42,7 +42,7 @@ class Expenditure < ApplicationRecord
       "<b>Jami summa:</b> #{price} #{price_in_usd ? '$' : 'сум'}\n"
 
     message << "<b>Комментарие:</b> #{comment}" if comment.present?
-    SendMessage.run(message: message)
+    SendMessageJob.perform_later(message)
   end
 
   def check_if_total_paid_is_not_more_than_price

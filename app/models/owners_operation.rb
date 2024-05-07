@@ -11,6 +11,6 @@ class OwnersOperation < ApplicationRecord
   def send_notify
     currency = price_in_usd ? '$' : 'сум'
     message = "#{operation_type} от руководителя\nСумма: #{price} #{currency}"
-    SendMessage.run(message: message)
+    SendMessageJob.perform_later(message)
   end
 end

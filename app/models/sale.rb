@@ -1,7 +1,5 @@
 class Sale < ApplicationRecord
-  include HandleTransactionHistory
   include ImageUploadable
-  include ApplicationHelper
   attr_accessor :discount_price
   belongs_to :buyer
   belongs_to :user
@@ -57,8 +55,7 @@ class Sale < ApplicationRecord
           "<b>Jami narx:</b> #{total_price} #{price_sign}\n"
         message << "&#9888<b>To'landi:</b> #{total_paid} #{price_sign}\n" if total_price != total_paid
         message << "<b>Комментарие:</b> #{comment}\n" if comment.present?
-        message << "<b>Mijoz qarzdorligi:</b> #{buyer.calculate_debt_in_uzs}\n"
-        SendMessage.run(message: message)
+        SendMessageJob.perform_later(message)
       else
         self.enable_to_send_sms = false
       end
@@ -66,7 +63,7 @@ class Sale < ApplicationRecord
   end
 
   def update_product_sales_currencies
-    return if product_sells.empty?
+    return if product_sells.empty? || ENV.fetch('ONLY_ONE_CURRENCY')
 
     product_sells.each do |ps|
       ps.price_in_usd = price_in_usd
@@ -81,6 +78,6 @@ class Sale < ApplicationRecord
 
     message = "Агент оформил заказ от #{buyer.name}\n" \
               "<a href=\"#{ENV.fetch('HOST_URL')}/sales/#{id}\">Посмотреть</a>"
-    SendMessage.run(message: message, chat: 'agent')
+    SendMessageJob.perform_later(message, 'agent')
   end
 end

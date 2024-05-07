@@ -14,6 +14,6 @@ class Participation < ApplicationRecord
     return unless не_пришёл?
 
     message = "&#9888 #{user.name.upcase} не пришел на работу"
-    SendMessage.run(message: message, chat: 'warning')
+    SendMessageJob.perform_later(message, 'warning')
   end
 end

@@ -16,6 +16,6 @@ class DailyTransactionReport < ApplicationRecord
     message =
       "<b>Отчет по кассе:</b>\n" \
       "по данным #{created_at.to_date}, на кассе имеется #{income_in_uzs}сум + #{income_in_usd}$"
-    SendMessage.run(message: message)
+    SendMessageJob.perform_later(message)
   end
 end

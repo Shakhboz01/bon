@@ -78,11 +78,11 @@ class SalesController < ApplicationController
         last_one.update(created_at: DateTime.current, user_id: current_user.id)
       end
       last_one.update(user_id: current_user.id)
-      redirect_to sale_url(last_one), notice: "Теперь добавьте продажу товаров"
+      redirect_to sale_url(last_one)
     else
       sfs = Sale.new(buyer: buyer, user: current_user, price_in_usd: ENV.fetch('PRICE_IN_USD'))
       if sfs.save
-        redirect_to sale_url(sfs), notice: 'Теперь добавьте продажу товаров'
+        redirect_to sale_url(sfs)
       else
         redirect_to request.referrer, notice: "Something went wrong"
       end
@@ -97,7 +97,7 @@ class SalesController < ApplicationController
       message = "&#9888 Заверщённая продажа № <a href=\"#{ENV.fetch('HOST_URL')}/sales/#{@sale.id}\">#{@sale.id}</a> была снова открыта!\n" \
         "Пожалуйста, уточните причину переоткрытия!\n"
         "Нажмите <a href=\"#{ENV.fetch('HOST_URL')}/sales/#{@sale.id}\">здесь</a> для просмотра"
-      SendMessage.run(message: message)
+      SendMessageJob.perform_later(message)
     end
 
     redirect_to sale_path(@sale)

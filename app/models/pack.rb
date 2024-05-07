@@ -70,8 +70,8 @@ class Pack < ApplicationRecord
   end
 
   def send_notify_on_remaining_change
-    SendMessage.run(
-      message: "Tovar ostatkasi qo'lda o'zgartirildi \n
+    SendMessageJob.perform_later(
+      "Tovar ostatkasi qo'lda o'zgartirildi \n
       Товар: #{name} \n
       Edi: #{initial_remaining_was} \n
       Endi: #{initial_remaining_was}"

@@ -84,7 +84,7 @@ class DailyReport < ActiveInteraction::Base
       "Итого приход денег:      #{num_to_usd overall_income_in_uzs}  +  #{number_to_currency overall_income_in_usd}\n" \
       "Итого уход денег:          #{num_to_usd overall_outcome_in_uzs}  +  #{number_to_currency overall_outcome_in_usd}\n" \
       "Остаток:                      #{num_to_usd(overall_income_in_uzs - overall_outcome_in_uzs)}  +  #{number_to_currency(overall_income_in_usd - overall_outcome_in_usd)}\n"
-    SendMessage.run(message: message)
+    SendMessageJob.perform_later(message)
     # total_income based_on_kassir
     # total_outcome based_on_kassir
 
