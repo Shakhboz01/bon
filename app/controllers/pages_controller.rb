@@ -76,10 +76,10 @@ class PagesController < ApplicationController
     @sales_in_usd = sales.price_in_usd.sum(:total_paid)
     @sales_in_uzs = sales.price_in_uzs.sum(:total_paid)
 
-    @delivery_from_counterparties_in_usd = delivery_from_counterparties.price_in_usd.sum(:total_paid)
-    @delivery_from_counterparties_in_uzs = delivery_from_counterparties.price_in_uzs.sum(:total_paid)
+    # @delivery_from_counterparties_in_usd = delivery_from_counterparties.price_in_usd.sum(:total_paid)
+    # @delivery_from_counterparties_in_uzs = delivery_from_counterparties.price_in_uzs.sum(:total_paid)
     rate = CurrencyRate.last.rate
-    @delivery_from_counterparties_in_uzs += (rate * @delivery_from_counterparties_in_usd)
+    # @delivery_from_counterparties_in_uzs += (rate * @delivery_from_counterparties_in_usd)
     @expenditures_in_usd = expenditures.price_in_usd.sum(:price)
     @expenditures_in_uzs = expenditures.price_in_uzs.sum(:price)
 
@@ -96,8 +96,8 @@ class PagesController < ApplicationController
     unpaid_difference_in_percent_in_usd = sales.where('sales.price_in_usd = ?', true).sum(:total_paid) * 100 / sales.where('sales.price_in_usd = ?', true).sum(:total_price)
     unpaid_difference_in_percent_in_uzs = sales.where('sales.price_in_usd = ?', false).sum(:total_paid) * 100 / sales.where('sales.price_in_usd = ?', false).sum(:total_price)
 
-    @overall_income_in_usd = @sales_in_usd - (@expenditures_in_usd + @delivery_from_counterparties_in_usd)
-    @overall_income_in_uzs = @sales_in_uzs - (@prepayment + @salaries + @expenditures_in_uzs + @delivery_from_counterparties_in_uzs)
+    @overall_income_in_usd = @sales_in_usd - (@expenditures_in_usd)
+    @overall_income_in_uzs = @sales_in_uzs - (@prepayment + @salaries + @expenditures_in_uzs)
   end
 
   def maps_page
