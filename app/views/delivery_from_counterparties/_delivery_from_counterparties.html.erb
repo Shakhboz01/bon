@@ -5,7 +5,6 @@
       <% unless defined?(shrink) %>
         <th>Qulflangan</th>
       <% end %>
-      <th>Yuk beruvchi</th>
       <th>Umumiy xarid narxi</th>
       <th>To'langan summa</th>
       <% unless defined?(shrink) %>
@@ -28,7 +27,6 @@
             <% end %>
           </td>
         <% end %>
-        <td><%= delivery_from_counterparty.provider.name %></td>
         <td title="<%= delivery_from_counterparty.payment_type %>"><%= currency_convert(delivery_from_counterparty.price_in_usd, delivery_from_counterparty.total_price) %></td>
         <td><%= currency_convert(delivery_from_counterparty.price_in_usd, delivery_from_counterparty.total_paid) %></td>
         <% unless defined?(shrink) %>

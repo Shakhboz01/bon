@@ -15,10 +15,6 @@
           <%= f.select :payment_type_eq, DeliveryFromCounterparty.payment_types.keys.map { |unit| [DeliveryFromCounterparty.human_attribute_name("unit.#{unit}"), unit] }, {include_blank: true}, class: 'form-control' %>
         </div>
         <div class="form-group col-xs-12 col-sm-2">
-          <%= f.label :provider_id_eq, 'Yuk beruvchi', class: 'control-label' %>
-          <%= f.select :provider_id_eq, Provider.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
-        </div>
-        <div class="form-group col-xs-12 col-sm-2">
           <%= simple_fields_for :q_other do |ff| %>
             <%= ff.label :total_paid_less_than_price, "To'lanmaganlar", class: 'control-label' %>
             <%= ff.check_box :total_paid_less_than_price, checked: !params.dig(:q_other, :total_paid_less_than_price).to_i.zero?, class: 'form-control' %>

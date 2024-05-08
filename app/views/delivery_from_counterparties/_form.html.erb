@@ -4,15 +4,14 @@
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <%= f.input :status, as: :hidden, input_html: { value: 1 } %>
     <div class='form-inputs'>
-      <%= f.label :price_in_usd, 'dollarda' %>
-      <%= f.input :price_in_usd, label: false %>
+      <%= f.input :price_in_usd, label: false, as: :hidden %>
       <% not_disabled = delivery_from_counterparty.persisted? && delivery_from_counterparty.product_entries.empty? %>
-      <%= f.input :total_price, label: 'To\'lashimiz lozim', input_html: { disabled: !not_disabled } %>
-      <%= f.input :total_paid, label: "To'langan summa" %>
-      <%= f.association :provider, label: 'Yuk beruvchini tanlang', collection: Provider.active.order(weight: :desc).order(name: :asc), include_blank: false %>
-      <%= f.input :payment_type, label: 'Tolov turini tanlang', collection: DeliveryFromCounterparty.payment_types.keys.map { |unit| [DeliveryFromCounterparty.human_attribute_name("unit.#{unit}"), unit] }, include_blank: false %>
+      <%= f.input :total_price, label: false, as: :hidden, input_html: {value: 0} %>
+      <%= f.input :total_paid, label: false, as: :hidden, input_html: {value: 0} %>
+      <%= f.association :provider, label: false, as: :hidden, input_html: {value: Provider.first.id} %>
+      <%= f.input :payment_type, label: false, as: :hidden %>
       <%= f.input :comment, label: 'Kommentariya' %>
-      <%= f.button :submit, 'Sotib olishni yakunlash' %>
+      <%= f.button :submit, 'Yakunlash' %>
     </div>
   <% end %>
 </div>
