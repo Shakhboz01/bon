@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
-        <div class="card-header"><h2>Вход</h2></div>
+        <div class="card-header"><h2>Kirish</h2></div>
         <div class="card-body">
           <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form' }) do |f| %>
             <div class="form-group">
@@ -17,13 +17,10 @@
                           input_html: { autocomplete: "current-password", class: 'form-control' } %>
             </div>
             <% if devise_mapping.rememberable? %>
-              <div class="form-check">
-                <%= f.input :remember_me, as: :boolean, label: false, wrapper_html: { class: 'form-check-label' } %>
-                <label class="form-check-label" for="<%= resource_name %>_remember_me">Запомнить меня</label>
-              </div>
+              <%= f.input :remember_me, as: :boolean, label: 'Saqlab qolish', wrapper_html: { class: 'form-check-label' } %>
             <% end %>
             <div class="form-group">
-              <%= f.button :submit, "Войти", class: 'btn btn-primary btn-block' %>
+              <%= f.button :submit, "Kirish", class: 'btn btn-primary btn-block' %>
             </div>
           <% end %>
         </div>
