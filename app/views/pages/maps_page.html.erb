@@ -11,6 +11,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class='text-center'>
     <%= link_to 'Ko\'rinishni o\'zgartirish', main_page_url, class: 'btn btn-primary' %><hr>
@@ -20,11 +21,9 @@
       <input id="search-box" type="text" class="form-control" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
     </div>
   </div>
-  <div id="map">
-
-  </div>
+  <div id="map"></div>
 </body>
-<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyCCrf73WQ7VitOY7_PP0pSGmeBDw-Tiz38&v=3&callback=initMap", async: true, defer: true %>
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=AIzaSyCCrf73WQ7VitOY7_PP0pSGmeBDw-Tiz38&libraries=places&callback=initMap&map_ids=7802c15fc3df6792", async: true, defer: true %>
 <script>
     var samarkand;
     var infoWindow;
