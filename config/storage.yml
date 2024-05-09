@@ -1,0 +1,15 @@
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+google:
+  service: GCS
+  project: bon places
+  credentials: <%= Rails.root.join("config/secrets/google_key.json") %>
+  bucket: reviews_demo_bucket
+  cache_control: "public, max-age=3600"
+google_dev:
+  service: GCS
+  project: bon places
+  credentials: <%= Rails.root.join("config/secrets/google_key.json") %>
+  bucket: bon_samarkand
+  cache_control: "public, max-age=3600"
