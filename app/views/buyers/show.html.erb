@@ -36,7 +36,7 @@
 <footer></footer>
 </body>
 <%= stylesheet_link_tag 'buyer_info' %>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCrf73WQ7VitOY7_PP0pSGmeBDw-Tiz38&libraries=places&callback=initMap"></script>
 <script>
   function initMap() {
     var location = { lat: <%= @buyer.latitude %>, lng: <%= @buyer.longitude %> };
@@ -50,4 +50,3 @@
     });
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCrf73WQ7VitOY7_PP0pSGmeBDw-Tiz38&libraries=places&callback=initMap"></script>
