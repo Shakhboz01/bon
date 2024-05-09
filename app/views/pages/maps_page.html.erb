@@ -93,7 +93,6 @@
         });
 
         // Add markers for buyers
-        console.log('I am initttttt');
         infoWindow = new google.maps.InfoWindow();
         const buyers = document.querySelectorAll('.buyer'); // Fetch buyer elements
 
@@ -183,8 +182,15 @@
     </div>
   <% end %>
 </div>
-  <div class='text-center'>
-    <%= link_to 'Ko\'rinishni o\'zgartirish', main_page_url, class: 'btn btn-primary' %><hr>
+  <div class='d-flex justify-content-center text-center'>
+    <%= link_to main_page_url, class: 'm-1 btn btn-primary' do %>
+      Mijozlar ro'yxati <i class="fa-solid fa fa-bars"></i>
+    <% end %>
+
+    <%= link_to new_buyer_path, class: 'm-1 btn btn-warning' do %>
+      Mijoz qo'shish <i class="fa-solid fa fa-user-plus"></i>
+    <% end %>
+
   </div>
   <div id="map-container" style="position: relative;">
     <div class="input-group mb-3">

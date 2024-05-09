@@ -33,20 +33,24 @@
     </div>
   </div>
 </main>
-<footer></footer>
+<footer id='buyer-info' style='display: none' data-longitude="<%= @buyer.longitude %>" data-latitude="<%= @buyer.latitude %>"></footer>
 </body>
 <%= stylesheet_link_tag 'buyer_info' %>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCrf73WQ7VitOY7_PP0pSGmeBDw-Tiz38&libraries=places&callback=initMap"></script>
 <script>
-  function initMap() {
-    var location = { lat: <%= @buyer.latitude %>, lng: <%= @buyer.longitude %> };
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 15,
-      center: location
-    });
-    var marker = new google.maps.Marker({
-      position: location,
-      map: map
-    });
-  }
+function initMap() {
+  var buyerInfo = document.querySelector('#buyer-info'); // Added #
+  var longitude = parseFloat(buyerInfo.dataset.longitude); // Parse latitude and longitude as floats
+  var latitude = parseFloat(buyerInfo.dataset.latitude); // Parse latitude and longitude as floats
+  console.log(longitude, ' ', latitude); // Swapped longitude and latitude
+  var location = { lat: latitude, lng: longitude };
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 15,
+    center: location
+  });
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map
+  });
+}
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCrf73WQ7VitOY7_PP0pSGmeBDw-Tiz38&libraries=places&callback=initMap"></script>
