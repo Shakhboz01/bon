@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_11_065657) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_11_083321) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -389,8 +389,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_065657) do
     t.boolean "price_in_usd", default: false
     t.boolean "enable_to_send_sms", default: true
     t.boolean "verified_by_agent", default: false
+    t.bigint "agent_user_id"
     t.bigint "diller_user_id"
+    t.index ["agent_user_id"], name: "index_sales_on_agent_user_id"
     t.index ["buyer_id"], name: "index_sales_on_buyer_id"
+    t.index ["diller_user_id"], name: "index_sales_on_diller_user_id"
     t.index ["user_id"], name: "index_sales_on_user_id"
   end
 
@@ -526,6 +529,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_065657) do
   add_foreign_key "sale_from_services", "users"
   add_foreign_key "sales", "buyers"
   add_foreign_key "sales", "users"
+  add_foreign_key "sales", "users", column: "agent_user_id"
+  add_foreign_key "sales", "users", column: "diller_user_id"
   add_foreign_key "services", "users"
   add_foreign_key "team_services", "sale_from_services"
   add_foreign_key "team_services", "teams"

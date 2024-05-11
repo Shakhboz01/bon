@@ -1,0 +1,7 @@
+<div class='container card card-body shadow-lg p-3 border'>
+  <%= simple_form_for(@sale) do |f| %>
+    <%= f.association :diller_user, label: 'диллер', collection: User.active.диллер.order(name: :asc), include_blank: false %>
+    <%= f.association :agent_user, label: 'агент', collection: User.active.агент.order(name: :asc), include_blank: false %>
+    <%= f.button :submit, 'Save' %>
+  <% end %>
+</div>

@@ -1,5 +1,5 @@
 class SalesController < ApplicationController
-  before_action :set_sale, only: %i[ show edit update destroy toggle_status html_view]
+  before_action :set_sale, only: %i[ show edit update destroy toggle_status html_view edit_agent_or_diller]
 
   include Pundit::Authorization
   # GET /sales or /sales.json
@@ -50,7 +50,7 @@ class SalesController < ApplicationController
   # PATCH/PUT /sales/1 or /sales/1.json
   def update
     currency_was_in_usd = @sale.price_in_usd
-    @sale.diller_user_id = current_user.id if current_user.диллер?
+
     if @sale.update(sale_params.except(:images).merge(status: sale_params[:status].to_i))
       handle_redirect(currency_was_in_usd, @sale.price_in_usd)
       @sale.save_images_to_temporary_location(sale_params[:images], @sale)
@@ -81,7 +81,18 @@ class SalesController < ApplicationController
       last_one.update(user_id: current_user.id)
       redirect_to sale_url(last_one)
     else
-      sfs = Sale.new(buyer: buyer, user: current_user, price_in_usd: ENV.fetch('PRICE_IN_USD'))
+      if current_user.агент?
+        agent_user_id = current_user.id
+      else
+        agent_user_id = buyer.agent_user_id
+      end
+      sfs = Sale.new(
+        buyer: buyer,
+        user: current_user,
+        price_in_usd: ENV.fetch('PRICE_IN_USD'),
+        diller_user_id: buyer.diller_user_id,
+        agent_user_id: agent_user_id
+      )
       if sfs.save
         redirect_to sale_url(sfs)
       else
@@ -121,6 +132,10 @@ class SalesController < ApplicationController
     # @debt_with_exception = @total_debt - current_total_price
   end
 
+  def edit_agent_or_diller
+    authorize Sale, :manage?
+  end
+
   private
 
   def handle_redirect(previous, current)
@@ -128,7 +143,7 @@ class SalesController < ApplicationController
       # It means, currency is changed
       redirect_to request.referrer, notice: "Valyuta o'zgartirildi"
     else
-      redirect_to html_view_sale_url(@sale)
+      redirect_to sales_url
     end
   end
 
@@ -142,7 +157,7 @@ class SalesController < ApplicationController
     params.require(:sale).permit(
       :total_paid, :payment_type, :buyer_id, :total_price, :comment,
       :user_id, :status, :discount_price, :price_in_usd, :verified_by_agent,
-      :diller_user_id, images: []
+      :diller_user_id, :agent_user_id, images: []
     )
   end
 end

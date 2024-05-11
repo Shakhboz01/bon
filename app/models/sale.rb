@@ -3,8 +3,8 @@ class Sale < ApplicationRecord
   attr_accessor :discount_price
   belongs_to :buyer
   belongs_to :user
-  belongs_to :diller, class_name: 'User',
-                    foreign_key: 'diller_user_id', optional: true
+  belongs_to :agent_user, class_name: "User"
+  belongs_to :diller_user, class_name: "User"
   enum status: %i[processing closed]
   enum payment_type: %i[наличные карта click предоплата перечисление дригие]
   has_many :product_sells

@@ -1,7 +1,7 @@
 <table class="table table-hover table-bordered table-striped">
   <thead>
     <tr>
-      <th>ID</th>
+      <th>#</th>
       <% unless defined?(shrink) %>
         <td>Qulflangan</td>
       <% end %>
@@ -9,9 +9,10 @@
       <th>Umumiy xarid narxi</th>
       <th>To'langan summa</th>
       <% unless defined?(shrink) %>
+        <th>Agent</th>
+        <th>Diller</th>
         <th>Komentariya.</th>
-        <th>Sotuv sanasi</th>
-        <th>Kim tomondan sotildi</th>
+        <th>Sanasi</th>
         <th colspan="3"></th>
       <% end %>
     </tr>
@@ -33,16 +34,17 @@
         <td title="<%= sale.payment_type %>" ><%= currency_convert(sale.price_in_usd, sale.total_price) %></td>
         <td><%= currency_convert(sale.price_in_usd, sale.total_paid) %></td>
         <% unless defined?(shrink) %>
+          <td><%= sale.agent_user.name %></td>
+          <td><%= sale.diller_user.name %></td>
           <td><%= sale.comment %></td>
           <td><%= strf_datetime sale.created_at %></td>
-          <td><%= sale.user.name %></td>
         <% end %>
         <td>
           <%= link_to html_view_sale_path(sale) do %>
             <%= image_tag image_url('printer.png'), style: 'width: 25px; height: 25px; cursor: pointer' %>
           <% end %>
-
           <%= clink_to 'Посмотреть', sale_path(sale), 'fa-search' %>
+          <%= clink_to 'Изменить агента или диллера', edit_agent_or_diller_sale_path(sale), 'fa-user' %>
         </td>
       </tr>
     <% end %>
