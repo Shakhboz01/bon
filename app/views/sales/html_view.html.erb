@@ -1,15 +1,25 @@
-<div class='container'>
-  <h3 class='text-center'><%= ENV.fetch('COMPANY_NAME') %> (<%= ENV.fetch('COMPANY_PHONE_NUMBER') %>)</h3>
+<div class='container' style='font-family: serif'>
   <div class='d-flex justify-content-between align-items-center'>
     <h5>Hisob-faktura № <%= @sale.id %> от <%= strf_datetime(@sale.updated_at) %></h5>
     <span onclick='window.print()' title='printerda chiqarish'>
       <%= image_tag image_url('printer.png'), style: 'width: 40px; height: 40px; cursor: pointer' %>
     </span>
   </div>
+  <div class='row'>
+    <div class='col-sm-6 border'>
+      <ul>
+        <li><span></span></li>
+        <li><span></span></li>
+        <li><span></span></li>
+        <li><span></span></li>
+      </ul>
+    </div>
+    <div class='col-sm-6 border'></div>
+  </div>
   <ul style='font-size: large; font-weight: bold'>
     <li>Mijoz: <%= @sale.buyer.name.upcase %> <%= @sale.buyer&.phone_number %></li>
   </ul>
-  <table style='font-size: large' class='table table-striped table-large table-bordered'>
+  <table class='table table-sm table-striped table-large table-bordered'>
     <thead>
       <tr>
         <th>№</th>
@@ -30,21 +40,27 @@
         </tr>
       <% end %>
       <tr>
-        <th></th>
+        <th><%= 'ИТОГО:'.downcase %></th>
         <th></th>
         <th><%= @sale.product_sells.sum(:amount) %></th>
         <th></th>
         <th><%= currency_convert(@sale.price_in_usd, @sale.product_sells.sum('sell_price * amount')) %></th>
       </tr>
+      <tr>
+        <th><%= 'ИТОГО ОПЛАЧЕНО:'.downcase %></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th><%= currency_convert(@sale.price_in_usd, @sale.total_paid) %></th>
+      </tr>
     </tbody>
   </table>
   <div class='d-flex justify-content-between'>
     <ul style='font-size: large; font-weight: bold'>
-      <li>Jami to'landi:  <%= currency_convert(@sale.price_in_usd, @sale.total_paid) %></li>
       <li>Hariddan keyingi qarzdorlik holati (<%= strf_datetime DateTime.now %> holatiga ko'ra): <%= num_to_usd @total_debt_in_uzs %></li>
     </ul>
     <div id="qrcode"></div>
-  </div>
+  </div><br/><hr><br/>
 </div>
 
 <%= javascript_include_tag "qrcode" %>

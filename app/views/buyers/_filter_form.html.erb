@@ -1,18 +1,20 @@
-<i title='Qidirish' class="fa-solid fa-magnifying-glass fa-lg" id='toggle-button'></i>
-<br>
-<div id='filter-toggle'>
+<div>
   <%= search_form_for @q, url: url, html: { class: 'form form-horizontal filter-form' } do |f| %>
     <div class="card shadow-lg">
       <div class="row">
-        <div class="form-group col-xs-12 col-sm-4">
+        <div class="form-group col-xs-12 col-sm-3">
           <%= f.label :name_cont, 'Имя содержит:', class: 'control-label' %>
           <%= f.text_field :name_cont, class: 'form-control', autocomplete: :off %>
         </div>
-        <div class="form-group col-xs-12 col-sm-4">
-          <%= f.label :active_true, 'Активные Аокупатели:', class: ' form-control' %>
-          <%= f.check_box :active_true, {}, 1, nil %>
+        <div class="form-group col-xs-12 col-sm-3">
+          <%= f.label :agent_user_id_eq, 'агент', class: 'control-label' %>
+          <%= f.select :agent_user_id_eq, User.агент.pluck(:name, :id), {include_blank: true}, class: 'form-control' %>
         </div>
-        <div class="form-group col-xs-12 col-sm-4">
+        <div class="form-group col-xs-12 col-sm-3">
+          <%= f.label :diller_user_id_eq, 'диллер', class: 'control-label' %>
+          <%= f.select :diller_user_id_eq, User.диллер.pluck(:name, :id), {include_blank: true}, class: 'form-control' %>
+        </div>
+        <div class="form-group align-self-center col-xs-12 col-sm-3">
           <%= f.submit 'Qidirish', class: 'btn btn-primary' %>
           <%= link_to 'Bekor qilish', request.path, class: 'btn btn-default' %>
         </div>
@@ -20,12 +22,3 @@
     </div>
   <% end %>
 </div>
-
-<script>
-  $(document).on('turbo:load', function() {
-    $('#filter-toggle').hide()
-    $('#toggle-button').click(function(){
-      $('#filter-toggle').toggle()
-    })
-  })
-</script>

@@ -3,7 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
+  has_many :agent_buyers, class_name: "Buyer", foreign_key: "agent_user_id"
+  has_many :diller_buyers, class_name: "Buyer", foreign_key: "diller_user_id"
   has_many :participations
   enum role: %i[админ менеджер агент диллер сотрудник складчик]
   validates :name, uniqueness: true

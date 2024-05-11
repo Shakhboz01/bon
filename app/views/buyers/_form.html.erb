@@ -2,19 +2,22 @@
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="form-inputs">
+  <div class="">
     <%= f.input :latitude, as: :hidden, input_html: {id: 'latitude_field'} %>
     <%= f.input :longitude, as: :hidden, input_html: {id: 'longitude_field'} %>
-    <%= f.input :name, label: 'Ism' %><br/>
-    <%= f.input :phone_number, label: 'Telefon nomer' %>
+    <%= f.input :name, label: false, placeholder: 'Ism' %>
+    <%= f.input :phone_number, label: false, placeholder: 'Telefon nomer' %>
+    <%= f.input :address, label: false, placeholder: 'Manzil' %>
     <% unless buyer.persisted? %>
-      <%= f.input :debt_in_uzs, label: "So'mda qarzi", as: :numeric %>
+      <%= f.input :debt_in_uzs, label: false, placeholder: "Qarzi (agar bo'lsa)", as: :numeric %>
       <%= f.input :debt_in_usd, label: false, as: :hidden %>
     <% end %>
-    <%= f.input :comment, label: 'Kommentariya' %><br><br/>
+    <%= f.input :comment, label: false, placeholder: 'Kommentariya' %>
+    <%= f.association :agent_user, label: false, prompt: "Agentni tanlang", collection: User.агент.pluck(:name, :id) %>
+    <%= f.association :diller_user, label: false, prompt: "Dillerni tanlang", collection: User.диллер.pluck(:name, :id) %>
     <%= f.input :images, input_html: { multiple: true, accept: "image/*" }, label: 'Rasm yuklash', required: true %><br/>
-    <div id="map" style="height: 400px;"></div>
   </div>
+  <div id="map" style="height: 400px;"></div>
 
   <div class="form-actions">
     <%= f.button :submit, 'Saqlash' %>

@@ -9,6 +9,7 @@ class Sale < ApplicationRecord
   enum payment_type: %i[наличные карта click предоплата перечисление дригие]
   has_many :product_sells
   has_one :discount
+  # has_one :diller, class_name: 'User', through: :buyer
   has_many :transaction_histories, dependent: :destroy
   has_many_attached :images
   scope :unpaid, -> { where("total_price > total_paid") }
