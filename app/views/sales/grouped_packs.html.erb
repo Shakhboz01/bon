@@ -1,16 +1,24 @@
-<br/><table class='container table table-striped border shadow table-bordered'>
-  <thead>
-    <tr>
-      <th>Товар</th>
-      <th>Количество</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @grouped_packs.each do |pack_name, total_amount| %>
+<div class='container'>
+  <span onclick='window.print()' title='printerda chiqarish'>
+    <%= image_tag image_url('printer.png'), style: 'width: 40px; height: 40px; cursor: pointer' %>
+  </span>
+  <br/><table class='container table table-striped border shadow table-bordered'>
+    <thead>
       <tr>
-        <td><%= pack_name %></td>
-        <td><%= total_amount %></td>
+        <th>Товар</th>
+        <th>Количество</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @grouped_packs.each do |pack_name, total_amount| %>
+        <tr>
+          <td><%= pack_name %></td>
+          <td><%= total_amount %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <ul>
+    <li>ИТОГО ЦЕНА: <%= num_to_usd @total_price %> cум</li>
+  </ul>
+</div>
