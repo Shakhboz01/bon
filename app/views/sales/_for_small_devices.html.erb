@@ -1,0 +1,12 @@
+<% if @sale.processing? %>
+  <div class='bottom_buttons'>
+    <button class='btn btn-warning' data-toggle="modal" data-target="#historyModal">Jami <%= num_to_usd @sale.total_price %> <i class="fa fa-solid fa-chevron-down"></i></button>
+    <% if policy(@sale).only_for_agent? && !@sale.verified_by_agent %>
+      <div class='p-3' style='color: black;'>
+        <%= render 'sales/agent_form' %>
+      </div>
+    <% elsif !current_user.диллер? %>
+      <button class='btn btn-info' data-toggle="modal" data-target="#saleFormModal">Yakunlash <i class="fa fa-solid fa-chevron-right"></i></button>
+    <% end %>
+  </div>
+<% end %>
