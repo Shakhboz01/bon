@@ -20,6 +20,7 @@ class SalesController < ApplicationController
     @products = Product.active.order(:name)
     @rate = CurrencyRate.last.rate
     @packs = Pack.includes(:product_category).where(active: true).order(weight: :desc)
+    @current_user = current_user
   end
 
   # GET /sales/new

@@ -20,7 +20,7 @@
   <tbody>
     <% sales.each do |sale| %>
       <tr id="sale_<%= sale.id %>">
-        <td class="<%= detect_danger_row(sale.total_price, sale.total_paid) %>"><%= sale.id %></td>
+        <td style="background-color: <%= detect_sale_status_row(sale.status) %>"><%= sale.id %></td>
         <% unless defined?(shrink) %>
           <td>
             <% if sale.closed? %>

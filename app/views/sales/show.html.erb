@@ -16,7 +16,7 @@
     <% end %>
   </div>
 
-  <% if policy(@sale).hide_for_agent? && @sale.processing? %>
+  <% if policy(@sale).hide_for_agent? && !@sale.closed? %>
     <div class='col-xs-12 col-md-2'>
       <%= render 'sales/form', sale: @sale %>
     </div>

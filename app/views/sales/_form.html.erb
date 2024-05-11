@@ -3,7 +3,7 @@
     <%= simple_form_for(sale) do |f| %>
       <%= f.error_notification %>
       <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-      <%= f.input :status, as: :hidden, input_html: { value: Sale.statuses.values.last } %>
+      <%= f.input :status, as: :hidden, input_html: { value: current_user.диллер? ? 2 : 3 } %>
 
       <div class="form-inputs">
         <%= f.input :price_in_usd, label: false, as: :hidden %>

@@ -79,13 +79,16 @@ module ApplicationHelper
     end
   end
 
-  def detect_danger_row(price, total_paid)
-    return if [price, total_paid].any?(&:nil?) || (price == total_paid)
-
-    if price > total_paid
-      "table-danger"
-    else
-      "table-success"
+  def detect_sale_status_row(status)
+    case status
+    when 'processing'
+      'white'
+    when 'verified_by_agent'
+      'yellow'
+    when 'verified_by_diller'
+      '#7272f7'
+    when 'closed'
+      '#1cd91c'
     end
   end
 
