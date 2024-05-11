@@ -12,13 +12,9 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <%= link_to 'Sotuv tarixini', sales_path, class: 'dropdown-item' %>
-          <%= link_to 'Yuk olish tarixini', delivery_from_counterparties_path, class: 'dropdown-item' %>
+          <%= link_to 'Tovar kirim tarixini', delivery_from_counterparties_path, class: 'dropdown-item' %>
           <%= link_to 'Sklad', packs_path, class: 'dropdown-item' %>
-          <%= link_to 'Boshqa xarajatlar', expenditures_path, class: 'dropdown-item' %>
-          <%= link_to 'Yuk beruvchilar', providers_path, class: 'dropdown-item' %>
           <%= link_to 'Mijozlar', buyers_path, class: 'dropdown-item' %>
-          <%= link_to 'Dollar kursi', currency_rates_path, class: 'dropdown-item' %>
-          <%= link_to 'Oylik/avans', salaries_path, class: 'dropdown-item' %>
           <%= link_to 'Ishchilar', users_path, class: 'dropdown-item' %>
         </div>
       </li>
@@ -28,12 +24,10 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <%= link_to 'Sotuv', buyers_path, class: 'dropdown-item' %>
-          <%= button_to 'Xarid', default_create_delivery_from_counterparties_path, method: :post, class: 'dropdown-item' %>
-          <%= link_to 'Xarajat', new_expenditure_path, class: 'dropdown-item' %>
-          <%= link_to 'Yuk beruvchi qo\'shish', new_provider_path, class: 'dropdown-item' %>
+          <%= button_to 'Tovar kirim', default_create_delivery_from_counterparties_path, method: :post, class: 'dropdown-item' %>
           <%= link_to 'Mijoz qo\'shish', new_buyer_path, class: 'dropdown-item' %>
           <%= link_to 'Tovar qo\'shish', new_pack_path, class: 'dropdown-item' %>
-          <%= link_to 'Oylik/avans berish', new_salary_path, class: 'dropdown-item' %>
+          <%= link_to 'Ishchi qo\'shish', new_user_path, class: 'dropdown-item' %>
         </div>
       </li>
       <li class="nav-item">
