@@ -1,0 +1,83 @@
+<div class='container' style='font-family: serif'>
+  <div class='d-flex justify-content-between align-items-center'>
+    <h5>Счет-фактура № <%= sale.id %> от <%= strf_datetime(sale.updated_at) %></h5>
+    <span onclick='window.print()' title='printerda chiqarish'>
+      <%= image_tag image_url('printer.png'), style: 'width: 40px; height: 40px; cursor: pointer' %>
+    </span>
+  </div>
+  <div class='row'>
+    <div class='col-sm-6 p-1 border'>
+      <ul>
+        <li><strong>Наименование:</strong>Al Muin Barokot</li>
+        <li><strong>Адрес:</strong>Buyuk ipak yo'li 112</li>
+        <li><strong>Доставщик:</strong> <%= sale.diller_user.name %> <%= sale.diller_user.phone_number %></li>
+        <li><strong>Агент:</strong> <%= sale.agent_user.name %> <%= sale.agent_user.phone_number %></li>
+      </ul>
+    </div>
+    <div class='col-sm-6 border p-2'>
+      <ul>
+        <li><strong>Покупатель: </strong><%= sale.buyer.name.capitalize %></li>
+        <li><strong>Адрес: </strong><%= sale.buyer.address %></li>
+        <li><strong>Телефон: </strong> <%= sale.buyer.phone_number %></li>
+      </ul>
+    </div>
+  </div>
+  <table class='table table-sm table-striped table-large table-bordered'>
+    <thead>
+      <tr>
+        <th>№</th>
+        <th>Название</th>
+        <th>Количество</th>
+        <th>Цена</th>
+        <th>Итого</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% sale.product_sells.each_with_index do |product_sell, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= product_sell.pack.name %></td>
+          <td><%= product_sell.amount %></td>
+          <td><%= currency_convert(product_sell.price_in_usd, product_sell.sell_price) %></td>
+          <td><%= currency_convert(product_sell.price_in_usd, (product_sell.sell_price * product_sell.amount)) %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <th><%= 'ИТОГО:'.downcase %></th>
+        <th></th>
+        <th><%= sale.product_sells.sum(:amount) %></th>
+        <th></th>
+        <th><%= currency_convert(sale.price_in_usd, sale.product_sells.sum('sell_price * amount')) %></th>
+      </tr>
+      <tr>
+        <th><%= 'ИТОГО ОПЛАЧЕНО:'.downcase %></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th><%= currency_convert(sale.price_in_usd, sale.total_paid) %></th>
+      </tr>
+    </tbody>
+  </table>
+
+  <% if defined?(total_debt_in_uzs) %>
+    <div class='d-flex justify-content-between'>
+      <ul style='font-size: large; font-weight: bold'>
+        <li>Состояние задолженности после покупки (по состоянию на <%= strf_datetime DateTime.now %>): <%= num_to_usd @total_debt_in_uzs %></li>
+      </ul>
+      <div id="qrcode"></div>
+    </div>
+  <% end %>
+  <br/><hr><br/><br/>
+</div>
+<script>
+  $(document).ready(function(){
+    var qrcode = new QRCode("qrcode", {
+      text: "<%= ENV.fetch('HOST_URL') %>/sales/<%= sale.id %>",
+      width: 100,
+      height: 100,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
+  })
+</script>

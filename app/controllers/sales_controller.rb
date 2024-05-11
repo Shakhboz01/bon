@@ -127,9 +127,7 @@ class SalesController < ApplicationController
   end
 
   def html_view
-    rate = CurrencyRate.last.rate
     @total_debt_in_uzs = @sale.buyer.calculate_debt_in_uzs
-    @total_debt_in_usd = @sale.buyer.calculate_debt_in_usd
     # current_total_price = @sale.total_price - @sale.total_paid
     # @debt_with_exception = @total_debt - current_total_price
   end

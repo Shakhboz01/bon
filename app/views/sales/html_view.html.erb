@@ -1,81 +1,9 @@
-<div class='container' style='font-family: serif'>
-  <div class='d-flex justify-content-between align-items-center'>
-    <h5>Hisob-faktura № <%= @sale.id %> от <%= strf_datetime(@sale.updated_at) %></h5>
-    <span onclick='window.print()' title='printerda chiqarish'>
-      <%= image_tag image_url('printer.png'), style: 'width: 40px; height: 40px; cursor: pointer' %>
-    </span>
-  </div>
-  <div class='row'>
-    <div class='col-sm-6 border'>
-      <ul>
-        <li><span></span></li>
-        <li><span></span></li>
-        <li><span></span></li>
-        <li><span></span></li>
-      </ul>
-    </div>
-    <div class='col-sm-6 border'></div>
-  </div>
-  <ul style='font-size: large; font-weight: bold'>
-    <li>Mijoz: <%= @sale.buyer.name.upcase %> <%= @sale.buyer&.phone_number %></li>
-  </ul>
-  <table class='table table-sm table-striped table-large table-bordered'>
-    <thead>
-      <tr>
-        <th>№</th>
-        <th>Tovar nomi</th>
-        <th>Soni</th>
-        <th>Narxi</th>
-        <th>Jami</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @sale.product_sells.each_with_index do |product_sell, index| %>
-        <tr>
-          <td><%= index + 1 %></td>
-          <td><%= product_sell.pack.name %></td>
-          <td><%= product_sell.amount %></td>
-          <td><%= currency_convert(product_sell.price_in_usd, product_sell.sell_price) %></td>
-          <td><%= currency_convert(product_sell.price_in_usd, (product_sell.sell_price * product_sell.amount)) %></td>
-        </tr>
-      <% end %>
-      <tr>
-        <th><%= 'ИТОГО:'.downcase %></th>
-        <th></th>
-        <th><%= @sale.product_sells.sum(:amount) %></th>
-        <th></th>
-        <th><%= currency_convert(@sale.price_in_usd, @sale.product_sells.sum('sell_price * amount')) %></th>
-      </tr>
-      <tr>
-        <th><%= 'ИТОГО ОПЛАЧЕНО:'.downcase %></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th><%= currency_convert(@sale.price_in_usd, @sale.total_paid) %></th>
-      </tr>
-    </tbody>
-  </table>
-  <div class='d-flex justify-content-between'>
-    <ul style='font-size: large; font-weight: bold'>
-      <li>Hariddan keyingi qarzdorlik holati (<%= strf_datetime DateTime.now %> holatiga ko'ra): <%= num_to_usd @total_debt_in_uzs %></li>
-    </ul>
-    <div id="qrcode"></div>
-  </div><br/><hr><br/>
-</div>
-
+<%= render 'receipt', total_debt_in_uzs: @total_debt_in_uzs, sale: @sale %>
 <%= javascript_include_tag "qrcode" %>
 <%= javascript_include_tag "qrcode.min" %>
 
 <script>
   $(document).ready(function(){
-    var qrcode = new QRCode("qrcode", {
-      text: "<%= ENV.fetch('HOST_URL') %>/sales/<%= @sale.id %>",
-      width: 100,
-      height: 100,
-      colorDark : "#000000",
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.H
-    });
     window.print();
   })
 </script>
