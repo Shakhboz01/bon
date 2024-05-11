@@ -13,13 +13,13 @@
         </div>
         <div class="form-group col-xs-12 col-sm-2">
           <%= f.label :status_eq, "Status", class: 'control-label' %>
-          <%= f.select :status_eq, Sale.statuses.keys.map { |unit| [Sale.human_attribute_name("unit.#{unit}"), unit] }, {include_blank: true}, class: 'form-control' %>
+          <%= f.select :status_eq, Sale.statuses, {include_blank: true}, class: 'form-control' %>
         </div>
-        <div class="form-group col-xs-12 col-sm-3">
+        <div class="form-group col-xs-12 col-sm-2">
           <%= f.label :buyer_id_eq, 'Mijoz', class: 'control-label' %>
           <%= f.select :buyer_id_eq, Buyer.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
         </div>
-        <div class="form-group col-xs-12 col-sm-3">
+        <div class="form-group col-xs-12 col-sm-2">
           <%= f.label :diller_user_id_eq, 'Diller', class: 'control-label' %>
           <%= f.select :diller_user_id_eq, User.active.диллер.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
         </div>
