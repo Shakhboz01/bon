@@ -44,7 +44,7 @@
             <%= image_tag image_url('printer.png'), style: 'width: 25px; height: 25px; cursor: pointer' %>
           <% end %>
           <%= clink_to 'Посмотреть', sale_path(sale), 'fa-search' %>
-          <%= clink_to 'Изменить агента или диллера', edit_agent_or_diller_sale_path(sale), 'fa-user' %>
+          <%= clink_to 'Изменить агента / диллера / cтатус', edit_agent_or_diller_sale_path(sale), 'fa-user' %>
         </td>
       </tr>
     <% end %>
