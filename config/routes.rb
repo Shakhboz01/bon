@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     post :default_create, on: :collection
   end
   resources :sales do
+    get 'grouped_packs', on: :collection
     get :edit_agent_or_diller, on: :member
     get :pdf_view, on: :collection
     get :excel, on: :collection

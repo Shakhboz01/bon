@@ -138,6 +138,12 @@ class SalesController < ApplicationController
     authorize Sale, :manage?
   end
 
+  def grouped_packs
+    @q = Sale.includes(:buyer, :user).ransack(params[:q])
+    @sales = @q.result
+    @grouped_packs = ProductSell.joins(:pack).where(sale_id: @sales.pluck(:id)).group('packs.name').sum(:amount)
+  end
+
   private
 
   def handle_redirect(previous, current)

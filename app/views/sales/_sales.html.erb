@@ -49,4 +49,6 @@
       </tr>
     <% end %>
   </tbody>
-</table>
+</table><br/>
+<%= link_to "Список для склада", grouped_packs_sales_path(@sales, q: params.permit![:q]), class: 'btn btn-primary' %>
+<br/>

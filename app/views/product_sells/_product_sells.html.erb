@@ -18,7 +18,29 @@
     </thead>
       <tbody>
         <% product_sells.order(created_at: :desc).each do |product_sell| %>
-          <%= render 'product_sells/product_sell', product_sell: product_sell, shrink: shrink, show_delete_button: defined?(buyer) %>
+          <tr>
+            <% unless defined?(shrink) %>
+              <td><%= product_sell.id %></td>
+              <td><%= product_sell.buyer.name %></td>
+            <% end %>
+            <td>
+              <% if product_sell.product.nil? %>
+                <%= product_sell.pack.name %>
+              <% else %>
+                <%= product_sell.product.name %>
+              <% end %>
+            </td>
+            <td><%= product_sell.amount.to_f %></td>
+            <td><%= currency_convert(product_sell.price_in_usd, product_sell.sell_price) %></td>
+            <td><%= currency_convert(product_sell.price_in_usd, (product_sell.sell_price * product_sell.amount.to_f)) %></td>
+            <% unless defined?(shrink) %>
+            <% end %>
+            <% unless defined?(shrink) %>
+              <td><%= strf_datetime(product_sell.created_at) %></td>
+            <% end %>
+            <td><%= cdlink_to 'Удалить', product_sell %></td>
+          </tr>
+
         <% end %>
         <% if defined?(shrink) %>
           <tr>

@@ -1,0 +1,16 @@
+<br/><table class='container table table-striped border shadow table-bordered'>
+  <thead>
+    <tr>
+      <th>Товар</th>
+      <th>Количество</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @grouped_packs.each do |pack_name, total_amount| %>
+      <tr>
+        <td><%= pack_name %></td>
+        <td><%= total_amount %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
