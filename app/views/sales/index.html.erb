@@ -1,18 +1,18 @@
   <div class="card shadow-lg">
-    <div class='d-flex justify-content-between'>
-      <div class="d-flex justify-content-between align-items-center">
-        <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-primary">Umumiy ko'rish</button>
-          <%= link_to 'Batafsil korish', product_sells_path, class: 'btn btn-secondary' %>
-        </div>
-      </div>
-      <%= simple_form_for :sales_data, url: excel_sales_url, method: :get do |f| %>
-        <%= f.input :sale_ids, as: :hidden, input_html: { value: @sales_data.pluck(:id).join(',')} %>
-        <%= f.submit 'printerdan chiqarish', class: 'btn  btm-primary' %>
-      <% end %>
-    </div>
     <div class="card-body">
       <div style='background: #f2f4f5'>
+        <div class='d-flex justify-content-between'>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-primary">Umumiy ko'rish</button>
+              <%= link_to 'Batafsil korish', product_sells_path, class: 'btn btn-secondary' %>
+            </div>
+          </div>
+          <%= simple_form_for :sales_data, url: excel_sales_url, method: :get do |f| %>
+            <%= f.input :sale_ids, as: :hidden, input_html: { value: @sales_data.pluck(:id).join(',')} %>
+            <%= f.submit 'сверка', class: 'btn btn-warning' %>
+          <% end %>
+        </div>
         <%= render 'sale_from_local_services/filter_form', q: @q, url: request.path %>
       </div><hr>
       <h1 class='text-center'>Sotuvlar tarixi</h1>
@@ -21,7 +21,6 @@
       <table class='table-bordered bg-warning'>
         <thead>
           <tr>
-            <th></th>
             <th>Umumiy savdo narxi</th>
             <th>To'langan summa</th>
             <th>Mijozlar yana to'lashi lozim bo'lgan summa</th>
@@ -29,16 +28,9 @@
         </thead>
         <tbody>
           <tr>
-            <th>So'mda</th>
             <td><%= num_to_usd(@sales_data.price_in_uzs.sum(:total_price)) %></td>
             <td><%= num_to_usd @sales_data.price_in_uzs.sum(:total_paid) %></td>
             <td><%= num_to_usd(@sales_data.price_in_uzs.sum(:total_price) - @sales_data.price_in_uzs.sum(:total_paid)) %></td>
-          </tr>
-          <tr>
-            <th>Dollarda</th>
-            <td><%= number_to_currency @sales_data.price_in_usd.sum(:total_price) %></td>
-            <td><%= number_to_currency @sales_data.price_in_usd.sum(:total_paid) %></td>
-            <td><%= number_to_currency(@sales_data.price_in_usd.sum(:total_price) - @sales_data.price_in_usd.sum(:total_paid)) %></td>
           </tr>
         </tbody>
       </table>

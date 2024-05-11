@@ -12,22 +12,20 @@
           <%= f.text_field :created_at_lteq, value: q.created_at_lteq, class: 'datepicker form-control', autocomplete: :off %>
         </div>
         <div class="form-group col-xs-12 col-sm-2">
-          <%= f.label :payment_type_eq, "to'lo'v turi", class: 'control-label' %>
-          <%= f.select :payment_type_eq, DeliveryFromCounterparty.payment_types.keys.map { |unit| [DeliveryFromCounterparty.human_attribute_name("unit.#{unit}"), unit] }, {include_blank: true}, class: 'form-control' %>
+          <%= f.label :status_eq, "Status", class: 'control-label' %>
+          <%= f.select :status_eq, Sale.statuses.keys.map { |unit| [Sale.human_attribute_name("unit.#{unit}"), unit] }, {include_blank: true}, class: 'form-control' %>
         </div>
-        <div class="form-group col-xs-12 col-sm-2">
+        <div class="form-group col-xs-12 col-sm-3">
           <%= f.label :buyer_id_eq, 'Mijoz', class: 'control-label' %>
           <%= f.select :buyer_id_eq, Buyer.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
         </div>
-        <div class="form-group col-xs-12 col-sm-2">
-          <%= simple_fields_for :q_other do |ff| %>
-            <%= ff.label :total_paid_less_than_price, "To'liq to'lanmagan sotuvlar", class: 'control-label' %>
-            <%= ff.check_box :total_paid_less_than_price, checked: !params.dig(:q_other, :total_paid_less_than_price).to_i.zero?, class: 'form-control' %>
-          <% end %>
+        <div class="form-group col-xs-12 col-sm-3">
+          <%= f.label :diller_user_id_eq, 'Diller', class: 'control-label' %>
+          <%= f.select :diller_user_id_eq, User.active.диллер.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
         </div>
         <div class="form-group col-xs-12 col-sm-2">
-          <%= f.label :price_in_usd_true, 'Shartnoma dollarda', class: 'control-label' %>
-          <%= f.select :price_in_usd_true, [['Ha', true], ['Yoq', false]], {include_blank: true}, class: 'form-control' %>
+          <%= f.label :agent_user_id_eq, 'agent', class: 'control-label' %>
+          <%= f.select :agent_user_id_eq, User.active.агент.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
         </div>
       </div>
       <div class="row card-body">

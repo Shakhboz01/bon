@@ -5,7 +5,7 @@ class Sale < ApplicationRecord
   belongs_to :user
   belongs_to :agent_user, class_name: "User"
   belongs_to :diller_user, class_name: "User"
-  enum status: %i[processing closed]
+  enum status: %i[processing verified_by_agent verified_by_diller closed]
   enum payment_type: %i[наличные карта click предоплата перечисление дригие]
   has_many :product_sells
   has_one :discount
