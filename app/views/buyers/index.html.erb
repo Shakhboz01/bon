@@ -3,7 +3,12 @@
   <div class="card shadow-lg">
     <div class="card-header d-flex justify-content-between align-items-center">
       <h3 class="card-title font-weight-bold">Mijozlar</h3>
-      <%= link_to 'mijoz q"shish', new_buyer_path, class: "btn btn-success min-width-btn" %>
+      <div class='btn-group'>
+        <%= link_to 'Mijoz q"shish', new_buyer_path, class: "btn btn-success min-width-btn" %>
+        <%= link_to statistics_buyers_path, class: "btn btn-primary min-width-btn" do %>
+          Statistika <i class="fa-solid fa fa-chart-pie"></i>
+        <% end %>
+      </div>
     </div>
 
     <div class="card-body">

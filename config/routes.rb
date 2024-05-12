@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   end
   resources :buyers do
     post :toggle_active, on: :member
+    get :statistics, on: :collection
   end
   resources :providers do
     post :toggle_active, on: :member

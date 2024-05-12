@@ -1,0 +1,4 @@
+<div class='container card shadow'>
+  <%= render 'buyer_statistics', q: @q, url: request.path %>
+  <%= column_chart @top_buyers, legend: "Top Buyers" %>
+</div>

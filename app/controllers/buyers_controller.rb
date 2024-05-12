@@ -65,6 +65,14 @@ class BuyersController < ApplicationController
     redirect_to request.referrer || buyers_path, notice: "Successfully updated"
   end
 
+  def statistics
+    @q = Sale.ransack(params[:q])
+    @sales = @q.result.joins(:buyer).group('buyers.name').sum(:total_price)
+
+    # Sort the sales by total_price in descending order
+    @top_buyers = @sales.sort_by { |buyer_name, total_price| total_price }.reverse
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

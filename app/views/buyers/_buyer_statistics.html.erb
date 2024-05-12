@@ -1,0 +1,16 @@
+<%= search_form_for q, url: url, html: { class: 'form form-horizontal filter-form' } do |f| %>
+  <div class='row card-body'>
+    <div class="form-group col-xs-12 col-sm-2">
+      <%= f.label :created_at_gteq, 'От:', class: 'control-label' %>
+      <%= f.text_field :created_at_gteq, value: q.created_at_gteq, class: 'datepicker form-control', autocomplete: :off %>
+    </div>
+    <div class="form-group col-xs-12 col-sm-2">
+      <%= f.label :created_at_lteq, 'До:', class: 'control-label' %>
+      <%= f.text_field :created_at_lteq, value: q.created_at_lteq, class: 'datepicker form-control', autocomplete: :off %>
+    </div>
+    <div class="form-group col-xs-12 col-sm-2">
+      <%= f.submit 'Filterlash', class: 'btn btn-primary' %>
+      <%= link_to 'Bekor qilish', request.path, class: 'btn btn-default' %>
+    </div>
+  </div>
+<% end %>

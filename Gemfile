@@ -18,6 +18,7 @@ gem "bulma-rails", "~> 0.9.4"
 gem 'active_link_to'
 gem "image_processing", ">= 1.2"
 gem 'receipts'
+gem 'chartkick'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
