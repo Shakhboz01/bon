@@ -22,3 +22,7 @@
     <li>ИТОГО ЦЕНА: <%= num_to_usd @total_price %> cум</li>
   </ul>
 </div>
+<div class='btn-group m-5'>
+  <%= link_to "распечатать счёт фактур", grouped_html_views_sales_path(@sales, q: params.permit![:q]), class: 'btn btn-secondary', target: '_blank' %>
+  <%= link_to "Изменить всех жёлтых на синем", massive_status_update_sales_path(@sales, q: params.permit![:q]), class: 'btn btn-warning', method: :post %>
+</div>

@@ -1,14 +1,9 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: %i[ show edit update destroy toggle_status html_view edit_agent_or_diller]
-
+  before_action :set_sale_based_on_params, only: %i[ index grouped_html_views grouped_packs massive_status_update ]
   include Pundit::Authorization
   # GET /sales or /sales.json
   def index
-    @q = Sale.includes(:buyer, :user).ransack(params[:q])
-    @sales =
-      @q.result.filter_by_total_paid_less_than_price(params.dig(:q_other, :total_paid_less_than_price))
-        .order(created_at: :desc)
-
     @sales_data = @sales
     @sales = @sales.page(params[:page]).per(70)
   end
@@ -137,13 +132,24 @@ class SalesController < ApplicationController
   end
 
   def grouped_packs
-    @q = Sale.includes(:buyer, :user).ransack(params[:q])
-    @sales = @q.result
     @total_price = @sales.sum(:total_price)
     @grouped_packs = ProductSell.joins(:pack).where(sale_id: @sales.pluck(:id)).group('packs.name').sum(:amount)
   end
 
+  def grouped_html_views
+  end
+
+  def massive_status_update
+    @sales.where(status: 'verified_by_agent').update_all(status: :verified_by_diller)
+    redirect_to request.referrer, notice: 'Sccessfully updated!'
+  end
+
   private
+
+  def set_sale_based_on_params
+    @q = Sale.includes(:buyer, :user).ransack(params[:q])
+    @sales = @q.result
+  end
 
   def handle_redirect(previous, current)
     if previous != current

@@ -1,0 +1,5 @@
+<div class='d-flex flex-column'>
+  <% @sales.each do |sale| %>
+    <%= render 'receipt', sale: sale %>
+  <% end %>
+</div>

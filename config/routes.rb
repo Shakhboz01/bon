@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   end
   resources :sales do
     get 'grouped_packs', on: :collection
+    get :grouped_html_views, on: :collection
+    post :massive_status_update, on: :collection
     get :edit_agent_or_diller, on: :member
     get :pdf_view, on: :collection
     get :excel, on: :collection

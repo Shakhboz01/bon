@@ -50,5 +50,7 @@
     <% end %>
   </tbody>
 </table><br/>
-<%= link_to "Список для склада", grouped_packs_sales_path(@sales, q: params.permit![:q]), class: 'btn btn-primary' %>
-<br/>
+<div class='btn-group'>
+  <%= link_to "Список для склада", grouped_packs_sales_path(@sales, q: params.permit![:q]), class: 'btn btn-primary', target: '_blank' %>
+</div>
+<br/><br/>
