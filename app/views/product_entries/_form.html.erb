@@ -8,15 +8,12 @@
     <%= f.input :amount_sold, as: :hidden %>
     <div class="form-inputs">
       <%= f.association :pack, label: 'Tovarni tanlang:', collection: Pack.order('LOWER(name) ASC').pluck(:name, :id, :code), include_blank: true, selected: params.dig(:pack_id).present? ? params.dig(:pack_id) : nil, input_html: { id: 'pack-select' } %>
-      <%= link_to new_pack_path(delivery_id: params[:id]) do %>
-        <div>topmadingizmi? &#128070;</div><br>
-      <% end %>
-      <%= f.input :barcode, label: 'Yoki kod orqali qidiring:', input_html: {id: 'code-input', autofocus: 'true'} %>
+      <%= f.input :barcode, label: false, as: :hidden, input_html: {id: 'code-input', autofocus: 'true'} %>
       <%= f.input :amount, label: 'Soni:', input_html: { id: 'product_entry_amount' } %>
-      <%= f.input :buy_price, label: 'Kelish narxi (1 dona/kv) :', input_html: {id: 'product_entry_buy_price'} %>
-      <%= f.input :sell_price, label: 'Sotish narxi', input_html: {id: 'product_entry_sell_price'} %>
+      <%= f.input :buy_price, label: false, as: :hidden, input_html: {id: 'product_entry_buy_price'} %>
+      <%= f.input :sell_price, label: false, as: :hidden, input_html: {id: 'product_entry_sell_price'} %>
       <%= f.input :price_in_percentage, label: false, as: :hidden, input_html: {id: 'product_entry_price_in_percentage', value: defined?(price_in_percentage) ? price_in_percentage : 0} %>
-      <%= f.button :submit, 'Sotib olish', class: 'btn btn-warning' %>
+      <%= f.button :submit, 'Qo\'shish', class: 'btn btn-warning' %>
     </div>
   <% end %>
 </div>

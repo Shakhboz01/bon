@@ -6,7 +6,7 @@ class DeliveryFromCounterpartiesController < ApplicationController
   def index
     @q = DeliveryFromCounterparty.ransack(params[:q])
     @delivery_from_counterparties =
-      @q.result.filter_by_total_paid_less_than_price(params.dig(:q_other, :total_paid_less_than_price))
+      @q.result.includes(:user).filter_by_total_paid_less_than_price(params.dig(:q_other, :total_paid_less_than_price))
         .order(created_at: :desc)
 
     @delivery_from_counterparties_data = @delivery_from_counterparties
@@ -80,7 +80,6 @@ class DeliveryFromCounterpartiesController < ApplicationController
   end
 
   def default_create
-    provider = Provider.first
     last_one = DeliveryFromCounterparty.last
     if !last_one.nil? && last_one.total_price == 0 && last_one.total_paid.nil? && !last_one.closed?
       if last_one.product_entries.empty?
@@ -89,7 +88,7 @@ class DeliveryFromCounterpartiesController < ApplicationController
 
       redirect_to delivery_from_counterparty_url(last_one), notice: "Теперь добавьте продажу товаров"
     else
-      sfs = DeliveryFromCounterparty.new(provider: provider, user_id: current_user.id)
+      sfs = DeliveryFromCounterparty.new(user_id: current_user.id)
       if sfs.save
         redirect_to delivery_from_counterparty_url(sfs, prepayment: params.dig(:prepayment).present?), notice: "Теперь добавьте продажу товаров"
       else
@@ -114,6 +113,6 @@ class DeliveryFromCounterpartiesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def delivery_from_counterparty_params
-    params.require(:delivery_from_counterparty).permit(:total_price, :status, :total_paid, :payment_type, :comment, :provider_id, :product_category, :price_in_usd)
+    params.require(:delivery_from_counterparty).permit(:total_price, :status, :total_paid, :payment_type, :comment, :product_category, :price_in_usd)
   end
 end

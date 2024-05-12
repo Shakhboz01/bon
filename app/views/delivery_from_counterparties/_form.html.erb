@@ -8,7 +8,6 @@
       <% not_disabled = delivery_from_counterparty.persisted? && delivery_from_counterparty.product_entries.empty? %>
       <%= f.input :total_price, label: false, as: :hidden, input_html: {value: 0} %>
       <%= f.input :total_paid, label: false, as: :hidden, input_html: {value: 0} %>
-      <%= f.association :provider, label: false, as: :hidden, input_html: {value: 1} %>
       <%= f.input :payment_type, label: false, as: :hidden %>
       <%= f.input :comment, label: 'Kommentariya' %>
       <%= f.button :submit, 'Yakunlash' %>

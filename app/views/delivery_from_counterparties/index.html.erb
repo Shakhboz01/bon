@@ -11,30 +11,6 @@
       <h1 class='text-center'>Yuklar kelishi tarixi</h1>
       <%= render 'delivery_from_counterparties', delivery_from_counterparties: @delivery_from_counterparties %>
       <%= paginate @delivery_from_counterparties %>
-      <table class='table-bordered bg-warning'>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Umumiy kelish narxi |</th>
-            <th>Biz to'lagan summa |</th>
-            <th>Yana to'lashimiz lozim bo'lgan summa</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th>dollarda</th>
-            <td><%= number_to_currency @delivery_from_counterparties_data.price_in_usd.sum(:total_price) %></td>
-            <td><%= number_to_currency @delivery_from_counterparties_data.price_in_usd.sum(:total_paid) %></td>
-            <td><%= number_to_currency(@delivery_from_counterparties_data.price_in_usd.sum(:total_price) - @delivery_from_counterparties_data.price_in_usd.sum(:total_paid)) %></td>
-          </tr>
-          <tr>
-            <th>So'mda</th>
-            <td><%= num_to_usd(@delivery_from_counterparties_data.price_in_uzs.sum(:total_price)) %></td>
-            <td><%= num_to_usd @delivery_from_counterparties_data.price_in_uzs.sum(:total_paid) %></td>
-            <td><%= num_to_usd(@delivery_from_counterparties_data.price_in_uzs.sum(:total_price) - @delivery_from_counterparties_data.price_in_uzs.sum(:total_paid)) %></td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </div>

@@ -1,6 +1,5 @@
 class DeliveryFromCounterparty < ApplicationRecord
   include HandleTransactionHistory
-  belongs_to :provider
   belongs_to :product_category, optional: true
   belongs_to :user
   has_many :expenditures

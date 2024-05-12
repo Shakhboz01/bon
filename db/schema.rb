@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_11_140437) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_12_064408) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -125,7 +125,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_140437) do
     t.integer "payment_type", default: 0
     t.string "comment"
     t.integer "status", default: 0
-    t.bigint "provider_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
@@ -134,7 +133,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_140437) do
     t.bigint "product_category_id"
     t.boolean "enable_to_send_sms", default: true
     t.index ["product_category_id"], name: "index_delivery_from_counterparties_on_product_category_id"
-    t.index ["provider_id"], name: "index_delivery_from_counterparties_on_provider_id"
     t.index ["user_id"], name: "index_delivery_from_counterparties_on_user_id"
   end
 
@@ -494,7 +492,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_11_140437) do
   add_foreign_key "debt_operations", "debt_users"
   add_foreign_key "debt_operations", "users"
   add_foreign_key "delivery_from_counterparties", "product_categories"
-  add_foreign_key "delivery_from_counterparties", "providers"
   add_foreign_key "delivery_from_counterparties", "users"
   add_foreign_key "discounts", "sales"
   add_foreign_key "discounts", "users"

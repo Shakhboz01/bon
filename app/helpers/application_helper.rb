@@ -69,6 +69,15 @@ module ApplicationHelper
     "table-danger" unless boolean
   end
 
+  def detect_danger_row(price, total_paid)
+    return if [price, total_paid].any?(&:nil?) || (price == total_paid)
+
+    if price > total_paid
+      "table-danger"
+    else
+      "table-success"
+    end
+  end
   def strf_datetime(datetime, date = false)
     return if datetime.nil?
 
