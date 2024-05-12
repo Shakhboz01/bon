@@ -71,6 +71,10 @@ class ApplicationPolicy
     %w[админ менеджер].include?(user.role)
   end
 
+  def user_is_skladchik?
+    %w[админ менеджер складчик].include?(user.role)
+  end
+
   def user_is_agent?
     %w[админ менеджер агент].include?(user.role)
   end
