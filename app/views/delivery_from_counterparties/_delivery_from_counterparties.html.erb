@@ -23,7 +23,7 @@
             <% if delivery_from_counterparty.closed? %>
               <%= clink_to 'Open', toggle_status_delivery_from_counterparty_path(delivery_from_counterparty),'fa-lock', :post %>
             <% else %>
-              <%= clink_to 'Close', toggle_status_delivery_from_counterparty_path(delivery_from_counterparty),'fa-lock-open', :post %>
+              <%= clink_to 'Close', toggle_status_delivery_from_counterparty_path(delivery_from_counterparty),'fa-unlock', :post %>
             <% end %>
           </td>
         <% end %>
