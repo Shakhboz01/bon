@@ -14,7 +14,7 @@ module ApplicationHelper
         styled_image
       end
     else
-      button_to link, title: title, style: 'cursor: pointer; background: none; border: none', method: method do
+      link_to link, title: title, method: method, data: { confirm: strip_tags('вы уверены?') } do
         styled_image
       end
     end

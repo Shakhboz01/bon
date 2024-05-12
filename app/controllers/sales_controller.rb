@@ -1,5 +1,5 @@
 class SalesController < ApplicationController
-  before_action :set_sale, only: %i[ show edit update destroy toggle_status html_view edit_agent_or_diller]
+  before_action :set_sale, only: %i[ nullify show edit update destroy toggle_status html_view edit_agent_or_diller]
   before_action :set_sale_based_on_params, only: %i[ index grouped_html_views grouped_packs massive_status_update ]
   include Pundit::Authorization
   # GET /sales or /sales.json
@@ -140,8 +140,18 @@ class SalesController < ApplicationController
   end
 
   def massive_status_update
+    authorize Sale, :manage?
+
     @sales.where(status: 'verified_by_agent').update_all(status: :verified_by_diller)
     redirect_to request.referrer, notice: 'Sccessfully updated!'
+  end
+
+  def nullify
+    authorize Sale, :manage?
+
+    @sale.product_sells.delete_all
+    @sale.update(total_price: 0, total_paid: 0, comment: "#{@sale.comment} ||| аннулировано")
+    redirect_to request.referrer, notice: 'аннулировано!'
   end
 
   private

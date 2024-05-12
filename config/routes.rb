@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   resources :sales do
     get 'grouped_packs', on: :collection
     get :grouped_html_views, on: :collection
+    post :nullify, on: :member
     post :massive_status_update, on: :collection
     get :edit_agent_or_diller, on: :member
     get :pdf_view, on: :collection
