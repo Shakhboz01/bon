@@ -57,6 +57,8 @@ class SalesController < ApplicationController
 
   # DELETE /sales/1 or /sales/1.json
   def destroy
+    authorize Sale, :manage?
+
     @sale.destroy
 
     respond_to do |format|

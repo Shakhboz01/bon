@@ -4,6 +4,8 @@ class DeliveryFromCounterpartiesController < ApplicationController
 
   # GET /delivery_from_counterparties or /delivery_from_counterparties.json
   def index
+    authorize DeliveryFromCounterparty, :access?
+
     @q = DeliveryFromCounterparty.ransack(params[:q])
     @delivery_from_counterparties =
       @q.result.includes(:user).filter_by_total_paid_less_than_price(params.dig(:q_other, :total_paid_less_than_price))
@@ -15,6 +17,8 @@ class DeliveryFromCounterpartiesController < ApplicationController
 
   # GET /delivery_from_counterparties/1 or /delivery_from_counterparties/1.json
   def show
+    authorize DeliveryFromCounterparty, :manage?
+
     @expenditures = @delivery_from_counterparty.expenditures
     @expenditures_data = @delivery_from_counterparty.expenditures
     @q = @delivery_from_counterparty.product_entries.ransack(params[:q])
@@ -33,6 +37,8 @@ class DeliveryFromCounterpartiesController < ApplicationController
 
   # GET /delivery_from_counterparties/1/edit
   def edit
+    authorize DeliveryFromCounterparty, :manage?
+
     if params[:status]
       @delivery_from_counterparty.status = params[:status].to_i
       @delivery_from_counterparty.total_price = @total_price
@@ -41,6 +47,8 @@ class DeliveryFromCounterpartiesController < ApplicationController
 
   # POST /delivery_from_counterparties or /delivery_from_counterparties.json
   def create
+    authorize DeliveryFromCounterparty, :manage?
+
     @delivery_from_counterparty = DeliveryFromCounterparty.new(delivery_from_counterparty_params)
     @delivery_from_counterparty.user_id = current_user.id
     respond_to do |format|
@@ -56,6 +64,8 @@ class DeliveryFromCounterpartiesController < ApplicationController
 
   # PATCH/PUT /delivery_from_counterparties/1 or /delivery_from_counterparties/1.json
   def update
+    authorize DeliveryFromCounterparty, :manage?
+
     respond_to do |format|
       if @delivery_from_counterparty.update(delivery_from_counterparty_params.merge(
           status: delivery_from_counterparty_params[:status].to_i
@@ -71,6 +81,8 @@ class DeliveryFromCounterpartiesController < ApplicationController
 
   # DELETE /delivery_from_counterparties/1 or /delivery_from_counterparties/1.json
   def destroy
+    authorize DeliveryFromCounterparty, :manage?
+
     @delivery_from_counterparty.destroy
 
     respond_to do |format|
@@ -80,6 +92,8 @@ class DeliveryFromCounterpartiesController < ApplicationController
   end
 
   def default_create
+    authorize DeliveryFromCounterparty, :access?
+
     last_one = DeliveryFromCounterparty.last
     if !last_one.nil? && last_one.total_price == 0 && last_one.total_paid.nil? && !last_one.closed?
       if last_one.product_entries.empty?
@@ -98,7 +112,7 @@ class DeliveryFromCounterpartiesController < ApplicationController
   end
 
   def toggle_status
-    authorize DeliveryFromCounterparty, :toggle_status?
+    authorize DeliveryFromCounterparty, :manage?
 
     @delivery_from_counterparty.update(status: @delivery_from_counterparty.closed? ? 0 : 1)
     redirect_to request.referrer, notice: 'Successfully updated'

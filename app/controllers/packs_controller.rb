@@ -1,13 +1,18 @@
 class PacksController < ApplicationController
   before_action :set_pack, only: %i[ toggle_active show edit update destroy calculate_product_remaining update_buy_price]
+  include Pundit::Authorization
 
   def toggle_active
+    authorize Pack, :manage?
+
     @pack.toggle(:active).save
     redirect_to packs_url, notice: "Successfully updated"
   end
 
   # GET /packs or /packs.json
   def index
+    authorize Pack, :access?
+
     @q = Pack.all.ransack(params[:q])
     @packs = @q.result.order(active: :desc).order(name: :asc)
     @all_packs = @packs.where(active: true).where('initial_remaining > 0')
@@ -28,6 +33,8 @@ class PacksController < ApplicationController
 
   # POST /packs or /packs.json
   def create
+    authorize Pack, :manage?
+
     @pack = Pack.new(pack_params)
     delivery = DeliveryFromCounterparty.where(id: pack_params['delivery_id']).last
 
@@ -49,6 +56,8 @@ class PacksController < ApplicationController
 
   # PATCH/PUT /packs/1 or /packs/1.json
   def update
+    authorize Pack, :manage?
+
     respond_to do |format|
       if @pack.update(pack_params)
         format.html { redirect_to packs_url, notice: "Pack was successfully updated." }
@@ -62,8 +71,9 @@ class PacksController < ApplicationController
 
   # DELETE /packs/1 or /packs/1.json
   def destroy
-    @pack.destroy
+    authorize Pack, :manage?
 
+    @pack.destroy
     respond_to do |format|
       format.html { redirect_to packs_url, notice: "Pack was successfully destroyed." }
       format.json { head :no_content }
@@ -83,6 +93,8 @@ class PacksController < ApplicationController
   end
 
   def update_buy_price
+    authorize Pack, :manage?
+
     Packs::UpdateBuyPrice.run!(pack: @pack)
     redirect_to request.referrer, notice: 'Narx o\'zgartirildi'
   end
