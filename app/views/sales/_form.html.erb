@@ -8,13 +8,13 @@
       <div class="form-inputs">
         <%= f.input :price_in_usd, label: false, as: :hidden %>
         <% not_disabled = sale.persisted? && sale.product_sells.empty? %>
-        <%= f.input :total_price, label: "Jami to'lo'v", input_html: { disabled: !not_disabled, id: 'total-price' } %>
+        <%= f.input :total_price, label: "Итого цена", input_html: { disabled: !not_disabled, id: 'total-price' } %>
         <%= f.association :buyer, label: false, collection: Buyer.active.order(weight: :desc).order(name: :asc), include_blank: false, as: :hidden %>
-        <%= f.input :total_paid, label: 'Mijoz to\'lagan summa' %>
+        <%= f.input :total_paid, label: 'Итого оплачено' %>
         <%= f.input :payment_type, label: false, collection: Sale.payment_types.keys.map { |unit| [Sale.human_attribute_name("unit.#{unit}"), unit] }, include_blank: false, as: :hidden %>
-        <%= f.input :comment, label: 'Kommentariya' %>
-        <%= f.input :images, input_html: { multiple: true, accept: "image/*" }, label: 'Rasm yuklash' %><br/>
-        <%= f.button :submit, 'Sotuvni yakunlash' %>
+        <%= f.input :comment, label: 'Коммент.' %>
+        <%= f.input :images, input_html: { multiple: true, accept: "image/*" }, label: 'Добавить рисунок' %><br/>
+        <%= f.button :submit, 'Завершить' %>
       </div>
     <% end %>
   </div><br/>

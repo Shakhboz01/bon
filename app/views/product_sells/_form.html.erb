@@ -40,10 +40,10 @@
         <%= f.association :product, label: 'выберите размера', as: :hidden, collection: Product.all.order('LOWER(name) ASC'), include_blank: false, input_html: { id: 'product-select', placeholder: 'выберите размер' } %>
       </div>
       <div class='d-flex'>
-        <div class='min-width'><%= f.input :amount, label: 'Soni', input_html: {value: 1} %></div>
-        <div class='min-width'><%= f.input :sell_price, label: 'dona narxi' %></div>
+        <div class='min-width'><%= f.input :amount, label: 'Кол.', input_html: {value: 1} %></div>
+        <div class='min-width'><%= f.input :sell_price, label: 'цена 1 штук' %></div>
         <div class='min-width align-self-center'>
-          <%= f.submit "Sotish", class: 'btn btn-primary'%><br/>
+          <%= f.submit "Продать", class: 'btn btn-primary'%><br/>
         </div>
       </div>
       <%= f.input :min_price_in_usd, label: false, as: :hidden, input_html: { disabled: true } %>
