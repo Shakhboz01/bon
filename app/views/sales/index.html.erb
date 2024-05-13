@@ -15,15 +15,15 @@
         </div>
         <%= render 'sale_from_local_services/filter_form', q: @q, url: request.path %>
       </div><hr>
-      <h1 class='text-center'>Sotuvlar tarixi</h1>
+      <h1 class='text-center'>История продаж</h1>
       <%= render 'sales', sales: @sales %>
       <%= paginate @sales %>
       <table class='table-bordered bg-warning'>
         <thead>
           <tr>
-            <th>Umumiy savdo narxi</th>
-            <th>To'langan summa</th>
-            <th>Mijozlar yana to'lashi lozim bo'lgan summa</th>
+            <th>Итого цена</th>
+            <th> Оплачено</th>
+            <th> Долг</th>
           </tr>
         </thead>
         <tbody>

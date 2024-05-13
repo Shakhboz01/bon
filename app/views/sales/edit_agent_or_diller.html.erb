@@ -4,6 +4,6 @@
     <%= f.association :agent_user, label: 'агент', collection: User.active.агент.order(name: :asc), include_blank: false %>
     <%= f.input :status, label: 'Status', collection: Sale.statuses, selected: Sale.statuses[@sale.status], include_blank: false %>
     <br/>
-    <%= f.button :submit, 'Save' %>
+    <%= f.button :submit, 'Сохранить' %>
   <% end %>
 </div>
