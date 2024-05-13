@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_12_064408) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_12_162412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,20 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_12_064408) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "agent_presence_in_stores", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "buyer_id", null: false
+    t.float "latitude"
+    t.float "longitude"
+    t.integer "status", default: 0
+    t.integer "danger_status", default: 0
+    t.decimal "distance_in_meters", precision: 15, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["buyer_id"], name: "index_agent_presence_in_stores_on_buyer_id"
+    t.index ["user_id"], name: "index_agent_presence_in_stores_on_user_id"
   end
 
   create_table "buyers", force: :cascade do |t|
@@ -485,6 +499,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_12_064408) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "agent_presence_in_stores", "buyers"
+  add_foreign_key "agent_presence_in_stores", "users"
   add_foreign_key "buyers", "users", column: "agent_user_id"
   add_foreign_key "buyers", "users", column: "diller_user_id"
   add_foreign_key "currency_conversions", "users"

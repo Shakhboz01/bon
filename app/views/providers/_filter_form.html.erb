@@ -1,4 +1,4 @@
-<i title='Qidirish' class="fa-solid fa-magnifying-glass fa-lg" id='toggle-button'></i>
+<i title='Фильтр' class="fa-solid fa-magnifying-glass fa-lg" id='toggle-button'></i>
 <br>
 <div id='filter-toggle'>
   <%= search_form_for @q, url: url, html: { class: 'form form-horizontal filter-form' } do |f| %>
@@ -15,8 +15,8 @@
       </div>
       <div class="row">
         <div class="form-group col-xs-12 col-sm-6">
-          <%= f.submit 'Qidirish', class: 'btn btn-primary' %>
-          <%= link_to 'Bekor qilish', request.path, class: 'btn btn-default' %>
+          <%= f.submit 'Фильтр', class: 'btn btn-primary' %>
+          <%= link_to 'Очистить', request.path, class: 'btn btn-default' %>
         </div>
       </div>
     </div>

@@ -1,0 +1,47 @@
+<!-- show.html.erb -->
+<div>
+  <p>Покупатель: <%= @agent_presence_in_store.buyer.name %></p>
+  <p>Дистанция в метрах: <%= @agent_presence_in_store.distance_in_meters %> м</p>
+  <!-- Other buyer details -->
+
+  <div id="map" style="height: 400px;"></div>
+</div>
+
+<div id='buyer-latitude' data-buyer-latitude="<%= @agent_presence_in_store.buyer.latitude %>"></div>
+<div id='buyer-longitude' data-buyer-longitude="<%= @agent_presence_in_store.buyer.longitude %>"></div>
+
+<div id='agent-latitude' data-agent-latitude="<%= @agent_presence_in_store.latitude %>"></div>
+<div id='agent-longitude' data-agent-longitude="<%= @agent_presence_in_store.longitude %>"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" rel="stylesheet"/>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Retrieve buyer's latitude and longitude from dataset
+    var buyerLatitude = parseFloat(document.getElementById('buyer-latitude').dataset.buyerLatitude);
+    var buyerLongitude = parseFloat(document.getElementById('buyer-longitude').dataset.buyerLongitude);
+
+    // Retrieve agent's latitude and longitude from dataset
+    var agentLatitude = parseFloat(document.getElementById('agent-latitude').dataset.agentLatitude);
+    var agentLongitude = parseFloat(document.getElementById('agent-longitude').dataset.agentLongitude);
+
+    // Initialize the map
+    var map = L.map('map').setView([buyerLatitude, buyerLongitude], 13);
+
+    // Add the buyer's marker to the map
+    L.marker([buyerLatitude, buyerLongitude]).addTo(map)
+      .bindPopup('Buyer Location')
+      .openPopup();
+
+    // Add the agent's marker to the map
+    L.marker([agentLatitude, agentLongitude]).addTo(map)
+      .bindPopup('Agent Location')
+      .openPopup();
+
+    // Add the tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(map);
+  });
+</script>

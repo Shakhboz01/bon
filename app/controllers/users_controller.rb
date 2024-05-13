@@ -2,14 +2,20 @@ class UsersController < ApplicationController
   include Pundit::Authorization
 
   def index
+    authorize User, :access?
+
     @users = User.all.order(active: :desc).order(:name)
   end
 
   def show
+    authorize User, :access?
+
     @user = User.find(params[:id])
   end
 
   def new_user_form
+    authorize User, :access?
+
     @user = User.new
   end
 
@@ -28,6 +34,8 @@ class UsersController < ApplicationController
   end
 
   def create
+    authorize User, :access?
+
     @user = User.new(user_params)
     @user.email = user_params.name + "@gmail.com"
     @user.password = "1111"

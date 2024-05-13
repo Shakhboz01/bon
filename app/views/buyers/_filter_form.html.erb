@@ -15,8 +15,8 @@
           <%= f.select :diller_user_id_eq, User.диллер.pluck(:name, :id), {include_blank: true}, class: 'form-control' %>
         </div>
         <div class="form-group align-self-center col-xs-12 col-sm-3">
-          <%= f.submit 'Qidirish', class: 'btn btn-primary' %>
-          <%= link_to 'Bekor qilish', request.path, class: 'btn btn-default' %>
+          <%= f.submit 'Фильтр', class: 'btn btn-primary' %>
+          <%= link_to 'Очистить', request.path, class: 'btn btn-default' %>
         </div>
       </div>
     </div>

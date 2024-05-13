@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :agent_presence_in_stores
   resources :pack_usages
   resources :product_size_colors
   resources :packs do

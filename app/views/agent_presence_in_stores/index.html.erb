@@ -1,0 +1,36 @@
+<div class="container my-5">
+  <div class="card shadow-lg">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h3 class="card-title font-weight-bold">Agent Presence In Stores</h3>
+      <%= link_to 'Добавить новый', new_agent_presence_in_store_path, class: "btn btn-success min-width-btn" %>
+    </div>
+    <%= render 'filter_form', q: @q, url: request.path %>
+    <div class="card-body">
+      <table class="table table-hover table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Агент</th>
+            <th>Покупатель</th>
+            <th>Статус</th>
+            <th>Дистанция</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @agent_presence_in_stores.each do |agent_presence_in_store| %>
+            <tr>
+              <td><%= agent_presence_in_store.id %></td>
+              <td><%= agent_presence_in_store.user.name %></td>
+              <td><%= link_to agent_presence_in_store.buyer.name, buyer_path(agent_presence_in_store.buyer) %></td>
+              <td><%= agent_presence_in_store.status %></td>
+              <td><%= agent_presence_in_store.distance_in_meters %> м.</td>
+              <td><%= clink_to 'Посмотреть', agent_presence_in_store_path(agent_presence_in_store), 'fa-search' %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= paginate @agent_presence_in_stores %>
+    </div>
+  </div>
+</div>

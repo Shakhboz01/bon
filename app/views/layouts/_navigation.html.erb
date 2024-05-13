@@ -8,34 +8,35 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Ko'rish
+          Посмотреть
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <%= link_to 'Sotuv tarixini', sales_path, class: 'dropdown-item' %>
-          <%= link_to 'Tovar kirim tarixini', delivery_from_counterparties_path, class: 'dropdown-item' %>
-          <%= link_to 'Sklad', packs_path, class: 'dropdown-item' %>
-          <%= link_to 'Mijozlar', buyers_path, class: 'dropdown-item' %>
-          <%= link_to 'Ishchilar', users_path, class: 'dropdown-item' %>
+          <%= link_to 'История продаж', sales_path, class: 'dropdown-item' %>
+          <%= link_to 'История приход товаров', delivery_from_counterparties_path, class: 'dropdown-item' %>
+          <%= link_to 'Склад', packs_path, class: 'dropdown-item' %>
+          <%= link_to 'Клиенты', buyers_path, class: 'dropdown-item' %>
+          <%= link_to 'Работники', users_path, class: 'dropdown-item' %>
+          <%= link_to 'Хронология агентов', agent_presence_in_stores_path, class: 'dropdown-item' %>
         </div>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Amalga oshirish
+          Операции
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <%= link_to 'Sotuv', buyers_path, class: 'dropdown-item' %>
-          <%= button_to 'Tovar kirim', default_create_delivery_from_counterparties_path, method: :post, class: 'dropdown-item' %>
-          <%= link_to 'Mijoz qo\'shish', new_buyer_path, class: 'dropdown-item' %>
-          <%= link_to 'Tovar qo\'shish', new_pack_path, class: 'dropdown-item' %>
-          <%= link_to 'Ishchi qo\'shish', new_user_path, class: 'dropdown-item' %>
+          <%= link_to 'Оформить продажу', buyers_path, class: 'dropdown-item' %>
+          <%= button_to 'Склад приход', default_create_delivery_from_counterparties_path, method: :post, class: 'dropdown-item' %>
+          <%= link_to 'Добавить покупателя', new_buyer_path, class: 'dropdown-item' %>
+          <%= link_to 'Добавить товар', new_pack_path, class: 'dropdown-item' %>
+          <%= link_to 'Добавить пользователя', new_user_path, class: 'dropdown-item' %>
         </div>
       </li>
       <li class="nav-item">
-        <%= link_to "SKLAD", packs_path, class: 'nav-link' %>
+        <%= link_to "Склад", packs_path, class: 'nav-link' %>
       </li>
       <% if %w[руководитель бухгалтер].include?(current_user.role) %>
         <li class="nav-item">
-          <%= link_to 'Admin', admin_page_path, class: 'nav-link' %>
+          <%= link_to 'Админ', admin_page_path, class: 'nav-link' %>
         </li>
       <% end %>
     </ul>

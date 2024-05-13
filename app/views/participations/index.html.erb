@@ -2,7 +2,7 @@
 <%= simple_form_for :filter, url: request.path, method: 'get' do |f| %>
   <%= f.label :month_number, 'Месяц' %>
   <%= f.month_field(:month_number, html_options = { class: 'select-date'}) %>
-  <%= f.button :submit, 'Qidirish', class: 'btn btn-primary' %>
+  <%= f.button :submit, 'Фильтр', class: 'btn btn-primary' %>
 <% end %>
 <% if !@participations.count.zero? %>
     <h3><%= @month_name %></h3>

@@ -1,8 +1,11 @@
 <body>
 <main class='body-head'>
   <div class="wrapper shadow-card">
-    <%= link_to default_create_sales_path(buyer_id: @buyer.id), method: :post, class: 'btn btn-block btn-lg btn-warning' do %>
+    <%= link_to default_create_sales_path(buyer_id: @buyer.id), method: :post, class: 'container btn btn-block btn-lg btn-warning' do %>
       Savdoga o'tish <i class="fa fa-solid fa-chevron-right"></i>
+    <% end %>
+    <%= link_to new_agent_presence_in_store_path(buyer_id: @buyer.id), class: 'btn btn-block container btn-lg btn-danger' do %>
+      Buyurtma bo'lmadimi?
     <% end %>
     <div class="image-header header">
       <% @buyer.images.each do |image| %>

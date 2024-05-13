@@ -4,11 +4,11 @@
     <div class="card shadow-lg">
       <div class='row card-body'>
         <div class="form-group col-xs-12 col-sm-2">
-          <%= f.label :created_at_gteq, 'Dan:', class: 'control-label' %>
+          <%= f.label :created_at_gteq, 'От:', class: 'control-label' %>
           <%= f.text_field :created_at_gteq, value: q.created_at_gteq, class: 'datepicker form-control', autocomplete: :off %>
         </div>
         <div class="form-group col-xs-12 col-sm-2">
-          <%= f.label :created_at_lteq, 'Gacha:', class: 'control-label' %>
+          <%= f.label :created_at_lteq, 'До:', class: 'control-label' %>
           <%= f.text_field :created_at_lteq, value: q.created_at_lteq, class: 'datepicker form-control', autocomplete: :off %>
         </div>
         <div class="form-group col-xs-12 col-sm-3">
@@ -22,8 +22,8 @@
       </div>
       <div class="row card-body">
         <div class="form-group col-xs-12 col-sm-6">
-          <%= f.submit 'Qidirish', class: 'btn btn-primary' %>
-          <%= link_to 'Bekor qilish', request.path, class: 'btn btn-default' %>
+          <%= f.submit 'Фильтр', class: 'btn btn-primary' %>
+          <%= link_to 'Очистить', request.path, class: 'btn btn-default' %>
         </div>
       </div>
     </div>
