@@ -2,10 +2,10 @@
 <main class='body-head'>
   <div class="wrapper shadow-card">
     <%= link_to default_create_sales_path(buyer_id: @buyer.id), method: :post, class: 'container btn btn-block btn-lg btn-warning' do %>
-      Savdoga o'tish <i class="fa fa-solid fa-chevron-right"></i>
+      Перейти к продажу <i class="fa fa-solid fa-chevron-right"></i>
     <% end %>
     <%= link_to new_agent_presence_in_store_path(buyer_id: @buyer.id), class: 'btn btn-block container btn-lg btn-danger' do %>
-      Buyurtma bo'lmadimi?
+      Нету заказа?
     <% end %>
     <div class="image-header header">
       <% @buyer.images.each do |image| %>
@@ -17,17 +17,16 @@
       <p class="separator"></p>
       <h4><%= @buyer.phone_number %></h4>
       <ul>
-        <li><div class="check"></div><p><%= num_to_usd(3433400340) %> so'mlik yuk olingan</p></li>
-        <li><div class="check"></div><p><%= num_to_usd(30000000) %> so'm to'langan</p></li>
-        <li><div class="check"></div><p><%= num_to_usd(30000000) %> so'm qarz</p></li>
+        <li><div class="check"></div><p>Продано товар на сумму <%= num_to_usd(@buyer.sales.sum(:total_price)) %> сум.</p></li>
+        <li><div class="check"></div><p>Из них оплачено <%= num_to_usd(@buyer.sales.sum(:total_paid)) %></p></li>
         <p class="separator"></p>
       </ul>
       <div class='d-flex justify-content-around flex-wrap'>
         <%= link_to sales_url(q: {buyer_id_eq: @buyer.id}), class: 'btn btn-sm btn-primary' do %>
-          Sotuv tarixni ko'rish <i class="fa fa-solid fa-clock-rotate-left"></i>
+          Просмотр историю продаж <i class="fa fa-solid fa-clock-rotate-left"></i>
         <% end %>
         <%= link_to edit_buyer_path(@buyer), class: "btn btn-sm btn-info" do %>
-          Malumotni o'zgartirish <i class="fa fa-solid fa-edit"></i>
+          Редактировать <i class="fa fa-solid fa-edit"></i>
         <% end %>
 
       </div>
