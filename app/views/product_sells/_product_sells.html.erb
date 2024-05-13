@@ -4,7 +4,6 @@
       <tr>
         <% unless defined?(shrink) %>
           <th>#</th>
-          <th>Mijoz</th>
         <% end %>
         <th>Tovar</th>
         <th>Soni</th>
@@ -21,7 +20,6 @@
           <tr>
             <% unless defined?(shrink) %>
               <td><%= product_sell.id %></td>
-              <td><%= product_sell.buyer.name %></td>
             <% end %>
             <td>
               <% if product_sell.product.nil? %>
