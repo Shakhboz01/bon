@@ -1,5 +1,5 @@
 <div class='sale_from_local_services/filter_form' id='filter-toggle'>
-  <h2 class='p-2'>Filtr:</h2>
+  <h2 class='p-2'>Фильтр:</h2>
   <%= search_form_for q, url: url, html: { class: 'form form-horizontal filter-form' } do |f| %>
     <div class="shadow-lg">
       <div class='row card-body'>
@@ -12,19 +12,19 @@
           <%= f.text_field :created_at_lteq, value: q.created_at_lteq, class: 'datepicker form-control', autocomplete: :off %>
         </div>
         <div class="form-group col-xs-12 col-sm-2">
-          <%= f.label :status_eq, "Status", class: 'control-label' %>
+          <%= f.label :status_eq, "Статус", class: 'control-label' %>
           <%= f.select :status_eq, Sale.statuses, {include_blank: true}, class: 'form-control' %>
         </div>
         <div class="form-group col-xs-12 col-sm-2">
-          <%= f.label :buyer_id_eq, 'Mijoz', class: 'control-label' %>
+          <%= f.label :buyer_id_eq, 'Клиент', class: 'control-label' %>
           <%= f.select :buyer_id_eq, Buyer.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
         </div>
         <div class="form-group col-xs-12 col-sm-2">
-          <%= f.label :diller_user_id_eq, 'Diller', class: 'control-label' %>
+          <%= f.label :diller_user_id_eq, 'Дилер', class: 'control-label' %>
           <%= f.select :diller_user_id_eq, User.active.диллер.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
         </div>
         <div class="form-group col-xs-12 col-sm-2">
-          <%= f.label :agent_user_id_eq, 'agent', class: 'control-label' %>
+          <%= f.label :agent_user_id_eq, 'Агент', class: 'control-label' %>
           <%= f.select :agent_user_id_eq, User.active.агент.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
         </div>
       </div>

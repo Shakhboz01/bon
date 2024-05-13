@@ -6,10 +6,10 @@
     <thead>
       <tr>
         <th>№</th>
-        <th>Tovar nomi</th>
-        <th>Soni</th>
-        <th>Narxi</th>
-        <th>Jami</th>
+        <th>Товар</th>
+        <th>Кол.</th>
+        <th>Цена</th>
+        <th>Сумма</th>
       </tr>
     </thead>
     <% @sales.each do |sale| %>
@@ -25,8 +25,8 @@
 
       <tr class="table-secondary" rowspan="2">
         <th></th>
-        <th>Jami: <%= num_to_usd(sale.total_price) %></th>
-        <th>To'landi: <%= num_to_usd(sale.total_paid) %></th>
+        <th>Итого: <%= num_to_usd(sale.total_price) %></th>
+        <th>Оплачено: <%= num_to_usd(sale.total_paid) %></th>
         <th><%= strf_datetime(sale.created_at) %></th>
       </tr>
     <% end %>
