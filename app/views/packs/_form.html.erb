@@ -4,21 +4,21 @@
       <div style='box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;' class='form-inputs col-sm-12 col-md-10 m-2'>
         <%= f.error_notification %>
         <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-        <%= f.input :name, label: 'Tovar nomi', required: true, input_html: {autofocus: 'true'} %>
-        <%= f.input :code, label: 'Gram' %>
+        <%= f.input :name, label: 'Название товара', required: true, input_html: {autofocus: 'true'} %>
+        <%= f.input :code, label: 'Грамм' %>
         <%= f.input :delivery_id, input_html: {value: params[:delivery_id] }, as: :hidden  %>
-        <%= f.association :product_category, label: 'Assortimentni tanlang', include_blank: false  %>
+        <%= f.association :product_category, label: 'Выберите ассортимент', include_blank: false  %>
         <%= link_to new_product_category_path do %>
-          <i class="fa-solid fa-circle-info"></i> Kerakli assortiment topilmadimi?
+          <i class="fa-solid fa-circle-info"></i> Не нашли нужного ассортимента?
         <% end %>
         <br/>
-        <%= f.input :initial_remaining, label: 'Ostatkasi' %>
+        <%= f.input :initial_remaining, label: 'Остаток' %>
         <%= f.input :price_in_usd, label: false, as: :hidden %>
-        <%= f.input :sell_price, label: 'Sotish narxi (1 dona)', required: true %>
-        <%= f.input :buy_price, label: 'Tan narxi (1 dona)', required: true %>
-        <%= f.input :weight, label: 'Ahamiyat darajasi' %>
-        <%= f.input :image, input_html: { accept: "image/*" }, label: 'Rasm yuklash' %><br/>
-        <%= f.submit 'Saqlash', class: 'btn btn-primary' %>
+        <%= f.input :sell_price, label: 'Цена продажи (за единицу)', required: true %>
+        <%= f.input :buy_price, label: 'Цена закупки (за единицу)', required: true %>
+        <%= f.input :weight, label: 'Степень важности' %>
+        <%= f.input :image, input_html: { accept: "image/*" }, label: 'Загрузить изображение' %><br/>
+        <%= f.submit 'Сохранить', class: 'btn btn-primary' %>
       </div>
     </div>
   <% end %>

@@ -1,8 +1,8 @@
 <div class="card shadow-lg">
   <div class="card-header d-flex justify-content-between align-items-center">
     <div class="btn-group" role="group" aria-label="Basic example">
-      <%= link_to 'Umumiy korish', delivery_from_counterparties_path, class: 'btn btn-secondary' %>
-      <button type="button" class="btn btn-primary">Batafsil ko'rish</button>
+      <%= link_to 'Общий просмотр', delivery_from_counterparties_path, class: 'btn btn-secondary' %>
+      <button type="button" class="btn btn-primary">Подробный просмотр</button>
     </div>
   </div>
   <%= render 'filter_form', q: @q, url: request.path %>
@@ -14,10 +14,10 @@
     <thead>
       <tr>
         <th></th>
-        <th>Umumiy Sotish narxi</th>
-        <th>Umumiy kelish narxi</th>
-        <th>Farq</th>
-        <th>Jami soni</th>
+        <th>Общая цена продажи</th>
+        <th>Общая цена закупки</th>
+        <th>Разница</th>
+        <th>Общее количество</th>
       </tr>
     </thead>
     <tbody>
@@ -26,18 +26,11 @@
         <td><%= @product_entries_data.sum(:amount) %></td>
       </tr>
       <tr>
-        <th>Dollarda </th>
-        <td><%= number_to_currency @product_entries_data.paid_in_usd.sum(:sell_price) %></td>
-        <td><%= number_to_currency @product_entries_data.paid_in_usd.sum(:buy_price) %></td>
-        <td><%= number_to_currency(@product_entries_data.paid_in_usd.sum(:sell_price) - @product_entries_data.paid_in_usd.sum(:buy_price)) %></td>
-      </tr>
-      <tr>
-        <th>So'mda</th>
+        <th>В сумах</th>
         <td><%= num_to_usd(@product_entries_data.paid_in_uzs.sum(:sell_price)) %></td>
         <td><%= num_to_usd @product_entries_data.paid_in_uzs.sum(:buy_price) %></td>
         <td><%= num_to_usd(@product_entries_data.paid_in_uzs.sum(:sell_price) - @product_entries_data.paid_in_uzs.sum(:buy_price)) %></td>
       </tr>
-
     </tbody>
   </table>
 </div>

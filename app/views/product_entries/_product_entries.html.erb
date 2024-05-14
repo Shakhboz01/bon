@@ -4,11 +4,11 @@
       <% unless defined?(shrink) %>
         <th><%= sort_link q, :id, 'ID' %></th>
       <% end %>
-      <th>Jami</th>
-      <th>Tovar</th>
-      <th><%= sort_link q, :amount, 'Soni' %></th>
+      <th>Всего</th>
+      <th>Товар</th>
+      <th><%= sort_link q, :amount, 'Количество' %></th>
       <% unless defined?(shrink) %>
-        <th><%= sort_link q, :created_at, 'kelgan sana' %></th>
+        <th><%= sort_link q, :created_at, 'Дата поступления' %></th>
       <% end %>
       <th colspan="3"></th>
     </tr>
@@ -27,10 +27,10 @@
         <% end %>
         <td>
           <% unless defined?(shrink) %>
-            <%= clink_to 'Sotish narxini ozgartirish', edit_product_entry_path(product_entry), 'fa-edit' %>
+            <%= clink_to 'Изменить цену продажи', edit_product_entry_path(product_entry), 'fa-edit' %>
           <% end %>
           <% if defined?(deletable) %>
-            <%= cdlink_to 'O\'chirish', product_entry %>
+            <%= cdlink_to 'Удалить', product_entry %>
           <% end %>
         </td>
       </tr>

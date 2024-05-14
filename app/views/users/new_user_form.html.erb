@@ -1,31 +1,31 @@
 <div class="container">
-  <h1>Создание работника</h1>
+  <h1>Создание сотрудника</h1>
 
   <%= form_with(model: @user, url: auto_user_creation_users_path) do |form| %>
     <div class="form-group">
-      <%= form.label :password, 'Yangi parol kiriting' %>
+      <%= form.label :password, 'Введите новый пароль' %>
       <%= form.password_field :password, autocomplete: "new-password", class: 'form-control' %>
     </div>
     <div class="form-group">
-      <%= form.label :password_confirmation, 'Parolni takrorlang' %>
+      <%= form.label :password_confirmation, 'Повторите пароль' %>
       <%= form.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
     </div>
     <div class="form-group">
-      <%= form.label :name, 'Ishchining ismi' %>
+      <%= form.label :name, 'Имя сотрудника' %>
       <%= form.text_field :name, class: 'form-control' %>
     </div>
     <div class="form-group">
-      <%= form.label :allowed_to_use, 'Shu programmadan foydalansinmi?' %>
+      <%= form.label :allowed_to_use, 'Может использовать это приложение?' %>
       <%= form.check_box :allowed_to_use, {} %>
     </div>
 
     <div class="form-group">
-      <%= form.label :role, 'Roli' %>
+      <%= form.label :role, 'Роль' %>
       <%= form.select :role, User.roles.keys, {}, class: 'form-control' %>
     </div>
     <div class="form-group">
-      <%= form.submit 'Saqlash', class: 'btn btn-primary' %>
+      <br/><%= form.submit 'Сохранить', class: 'btn btn-primary' %>
     </div>
   <% end %>
-  <%= link_to 'Orqaga', users_path, class: "btn btn-secondary" %>
+  <%= link_to 'Назад', users_path, class: "btn btn-secondary" %>
 </div>

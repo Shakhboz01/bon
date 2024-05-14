@@ -1,20 +1,20 @@
 <div class="container my-5">
   <div class="card shadow-lg">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h3 class="card-title font-weight-bold">Sklad</h3>
-      <%= link_to 'Yangi tovar qoshish', new_pack_path, class: "btn btn-success min-width-btn" %>
+      <h3 class="card-title font-weight-bold">Склад</h3>
+      <%= link_to 'Добавить новый товар', new_pack_path, class: "btn btn-success min-width-btn" %>
     </div>
     <%= render 'filter_form', url: request.path %>
     <div class="card-body">
       <table class="table table-hover table-bordered table-striped">
         <thead>
           <tr>
-            <th>Nomi</th>
-            <th>Gram</th>
-            <th>Ostatkasi</th>
-            <th>Sotish Narxi</th>
-            <th>Tan narxi</th>
-            <th>Ahamiyat darajasi</th>
+            <th>Название</th>
+            <th>Грамм</th>
+            <th>Остаток</th>
+            <th>Цена продажи</th>
+            <th>Цена закупки</th>
+            <th>Степень важности</th>
             <th colspan="3"></th>
           </tr>
         </thead>
@@ -36,9 +36,9 @@
               <td><%= pack.weight %></td>
               <td>
                 <% if pack.from_local_production? %>
-                  <%= clink_to 'Ko\'rish', pack_path(pack), 'fa-search' %>
+                  <%= clink_to 'Посмотреть', pack_path(pack), 'fa-search' %>
                 <% end %>
-                <%= clink_to 'O\'zgartirish', edit_pack_path(pack), 'fa-edit' %>
+                <%= clink_to 'Изменить', edit_pack_path(pack), 'fa-edit' %>
                 <% if pack.active %>
                   <%= clink_to 'Деактивировать', toggle_active_pack_path(pack), 'fa-ban', :post %>
                 <% else %>
@@ -53,8 +53,8 @@
     </div>
     <table>
       <tr>
-        <th>Jami tovarlar soni</th>
-        <th>Jami summa miqdori</th>
+        <th>Общее количество товаров</th>
+        <th>Общая сумма</th>
       </tr>
       <tr>
         <td><%= @all_packs.sum(:initial_remaining) %></td>

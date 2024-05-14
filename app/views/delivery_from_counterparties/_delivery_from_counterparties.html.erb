@@ -3,14 +3,14 @@
     <tr>
       <th>#</th>
       <% unless defined?(shrink) %>
-        <th>Qulflangan</th>
+        <th>Статус</th>
       <% end %>
-      <th>Umumiy qiymat</th>
+      <th>Общая стоимость</th>
       <% unless defined?(shrink) %>
-        <th>Komment</th>
+        <th>Комментарий</th>
       <% end %>
-      <th>Kelgan sana</th>
-      <th>Kim tomondan</th>
+      <th>Дата поступления</th>
+      <th>От кого</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -21,9 +21,9 @@
         <% unless defined?(shrink) %>
           <td>
             <% if delivery_from_counterparty.closed? %>
-              <%= clink_to 'Open', toggle_status_delivery_from_counterparty_path(delivery_from_counterparty),'fa-lock', :post %>
+              <%= clink_to 'Открыть', toggle_status_delivery_from_counterparty_path(delivery_from_counterparty),'fa-lock', :post %>
             <% else %>
-              <%= clink_to 'Close', toggle_status_delivery_from_counterparty_path(delivery_from_counterparty),'fa-unlock', :post %>
+              <%= clink_to 'Закрыть', toggle_status_delivery_from_counterparty_path(delivery_from_counterparty),'fa-unlock', :post %>
             <% end %>
           </td>
         <% end %>

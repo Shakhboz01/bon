@@ -1,11 +1,11 @@
-<h3>1 dona tovar uchun sarflanadigan maxsulotlar ro'yxati</h3>
-<%= link_to 'Qo\'shish', new_pack_usage_path(pack_id: @pack.id), class: 'btn btn-success' %>
+<h3>Список материалов, используемых для одного товара</h3>
+<%= link_to 'Добавить', new_pack_usage_path(pack_id: @pack.id), class: 'btn btn-success' %>
 <br/><br/>
 <ul>
   <li>
-    Tovar kelsh narxi: <%= currency_convert(@pack.price_in_usd, @pack.buy_price) %> |
+    Цена закупки товара: <%= currency_convert(@pack.price_in_usd, @pack.buy_price) %> |
     <%= button_to update_buy_price_pack_path(@pack), method: :post do %>
-      <i title="Narxni yangilash" class="fa-solid fa-arrows-rotate"></i>
+      <i title="Обновить цену" class="fa-solid fa-arrows-rotate"></i>
     <% end %>
   </li>
 </ul>

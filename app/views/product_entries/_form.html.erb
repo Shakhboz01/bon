@@ -7,13 +7,13 @@
     <%= f.association :delivery_from_counterparty, as: :hidden %>
     <%= f.input :amount_sold, as: :hidden %>
     <div class="form-inputs">
-      <%= f.association :pack, label: 'Tovarni tanlang:', collection: Pack.order('LOWER(name) ASC').pluck(:name, :id, :code), include_blank: true, selected: params.dig(:pack_id).present? ? params.dig(:pack_id) : nil, input_html: { id: 'pack-select' } %>
+      <%= f.association :pack, label: 'Выберите товара:', collection: Pack.order('LOWER(name) ASC').pluck(:name, :id, :code), include_blank: true, selected: params.dig(:pack_id).present? ? params.dig(:pack_id) : nil, input_html: { id: 'pack-select' } %>
       <%= f.input :barcode, label: false, as: :hidden, input_html: {id: 'code-input', autofocus: 'true'} %>
-      <%= f.input :amount, label: 'Soni:', input_html: { id: 'product_entry_amount' } %>
+      <%= f.input :amount, label: 'Кол.:', input_html: { id: 'product_entry_amount' } %>
       <%= f.input :buy_price, label: false, as: :hidden, input_html: {id: 'product_entry_buy_price'} %>
       <%= f.input :sell_price, label: false, as: :hidden, input_html: {id: 'product_entry_sell_price'} %>
       <%= f.input :price_in_percentage, label: false, as: :hidden, input_html: {id: 'product_entry_price_in_percentage', value: defined?(price_in_percentage) ? price_in_percentage : 0} %>
-      <%= f.button :submit, 'Qo\'shish', class: 'btn btn-warning' %>
+      <%= f.button :submit, 'Добавить', class: 'btn btn-warning' %>
     </div>
   <% end %>
 </div>
