@@ -4,13 +4,13 @@
       <div style='box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;' class='form-inputs col-sm-12 col-md-10 m-2'>
         <%= f.error_notification %>
         <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-        <%= f.input :name, label: 'Название товара', required: true, input_html: {autofocus: 'true'} %>
-        <%= f.input :code, label: 'Грамм' %>
-        <%= f.input :delivery_id, input_html: {value: params[:delivery_id] }, as: :hidden  %>
         <%= f.association :product_category, label: 'Выберите ассортимент', include_blank: false  %>
         <%= link_to new_product_category_path do %>
           <i class="fa-solid fa-circle-info"></i> Не нашли нужного ассортимента?
         <% end %>
+        <%= f.input :name, label: 'Название товара', required: true, input_html: {autofocus: 'true'} %>
+        <%= f.input :code, label: 'Грамм' %>
+        <%= f.input :delivery_id, input_html: {value: params[:delivery_id] }, as: :hidden  %>
         <br/>
         <%= f.input :initial_remaining, label: 'Остаток' %>
         <%= f.input :price_in_usd, label: false, as: :hidden %>
