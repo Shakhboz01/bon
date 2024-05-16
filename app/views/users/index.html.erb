@@ -13,6 +13,8 @@
           <tr>
             <th>Имя</th>
             <th>Роль</th>
+            <th>Почта</th>
+            <th>Пароль</th>
             <th></th>
           </tr>
         </thead>
@@ -21,6 +23,8 @@
             <tr class="<%= !user.active && 'table-dark'  %>">
               <td><%= user.name %></td>
               <td><%= user.role.capitalize %></td>
+              <td><%= user.email %></td>
+              <td>****</td>
               <td>
                 <%= clink_to 'Ozgartirish', edit_user_path(user), 'fa-edit' %>
                 <%= clink_to 'Parolni ozgartirish', edit_user_path(user, password_change: true), 'fa-lock' %>
