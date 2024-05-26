@@ -64,7 +64,7 @@ class ApplicationPolicy
   end
 
   def everyone_is_allowed?
-    %w[админ менеджер агент диллер сотрудник складчик].include?(user.role)
+    %w[админ менеджер агент дилер сотрудник складчик].include?(user.role)
   end
 
   def user_is_accaontant?

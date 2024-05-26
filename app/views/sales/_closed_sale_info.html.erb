@@ -4,7 +4,7 @@
     <li>Агент принял: <%= strf_datetime(sale.created_at) %></li>
 
     <% if sale.diller_user_id %>
-      <li>Диллер: <%= User.find(sale.diller_user_id).name %></li>
+      <li>дилер: <%= User.find(sale.diller_user_id).name %></li>
     <% end %>
   </ul>
   <div class='d-flex justify-content-between'>

@@ -21,7 +21,7 @@
         </div>
         <div class="form-group col-xs-12 col-sm-2">
           <%= f.label :diller_user_id_eq, 'Дилер', class: 'control-label' %>
-          <%= f.select :diller_user_id_eq, User.active.диллер.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
+          <%= f.select :diller_user_id_eq, User.active.дилер.pluck(:name, :id) , {include_blank: true}, class: 'form-control' %>
         </div>
         <div class="form-group col-xs-12 col-sm-2">
           <%= f.label :agent_user_id_eq, 'Агент', class: 'control-label' %>

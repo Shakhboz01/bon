@@ -5,7 +5,7 @@
       <div class='p-3' style='color: black;'>
         <%= render 'sales/agent_form' %>
       </div>
-    <% elsif !current_user.диллер? %>
+    <% elsif !current_user.дилер? %>
       <button class='btn btn-info' data-toggle="modal" data-target="#saleFormModal">Завершить <i class="fa fa-solid fa-chevron-right"></i></button>
     <% end %>
   </div>

@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
+  before_action :set_buyers, only: %i[main_page maps_page]
+
   def main_page
-    @buyers = Buyer.where(active: true).order(weight: :desc)
     @providers = Provider.where(active: true).order(weight: :desc)
   end
 
@@ -100,7 +101,18 @@ class PagesController < ApplicationController
     @overall_income_in_uzs = @sales_in_uzs - (@prepayment + @salaries + @expenditures_in_uzs)
   end
 
-  def maps_page
-    @buyers = Buyer.all
+  def maps_page; end
+
+  private
+
+  def set_buyers
+    @buyers =
+      if %w[админ менеджер].include?(current_user.role)
+        Buyer.all
+      else
+        current_user.agent_buyers
+      end
+
+    @buyers = @buyers.where(active: true).order(name: :desc)
   end
 end

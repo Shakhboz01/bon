@@ -11,8 +11,8 @@
           <%= f.select :agent_user_id_eq, User.агент.pluck(:name, :id), {include_blank: true}, class: 'form-control' %>
         </div>
         <div class="form-group col-xs-12 col-sm-3">
-          <%= f.label :diller_user_id_eq, 'диллер', class: 'control-label' %>
-          <%= f.select :diller_user_id_eq, User.диллер.pluck(:name, :id), {include_blank: true}, class: 'form-control' %>
+          <%= f.label :diller_user_id_eq, 'дилер', class: 'control-label' %>
+          <%= f.select :diller_user_id_eq, User.дилер.pluck(:name, :id), {include_blank: true}, class: 'form-control' %>
         </div>
         <div class="form-group align-self-center col-xs-12 col-sm-3">
           <%= f.submit 'Фильтр', class: 'btn btn-primary' %>

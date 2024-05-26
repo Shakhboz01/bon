@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :agent_buyers, class_name: "Buyer", foreign_key: "agent_user_id"
   has_many :diller_buyers, class_name: "Buyer", foreign_key: "diller_user_id"
   has_many :participations
-  enum role: %i[админ менеджер агент диллер сотрудник складчик]
+  enum role: %i[админ менеджер агент дилер сотрудник складчик]
   validates :name, uniqueness: true
 
   scope :active, -> { where(:active => true) }

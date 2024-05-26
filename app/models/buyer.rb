@@ -34,7 +34,7 @@ class Buyer < ApplicationRecord
       errors.add(:agent_user, "must be an agent")
     end
 
-    unless diller_user&.диллер?
+    unless diller_user&.дилер?
       errors.add(:diller_user, "must be a diller")
     end
   end
