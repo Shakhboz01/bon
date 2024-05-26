@@ -37,7 +37,6 @@ class BuyersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /buyers/1 or /buyers/1.json
   def update
     respond_to do |format|
       if @buyer.update(buyer_params)
