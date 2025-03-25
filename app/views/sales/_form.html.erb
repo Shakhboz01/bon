@@ -13,7 +13,7 @@
         <%= f.input :total_paid, label: 'Итого оплачено' %>
         <%= f.input :payment_type, label: false, collection: Sale.payment_types.keys.map { |unit| [Sale.human_attribute_name("unit.#{unit}"), unit] }, include_blank: false, as: :hidden %>
         <%= f.input :comment, label: 'Коммент.' %>
-        <%= f.input :images, input_html: { multiple: true, accept: "image/*" }, label: 'Добавить рисунок' %><br/>
+        <%# <%= f.input :images, input_html: { multiple: true, accept: "image/*" }, label: 'Добавить рисунок' %><br/>
         <%= f.button :submit, 'Завершить' %>
       </div>
     <% end %>

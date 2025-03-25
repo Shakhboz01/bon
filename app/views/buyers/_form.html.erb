@@ -15,7 +15,7 @@
     <%= f.input :comment, label: false, placeholder: 'Коммент' %>
     <%= f.association :agent_user, label: false, prompt: "Выберите агента", collection: User.агент.pluck(:name, :id) %>
     <%= f.association :diller_user, label: false, prompt: "Выберите дилера", collection: User.дилер.pluck(:name, :id) %>
-    <%= f.input :images, input_html: { multiple: true, accept: "image/*" }, label: 'Добавить рисунок', required: true %><br/>
+    <%# <%= f.input :images, input_html: { multiple: true, accept: "image/*" }, label: 'Добавить рисунок', required: true %>
   </div>
   <div id="map" style="height: 400px;"></div>
 

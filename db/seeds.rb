@@ -1,7 +1,7 @@
 CurrencyRate.create(rate: 12400.00, finished_at: nil)
 Provider.create(name: "Клиент", weight: 1, debt_in_usd: '', debt_in_uzs:'')
 Buyer.create(name: "Клиент", weight: 1, debt_in_usd: '', debt_in_uzs:'')
-User.create(name: 'Jafar', email: 'hidjafar@gmail.com', password: 'testpass')
+User.create(name: 'Jafar', email: 'hidjafar@gmail.com', password: 'testpass', role: 0)
 Color.create(name: 'Белый', hex: '#FFFFFF')
 Color.create(name: 'Чёрный', hex: '#000000')
 Color.create(name: 'Коричневый', hex: '#A52A2A')

@@ -34,11 +34,9 @@ class UsersController < ApplicationController
   end
 
   def create
-    authorize User, :access?
-
+    byebug
     @user = User.new(user_params)
     @user.email = user_params.name + "@gmail.com"
-    @user.password = "1111"
     if @user.save
       redirect_to users_path, notice: "Успешно создано."
     else
