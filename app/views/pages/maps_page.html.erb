@@ -1,182 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Client Map</title>
+
   <style>
     img {
       border-radius: 0;
     }
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+    .custom-map-button {
+      background-color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
   </style>
+
   <script>
-  var samarkand;
-  var infoWindow;
-  var searchBox;
-  var markers = [];
-  function initMap() {}
-  $(() => {
-    initMap = function() {
-      console.log('I am initttttt')
+    let samarkand, infoWindow, searchBox;
+    let markers = [];
+
+    function initMap() {
+      console.log('Google Maps Initialized');
+
       infoWindow = new google.maps.InfoWindow();
-      // Try HTML5 geolocation
+
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          var currentLocation = {
+        navigator.geolocation.getCurrentPosition(position => {
+          const currentLocation = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
+
           samarkand = new google.maps.Map(document.getElementById('map'), {
             center: currentLocation,
             zoom: 14,
             mapId: "7802c15fc3df6792",
           });
+
+          // Location button
           const locationButton = document.createElement("button");
-          const searchInput = document.getElementById("map-container");
           locationButton.classList.add("custom-map-button");
+          locationButton.innerHTML = `<i class="fa fa-solid fa-compass fa-lg"></i>`;
 
-          const chevronIcon = document.createElement("i");
-          chevronIcon.classList.add("fa", "fa-solid", "fa-compass", "fa-lg");
-
-          locationButton.appendChild(document.createTextNode(" "));
-          locationButton.appendChild(chevronIcon);
-          samarkand.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
-          samarkand.controls[google.maps.ControlPosition.LEFT_TOP].push(searchInput);
           locationButton.addEventListener("click", () => {
-          // Try HTML5 geolocation.
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-              const pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-              };
-
-              infoWindow.setPosition(pos);
-              infoWindow.setContent("Location found.");
-              infoWindow.open(map);
-              samarkand.setCenter(pos);
-            },
-            () => {
-              handleLocationError(true, infoWindow, map.getCenter());
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(pos => {
+                const position = {
+                  lat: pos.coords.latitude,
+                  lng: pos.coords.longitude
+                };
+                samarkand.setCenter(position);
+              }, () => {
+                handleLocationError(true, infoWindow, samarkand.getCenter());
+              });
+            } else {
+              handleLocationError(false, infoWindow, samarkand.getCenter());
             }
-            );
-          } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
-          }
-        });
+          });
 
-        var currentLocationMarker = new google.maps.Marker({
-          position: currentLocation,
-          map: samarkand,
-          title: 'Your Current Location',
-          icon: {
-            url: '<%= asset_path("current_location.png") %>',
-            scaledSize: new google.maps.Size(40, 40)
-          }
-        });
+          samarkand.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
 
-        currentLocationMarker.addListener('click', function () {
-          infoWindow.setContent('Your Current Location');
-          infoWindow.open(samarkand, currentLocationMarker);
-        });
-
-        // Create the search box and link it to the UI element
-        var input = document.getElementById("search-box");
-        searchBox = new google.maps.places.Autocomplete(input);
-        searchBox.bindTo('bounds', samarkand);
-
-        // Bias the SearchBox results towards current map's viewport
-        searchBox.addListener('place_changed', function () {
-          searchPlaces();
-        });
-
-        // Add markers for buyers
-        infoWindow = new google.maps.InfoWindow();
-        const buyers = document.querySelectorAll('.buyer'); // Fetch buyer elements
-
-        buyers.forEach(buyer => {
-          const buyerId = buyer.dataset.buyerId;
-          const buyerLat = parseFloat(buyer.dataset.buyerLat);
-          const buyerLng = parseFloat(buyer.dataset.buyerLng);
-          const buyerName = buyer.dataset.buyerName;
-          const buyerImage = buyer.dataset.buyerImage;
-
-          // Create marker for each buyer
-          const buyerMarker = new google.maps.Marker({
-            position: { lat: buyerLat, lng: buyerLng },
+          // Current location marker
+          const currentLocationMarker = new google.maps.Marker({
+            position: currentLocation,
             map: samarkand,
-            title: buyerName,
+            title: 'Your Current Location',
             icon: {
-              url: buyerImage || '<%= asset_path("location.png") %>',
-              scaledSize: new google.maps.Size(55, 60),
-              shape: { coords: [17, 17, 18], type: 'circle' },
-              optimized: false
+              url: '<%= asset_path("current_location.png") %>',
+              scaledSize: new google.maps.Size(40, 40)
             }
           });
 
-          buyerMarker.addListener('click', function () {
-            window.open(`/buyers/${buyerId}`, '_blank');
+          currentLocationMarker.addListener('click', () => {
+            infoWindow.setContent('Your Current Location');
+            infoWindow.open(samarkand, currentLocationMarker);
           });
-        });
 
-        }, function () {
+          // Search box
+          const input = document.getElementById("search-box");
+          searchBox = new google.maps.places.Autocomplete(input);
+          searchBox.bindTo('bounds', samarkand);
+          searchBox.addListener('place_changed', searchPlaces);
+
+          // Add buyers markers
+          loadBuyerMarkers();
+
+        }, () => {
           handleLocationError(true, infoWindow, samarkand.getCenter());
         });
       } else {
-        // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, samarkand.getCenter());
       }
     }
-  })
 
-  function searchPlaces() {
-      var place = searchBox.getPlace();
-
+    function searchPlaces() {
+      const place = searchBox.getPlace();
       if (!place.geometry) {
-          window.alert("No details available for input: '" + place.name + "'");
-          return;
+        alert("No details available for input: '" + place.name + "'");
+        return;
       }
 
-      // Clear out the old markers
-      markers.forEach(function (marker) {
-          marker.setMap(null);
-      });
+      // Clear old markers
+      markers.forEach(marker => marker.setMap(null));
       markers = [];
 
-      // Create a marker for the selected place
-      var marker = new google.maps.Marker({
-          map: samarkand,
-          position: place.geometry.location,
-          title: place.name
+      // Create new marker
+      const marker = new google.maps.Marker({
+        map: samarkand,
+        position: place.geometry.location,
+        title: place.name
       });
 
       markers.push(marker);
-
-      // Center the map on the selected place
       samarkand.setCenter(place.geometry.location);
       samarkand.setZoom(16);
-  }
+    }
 
-  function handleLocationError(browserHasGeolocation, infoWindow, currentLocation) {
-      infoWindow.setPosition(currentLocation);
-      infoWindow.setContent(browserHasGeolocation ?
-          'Error: The Geolocation service failed.' :
-          'Error: Your browser doesn\'t support geolocation.');
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : "Error: Your browser doesn't support geolocation.");
       infoWindow.open(samarkand);
-  }
-</script>
-<script async src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCCrf73WQ7VitOY7_PP0pSGmeBDw-Tiz38&libraries=places&loading=async&callback=initMap&map_ids=7802c15fc3df6792'></script>
+    }
+
+    function loadBuyerMarkers() {
+      const buyers = document.querySelectorAll('.buyer');
+      buyers.forEach(buyer => {
+        const buyerId = buyer.dataset.buyerId;
+        const buyerLat = parseFloat(buyer.dataset.buyerLat);
+        const buyerLng = parseFloat(buyer.dataset.buyerLng);
+        const buyerName = buyer.dataset.buyerName;
+        const buyerImage = buyer.dataset.buyerImage || '<%= asset_path("location.png") %>';
+
+        const buyerMarker = new google.maps.Marker({
+          position: { lat: buyerLat, lng: buyerLng },
+          map: samarkand,
+          title: buyerName,
+          icon: {
+            url: buyerImage,
+            scaledSize: new google.maps.Size(55, 60),
+            optimized: false
+          }
+        });
+
+        buyerMarker.addListener('click', () => {
+          window.open(`/buyers/${buyerId}`, '_blank');
+        });
+      });
+    }
+  </script>
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCCrf73WQ7VitOY7_PP0pSGmeBDw-Tiz38&libraries=places&callback=initMap"></script>
 </head>
 
 <body>
+  <div style='display: none' class='buyers'>
+    <% @buyers.each do |buyer| %>
+      <div class="buyer" data-buyer-id="<%= buyer.id %>"
+           data-buyer-lat="<%= buyer.latitude %>"
+           data-buyer-lng="<%= buyer.longitude %>"
+           data-buyer-name="<%= buyer.name %>"
+           data-buyer-image="<%= buyer.images.attached? ? rails_blob_path(buyer.images.first) : '' %>">
+      </div>
+    <% end %>
+  </div>
 
-<div style='display: none' class='buyers'>
-  <% @buyers.each do |buyer| %>
-    <div class="buyer" data-buyer-id="<%= buyer.id %>"
-         data-buyer-lat="<%= buyer.latitude %>"
-         data-buyer-lng="<%= buyer.longitude %>"
-         data-buyer-name="<%= buyer.name %>"
-         data-buyer-image="<%= buyer.images.attached? ? rails_blob_path(buyer.images.first) : '' %>">
-    </div>
-  <% end %>
-</div>
   <div class='d-flex justify-content-center text-center'>
     <%= link_to main_page_url, class: 'm-1 btn btn-primary' do %>
       Список покупателей <i class="fa-solid fa fa-bars"></i>
@@ -185,12 +179,14 @@
     <%= link_to new_buyer_path, class: 'm-1 btn btn-warning' do %>
       Добавить клиента <i class="fa-solid fa fa-user-plus"></i>
     <% end %>
-
   </div>
+
   <div id="map-container" style="position: relative;">
     <div class="input-group mb-3">
-      <input id="search-box" type="text" class="form-control" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
+      <input id="search-box" type="text" class="form-control" placeholder="Поиск" aria-label="Поиск">
     </div>
   </div>
+
   <div id="map"></div>
 </body>
+</html>
