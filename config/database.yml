@@ -10,7 +10,15 @@ default: &default
 
 development:
   <<: *default
-
+  # adapter:  postgresql
+  # encoding: unicode
+  # database: railway
+  # host: postgres.railway.internal
+  # username: postgres
+  # port: 56155
+  # password: WFeOMkKlNmpmSDrfDLMEOuZYYuwGiVkU
+  # url: postgresql://postgres:WFeOMkKlNmpmSDrfDLMEOuZYYuwGiVkU@gondola.proxy.rlwy.net:54901/railway
+  # pool: 100
 test:
   <<: *default
   database: global_gm_test

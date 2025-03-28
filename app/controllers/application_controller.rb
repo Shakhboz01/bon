@@ -4,6 +4,16 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  def verify_by_telegram_chat_authorized
+    user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
+    if user
+      render json: { success: true, role: user.role }
+    else
+      render json: { success: false }
+    end
+  end
+
+
   private
 
   def user_not_authorized

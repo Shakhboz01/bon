@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   include Pundit::Authorization
+  skip_before_action :authenticate_user!, only: %i[verify_by_telegram_chat_id verify_by_phone_number]
+  skip_before_action :verify_authenticity_token, only: %i[verify_by_telegram_chat_id verify_by_phone_number]
 
   def index
     authorize User, :access?
@@ -41,6 +43,16 @@ class UsersController < ApplicationController
       redirect_to users_path, notice: "Успешно создано."
     else
       render :new
+    end
+  end
+
+  def verify_by_phone_number
+    user = User.find_by(phone_number: params[:phone_number])
+    if user
+      user.update(telegram_chat_id: params[:telegram_chat_id])
+      render json: { success: true, role: user.role }
+    else
+      render json: { success: false }
     end
   end
 
@@ -95,4 +107,11 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :email, :phone_number, :password, :allowed_to_use, :daily_payment, :password_confirmation, :role, :active)
   end
+
+  # def authenticate_api_request
+  #   api_token = request.headers['Authorization']
+  #   unless api_token && ActiveSupport::SecurityUtils.secure_compare(api_token, 'qwersty')
+  #     render json: { success: false, error: 'Unauthorized' }, status: :unauthorized
+  #   end
+  # end
 end

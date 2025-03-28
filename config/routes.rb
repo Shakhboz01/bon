@@ -99,9 +99,9 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: "sessions" }
 
   resources :users do
-    post :update, on: :member
     get :toggle_active_user, on: :member
     get :new_user_form, on: :collection
     post :auto_user_creation, on: :collection
+    post :verify_by_phone_number, on: :collection
   end
 end
