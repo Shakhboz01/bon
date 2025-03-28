@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     get :define_product_destination, on: :collection
   end
   resources :buyers do
+    get :list_buyers, on: :collection
     post :toggle_active, on: :member
     get :statistics, on: :collection
   end

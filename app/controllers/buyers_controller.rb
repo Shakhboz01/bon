@@ -1,6 +1,8 @@
 class BuyersController < ApplicationController
   before_action :set_buyer, only: %i[ toggle_active show edit update destroy toggle_active ]
-
+  before_action :verify_by_telegram_chat_authorized, only: %i[list_buyers]
+  skip_before_action :authenticate_user!, only: %i[list_buyers]
+  skip_before_action :verify_authenticity_token, only: %i[list_buyers]
   # GET /buyers or /buyers.json
   def index
     @q = Buyer.ransack(params[:q])
@@ -70,6 +72,10 @@ class BuyersController < ApplicationController
 
     # Sort the sales by total_price in descending order
     @top_buyers = @sales.sort_by { |buyer_name, total_price| total_price }.reverse
+  end
+
+  def list_buyers
+    render json: { success: true }
   end
 
   private
