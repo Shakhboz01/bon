@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     get :grouped_html_views, on: :collection
     post :nullify, on: :member
     post :massive_status_update, on: :collection
+    post :webview, on: :collection
     get :edit_agent_or_diller, on: :member
     get :pdf_view, on: :collection
     get :excel, on: :collection
@@ -59,6 +60,7 @@ Rails.application.routes.draw do
   resources :buyers do
     get :list_buyers, on: :collection
     post :toggle_active, on: :member
+    get 'webview/:telegram_chat_id', action: :webview_sale_form, on: :member
     get :statistics, on: :collection
   end
   resources :providers do

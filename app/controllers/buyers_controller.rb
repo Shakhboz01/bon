@@ -1,7 +1,7 @@
 class BuyersController < ApplicationController
-  before_action :set_buyer, only: %i[ toggle_active show edit update destroy toggle_active ]
+  before_action :set_buyer, only: %i[ webview_sale_form toggle_active show edit update destroy toggle_active ]
   before_action :verify_by_telegram_chat_authorized, only: %i[list_buyers]
-  skip_before_action :authenticate_user!, only: %i[list_buyers]
+  skip_before_action :authenticate_user!, only: %i[list_buyers webview_sale_form]
   skip_before_action :verify_authenticity_token, only: %i[list_buyers]
   # GET /buyers or /buyers.json
   def index
@@ -80,6 +80,24 @@ class BuyersController < ApplicationController
     buyers = buyers.where("name ILIKE ?", "%#{query}%") if query.present?
 
     render json: { success: true, buyers: buyers.select(:id, :name, :longitude, :latitude, :address) }
+  end
+
+  def webview_sale_form
+    user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
+    return render plain: "Unauthorized", status: :unauthorized unless user&.агент?
+
+    @sale = Sale.new(
+      buyer_id: @buyer.id,
+      user_id: user.id,
+      status: :processing,
+      total_price: 0,
+      total_paid: 0,
+      diller_user: @buyer.diller_user,
+      agent_user: user,
+      verified_by_agent: true,
+      price_in_usd: false
+    )
+    @categories = ProductCategory.includes(:packs).where(packs: { active: true }).order(:name)
   end
 
   private

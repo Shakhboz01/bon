@@ -1,0 +1,176 @@
+<!-- Search Input -->
+<div style='font-size: small'>
+    <div class="text-center my-3">
+    <input type="text" id="pack-search" class="form-control w-50 mx-auto" placeholder="🔍 Search for a pack...">
+    </div>
+
+    <!-- Category Tabs -->
+    <ul class="nav nav-tabs justify-content-center" id="category-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-category="all">All</a>
+    </li>
+    <% @categories.each do |category| %>
+        <li class="nav-item">
+        <a class="nav-link" data-category="<%= category.id %>">
+            <%= category.name %>
+        </a>
+        </li>
+    <% end %>
+    </ul>
+
+    <!-- Pack List -->
+    <div class="mt-3 row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="pack-list">
+    <% @categories.each do |category| %>
+        <% category.packs.order(name: :asc).each do |pack| %>
+        <div class="col pack-card" data-category="<%= category.id %>" data-name="<%= pack.name.downcase %>" data-pack-id="<%= pack.id %>">
+            <div class="card h-100 shadow-sm">
+            <img src="<%= asset_path("pack_#{pack.id}.png") if File.exist?(Rails.root.join("app/assets/images/pack_#{pack.id}.png")) %>"
+                class="card-img-top" alt="<%= pack.name %>">
+            <div class="card-body text-center">
+                <h6 class="card-title fw-bold"><%= pack.name %></h6>
+                <p class="card-text text-success fw-bold">💰 <%= pack.sell_price %> UZS</p>
+                <div class="d-flex justify-content-center align-items-center gap-1">
+                <button class="btn btn-sm btn-outline-danger change-qty" data-pack-id="<%= pack.id %>" data-change="-1">-</button>
+                <input type="number" class="form-control text-center qty-input" data-pack-id="<%= pack.id %>" value="0" min="0" style="width: 50px;">
+                <button class="btn btn-sm btn-outline-success change-qty" data-pack-id="<%= pack.id %>" data-change="1">+</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <% end %>
+    <% end %>
+    </div>
+
+    <!-- Summary -->
+    <div id="summary" class="bg-white p-3 mb-5 pb-5 shadow border-top">
+        <ul id="selected-items" class="list-unstyled text-center"></ul>
+        <button id="submit-sale" class="fixed-bottom  btn btn-success w-100">✅ Confirm Sale <span id="total-price">0</span></button>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  let cart = {};
+
+  // Filter packs by category
+  document.querySelectorAll("#category-tabs .nav-link").forEach(tab => {
+    tab.addEventListener("click", function () {
+      let category = this.getAttribute("data-category");
+
+      document.querySelectorAll("#category-tabs .nav-link").forEach(link => link.classList.remove("active"));
+      this.classList.add("active");
+
+      document.querySelectorAll(".pack-card").forEach(card => {
+        if (category === "all" || card.getAttribute("data-category") === category) {
+          card.style.display = "block";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  });
+
+  // Search functionality
+  document.querySelector("#pack-search").addEventListener("input", function () {
+    let searchText = this.value.toLowerCase();
+    document.querySelectorAll(".pack-card").forEach(card => {
+      let packName = card.getAttribute("data-name");
+      card.style.display = packName.includes(searchText) ? "block" : "none";
+    });
+  });
+
+  // Quantity controls
+  document.querySelectorAll(".change-qty").forEach(button => {
+    button.addEventListener("click", function () {
+      let packId = this.getAttribute("data-pack-id");
+      let change = parseInt(this.getAttribute("data-change"));
+      let input = document.querySelector(`.qty-input[data-pack-id='${packId}']`);
+      let newQty = Math.max(0, (parseInt(input.value) || 0) + change);
+      input.value = newQty;
+      updateCart(packId, newQty);
+    });
+  });
+
+  document.querySelectorAll(".qty-input").forEach(input => {
+    input.addEventListener("input", function () {
+      let packId = this.getAttribute("data-pack-id");
+      let qty = Math.max(0, parseInt(this.value) || 0);
+      updateCart(packId, qty);
+    });
+  });
+
+  function updateCart(packId, qty) {
+    if (qty > 0) {
+      cart[packId] = qty;
+    } else {
+      delete cart[packId];
+    }
+    updateSummary();
+  }
+
+  function updateSummary() {
+    let total = 0;
+    let itemList = "";
+
+    Object.keys(cart).forEach(id => {
+      let packElement = document.querySelector(`.pack-card[data-pack-id='${id}']`);
+      let packName = packElement.querySelector(".card-title").innerText;
+      let priceText = packElement.querySelector(".card-text").innerText;
+      let price = parseFloat(priceText.replace(/[^\d.]/g, '')) || 0;
+
+      total += price * cart[id];
+      itemList += `<li>${packName}: ${cart[id]} pcs</li>`;
+    });
+
+    document.querySelector("#total-price").textContent = total.toLocaleString();
+    document.querySelector("#selected-items").innerHTML = itemList;
+  }
+
+  document.querySelector("#submit-sale").addEventListener("click", function () {
+    fetch("/sales/webview", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sale: cart })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message) {
+        alert("✅ Sale Created Successfully!");
+        window.location.href = "/thank_you";
+      } else {
+        alert("❌ Failed to create sale.");
+      }
+    })
+    .catch(() => alert("❌ Failed to create sale."));
+  });
+});
+</script>
+
+<style>
+  .nav-tabs .nav-link {
+    font-size: 14px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+
+  .card-img-top {
+    height: 120px;
+    object-fit: cover;
+  }
+
+  .qty-input {
+    width: 50px;
+    text-align: center;
+  }
+
+  #summary {
+    background-color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    .row-cols-md-3 > * {
+      flex: 0 0 33.33%;
+      max-width: 33.33%;
+    }
+  }
+</style>

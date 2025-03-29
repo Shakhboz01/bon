@@ -1,6 +1,9 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: %i[ nullify show edit update destroy toggle_status html_view edit_agent_or_diller]
   before_action :set_sale_based_on_params, only: %i[ index grouped_html_views grouped_packs massive_status_update ]
+
+  skip_before_action :authenticate_user!, only: %i[webview]
+  skip_before_action :verify_authenticity_token, only: %i[webview]
   include Pundit::Authorization
   # GET /sales or /sales.json
   def index
@@ -40,6 +43,24 @@ class SalesController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @sale.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def webview
+    user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
+    return render json: { error: "Unauthorized" }, status: :unauthorized unless user
+
+    sale = Sale.new(user: user)
+
+    params[:sale].each do |pack_id, quantity|
+      pack = Pack.find(pack_id)
+      sale.sale_items.build(pack: pack, quantity: quantity, total_price: pack.sell_price * quantity)
+    end
+
+    if sale.save
+      render json: { message: "Sale created successfully!" }
+    else
+      render json: { error: "Failed to create sale." }, status: :unprocessable_entity
     end
   end
 
