@@ -75,7 +75,11 @@ class BuyersController < ApplicationController
   end
 
   def list_buyers
-    render json: { success: true }
+    query = params[:query].to_s.strip
+    buyers = Buyer.where(active: true)
+    buyers = buyers.where("name ILIKE ?", "%#{query}%") if query.present?
+
+    render json: { success: true, buyers: buyers.select(:id, :name, :longitude, :latitude, :address) }
   end
 
   private

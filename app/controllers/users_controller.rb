@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   include Pundit::Authorization
   # before_action :authenticate_api_request, only: %i[verify_by_telegram_chat_id verify_by_phone_number]
-  skip_before_action :authenticate_user!, only: %i[verify_by_telegram_chat_id verify_by_phone_number]
-  skip_before_action :verify_authenticity_token, only: %i[verify_by_telegram_chat_id verify_by_phone_number]
+  skip_before_action :authenticate_user!, only: %i[verify_by_telegram_chat_id verify_by_phone_number create_sale]
+  skip_before_action :verify_authenticity_token, only: %i[verify_by_telegram_chat_id verify_by_phone_number create_sale]
 
   def index
     authorize User, :access?
@@ -110,6 +110,48 @@ class UsersController < ApplicationController
       flash[:error] = "Не удалось обновить статус"
     end
     redirect_to users_path
+  end
+
+  def create_sale
+    user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
+    return render json: { success: false, error: "Unauthorized" }, status: :unauthorized unless user&.агент?
+
+    buyer = Buyer.find_by(id: params[:buyer_id])
+    return render json: { success: false, error: "Buyer not found" }, status: :not_found unless buyer
+
+    sales_data = params[:sales]
+    return render json: { success: false, error: "Invalid sales data" }, status: :unprocessable_entity if sales_data.blank?
+
+    sale = Sale.new(
+      buyer_id: buyer.id,
+      user_id: user.id,
+      status: :processing,
+      total_price: 0,
+      total_paid: 0,
+      diller_user: buyer.diller_user,
+      agent_user: user,
+      verified_by_agent: true,
+      price_in_usd: false
+    )
+
+    sales_data.each do |sale_item|
+      pack = Pack.find_by(id: sale_item[:pack_id])
+      return render json: { success: false, error: "Pack not found" }, status: :not_found unless pack
+
+      sale.product_sells.build(
+        pack_id: pack.id,
+        amount: sale_item[:amount],
+        sell_price: pack.sell_price,
+        price_in_usd: false
+      )
+    end
+
+    if sale.save
+      sale.update(status: :verified_by_agent)
+      render json: { success: true, sale_id: sale.id }
+    else
+      render json: { success: false, errors: sale.errors.full_messages }
+    end
   end
 
   private

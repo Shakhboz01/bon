@@ -105,5 +105,6 @@ Rails.application.routes.draw do
     post :auto_user_creation, on: :collection
     post :verify_by_phone_number, on: :collection
     post :verify_by_telegram_chat_id, on: :collection
+    post :create_sale, on: :collection
   end
 end

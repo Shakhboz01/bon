@@ -1,10 +1,26 @@
 source "http://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-
+20.times do
+  Buyer.create!(
+    name: Faker::Name.name,
+    phone_number: Faker::PhoneNumber.cell_phone_in_e164,
+    comment: Faker::Lorem.sentence,
+    active: [true, false].sample,
+    weight: rand(0..100),
+    latitude: Faker::Address.latitude,
+    longitude: Faker::Address.longitude,
+    agent_user_id: User.where(role: 'агент').pluck(:id).sample || User.first.id,
+    diller_user_id: User.where(role: 'дилер').pluck(:id).sample || User.first.id,
+    address: Faker::Address.full_address,
+    debt_in_uzs: rand(0..1000).to_s,
+    debt_in_usd: rand(0..1000).to_s,
+  )
+end
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.3"
 gem 'geocoder'
+gem 'faker'
 gem 'kaminari', '~> 1.2'
 gem "ransack"
 gem "byebug"

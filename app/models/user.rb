@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  validates :telegram_chat_id, uniqueness: true, allow_nil: true
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :agent_buyers, class_name: "Buyer", foreign_key: "agent_user_id"

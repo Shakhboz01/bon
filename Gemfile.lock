@@ -137,6 +137,8 @@ GEM
       zeitwerk (~> 2.6)
     erubi (1.12.0)
     execjs (2.9.1)
+    faker (3.5.1)
+      i18n (>= 1.8.11, < 2)
     faraday (2.9.0)
       faraday-net_http (>= 2.0, < 3.2)
     faraday-multipart (1.0.4)
@@ -420,6 +422,7 @@ DEPENDENCIES
   chartkick
   debug
   devise
+  faker
   figaro
   font-awesome-rails
   geocoder

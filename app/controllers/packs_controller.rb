@@ -1,5 +1,8 @@
 class PacksController < ApplicationController
   before_action :set_pack, only: %i[ toggle_active show edit update destroy calculate_product_remaining update_buy_price]
+  skip_before_action :authenticate_user!, only: %i[index]
+  skip_before_action :verify_authenticity_token, only: %i[index]
+
   include Pundit::Authorization
 
   def toggle_active
@@ -11,11 +14,13 @@ class PacksController < ApplicationController
 
   # GET /packs or /packs.json
   def index
-    authorize Pack, :access?
-
     @q = Pack.all.ransack(params[:q])
     @packs = @q.result.order(active: :desc).order(name: :asc)
-    @all_packs = @packs.where(active: true).where('initial_remaining > 0')
+    @all_packs = @packs.where(active: true)
+    respond_to do |format|
+      format.json { render json: @all_packs.select(:id, :name, :product_category_id, :sell_price) }
+      format.html
+    end
     @packs = @packs.page(params[:page]).per(40)
   end
 
