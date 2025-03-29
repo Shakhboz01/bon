@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   include Pundit::Authorization
+  # before_action :authenticate_api_request, only: %i[verify_by_telegram_chat_id verify_by_phone_number]
   skip_before_action :authenticate_user!, only: %i[verify_by_telegram_chat_id verify_by_phone_number]
   skip_before_action :verify_authenticity_token, only: %i[verify_by_telegram_chat_id verify_by_phone_number]
 
@@ -50,6 +51,15 @@ class UsersController < ApplicationController
     user = User.find_by(phone_number: params[:phone_number])
     if user
       user.update(telegram_chat_id: params[:telegram_chat_id])
+      render json: { success: true, role: user.role }
+    else
+      render json: { success: false }
+    end
+  end
+
+  def verify_by_telegram_chat_id
+    user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
+    if user
       render json: { success: true, role: user.role }
     else
       render json: { success: false }
