@@ -1,8 +1,13 @@
 class PagesController < ApplicationController
   before_action :set_buyers, only: %i[main_page maps_page]
+  skip_before_action :authenticate_user!, only: %i[sale_completed]
 
   def main_page
     @providers = Provider.where(active: true).order(weight: :desc)
+  end
+
+  def sale_completed
+    render body: 'Заказ Оформлен, закройте окно', content_type: 'text/plain'
   end
 
   def define_sale_destination; end

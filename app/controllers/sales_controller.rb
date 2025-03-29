@@ -48,19 +48,42 @@ class SalesController < ApplicationController
 
   def webview
     user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
-    return render json: { error: "Unauthorized" }, status: :unauthorized unless user
+    return render json: { success: false, error: "Unauthorized" }, status: :unauthorized unless user&.агент?
 
-    sale = Sale.new(user: user)
+    buyer = Buyer.find_by(id: params[:buyer_id])
+    return render json: { success: false, error: "Buyer not found" }, status: :not_found unless buyer
 
-    params[:sale].each do |pack_id, quantity|
-      pack = Pack.find(pack_id)
-      sale.sale_items.build(pack: pack, quantity: quantity, total_price: pack.sell_price * quantity)
+    sales_data = params[:sale]
+    return render json: { success: false, error: "Invalid sales data" }, status: :unprocessable_entity if sales_data.blank?
+
+    sale = Sale.new(
+      buyer_id: buyer.id,
+      user_id: user.id,
+      status: :verified_by_agent,
+      total_price: 0,
+      total_paid: 0,
+      diller_user: buyer.diller_user,
+      agent_user: user,
+      verified_by_agent: true,
+      price_in_usd: false
+    )
+
+    sales_data.each do |pack_id, amount|
+      pack = Pack.find_by(id: pack_id)
+      return render json: { success: false, error: "Pack not found" }, status: :not_found unless pack
+
+      sale.product_sells.build(
+        pack_id: pack.id,
+        amount: amount,
+        sell_price: pack.sell_price,
+        price_in_usd: false
+      )
     end
 
     if sale.save
-      render json: { message: "Sale created successfully!" }
+      render json: { success: true, sale_id: sale.id }
     else
-      render json: { error: "Failed to create sale." }, status: :unprocessable_entity
+      render json: { success: false, errors: sale.errors.full_messages }
     end
   end
 

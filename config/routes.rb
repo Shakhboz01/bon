@@ -92,6 +92,7 @@ Rails.application.routes.draw do
     end
   end
   root "pages#maps_page"
+  get 'sale_completed', to: 'pages#sale_completed', as: :sale_completed
   get "pages#define_sale_destination", to: "pages#define_sale_destination", as: :define_sale_destination
   get "pages#shortcut", to: "pages#shortcut", as: :shortcut
   get "pages#maps_page", to: "pages#maps_page", as: :maps_page

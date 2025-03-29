@@ -127,21 +127,27 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   document.querySelector("#submit-sale").addEventListener("click", function () {
+    const pathSegments = window.location.pathname.split("/");
+    const buyerId = pathSegments[2]; // buyers/10/webview/1537240286 → 10
+    const telegramChatId = pathSegments[4];
     fetch("/sales/webview", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sale: cart })
+      body: JSON.stringify({
+        sale: cart,
+        buyer_id: buyerId,
+        telegram_chat_id: telegramChatId
+      })
     })
     .then(response => response.json())
     .then(data => {
-      if (data.message) {
-        alert("✅ Sale Created Successfully!");
-        window.location.href = "/thank_you";
+      if (data.success == true) {
+        window.location.href = "/sale_completed";
       } else {
-        alert("❌ Failed to create sale.");
+        alert("❌ Ошибка.");
       }
     })
-    .catch(() => alert("❌ Failed to create sale."));
+    .catch(() => alert("❌ error."));
   });
 });
 </script>
