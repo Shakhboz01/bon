@@ -1,8 +1,8 @@
 class BuyersController < ApplicationController
   before_action :set_buyer, only: %i[ webview_sale_form toggle_active show edit update destroy toggle_active ]
   before_action :verify_by_telegram_chat_authorized, only: %i[list_buyers]
-  skip_before_action :authenticate_user!, only: %i[list_buyers webview_sale_form]
-  skip_before_action :verify_authenticity_token, only: %i[list_buyers]
+  skip_before_action :authenticate_user!, only: %i[list_buyers create_via_telegram_bot webview_sale_form]
+  skip_before_action :verify_authenticity_token, only: %i[list_buyers create_via_telegram_bot]
   # GET /buyers or /buyers.json
   def index
     @q = Buyer.ransack(params[:q])
@@ -36,6 +36,30 @@ class BuyersController < ApplicationController
       end
 
       @buyer.save_images_to_temporary_location(buyer_params[:images], @buyer)
+    end
+  end
+
+  def create_via_telegram_bot
+    user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
+    render json: { error: "User not found" }, status: :not_found unless user
+
+    buyer = Buyer.new(
+      agent_user: user,
+      diller_user: User.find(params[:agent_diller_id]),
+      debt_in_usd: '',
+      debt_in_uzs: '',
+      name: params[:name],
+      phone_number: params[:phone],
+      comment: params[:comment],
+      longitude: params[:longitude],
+      latitude: params[:latitude],
+      address: params[:address]
+    )
+
+    if buyer.save
+      render json: { message: "Buyer created" }, status: :created
+    else
+      render json: { error: buyer.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

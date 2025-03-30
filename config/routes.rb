@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   end
   resources :buyers do
     get :list_buyers, on: :collection
+    post :create_via_telegram_bot, on: :collection
     post :toggle_active, on: :member
     get 'webview/:telegram_chat_id', action: :webview_sale_form, on: :member
     get :statistics, on: :collection
@@ -103,6 +104,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: "sessions" }
 
   resources :users do
+    get "dillers", to: :dillers, on: :collection
     get :toggle_active_user, on: :member
     get :new_user_form, on: :collection
     post :auto_user_creation, on: :collection

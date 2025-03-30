@@ -1,13 +1,18 @@
 class UsersController < ApplicationController
   include Pundit::Authorization
   # before_action :authenticate_api_request, only: %i[verify_by_telegram_chat_id verify_by_phone_number]
-  skip_before_action :authenticate_user!, only: %i[verify_by_telegram_chat_id verify_by_phone_number create_sale]
-  skip_before_action :verify_authenticity_token, only: %i[verify_by_telegram_chat_id verify_by_phone_number create_sale]
+  skip_before_action :authenticate_user!, only: %i[verify_by_telegram_chat_id verify_by_phone_number create_sale dillers]
+  skip_before_action :verify_authenticity_token, only: %i[verify_by_telegram_chat_id verify_by_phone_number create_sale dillers]
 
   def index
     authorize User, :access?
 
     @users = User.all.order(active: :desc).order(:name)
+  end
+
+  def dillers
+    dillers = User.where(role: "дилер").select(:id, :name)
+    render json: dillers
   end
 
   def show
