@@ -100,8 +100,15 @@ class BuyersController < ApplicationController
 
   def list_buyers
     query = params[:query].to_s.strip
+    lat = params[:latitude].to_f
+    lon = params[:longitude].to_f
+
     buyers = Buyer.where(active: true)
     buyers = buyers.where("name ILIKE ?", "%#{query}%") if query.present?
+
+    if lat.nonzero? && lon.nonzero?
+      buyers = buyers.order(Arel.sql("((latitude - #{lat})^2 + (longitude - #{lon})^2) ASC"))
+    end
 
     render json: { success: true, buyers: buyers.select(:id, :name, :longitude, :latitude, :address) }
   end
