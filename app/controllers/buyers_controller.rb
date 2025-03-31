@@ -1,6 +1,6 @@
 class BuyersController < ApplicationController
   before_action :set_buyer, only: %i[ webview_sale_form toggle_active show edit update destroy toggle_active ]
-  before_action :verify_by_telegram_chat_authorized, only: %i[list_buyers]
+  before_action :verify_by_telegram_chat_authorized, only: %i[list_buyers create_via_telegram_bot webview_sale_form]
   skip_before_action :authenticate_user!, only: %i[list_buyers create_via_telegram_bot webview_sale_form]
   skip_before_action :verify_authenticity_token, only: %i[list_buyers create_via_telegram_bot]
   # GET /buyers or /buyers.json
@@ -41,7 +41,7 @@ class BuyersController < ApplicationController
 
   def create_via_telegram_bot
     user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
-    render json: { error: "User not found" }, status: :not_found unless user
+    render json: { error: "User not found" }, status: :not_found unless user&.агент?
 
     buyer = Buyer.new(
       agent_user: user,
@@ -57,7 +57,7 @@ class BuyersController < ApplicationController
     )
 
     if buyer.save
-      render json: { message: "Buyer created" }, status: :created
+      render json: buyer.to_json , status: :created
     else
       render json: { error: buyer.errors.full_messages }, status: :unprocessable_entity
     end
@@ -104,6 +104,11 @@ class BuyersController < ApplicationController
     lon = params[:longitude].to_f
 
     buyers = Buyer.where(active: true)
+    if params[:fetch_all_buyers] == 'false'
+      user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
+      buyers = buyers.where(agent_user: user)
+    end
+
     buyers = buyers.where("name ILIKE ?", "%#{query}%") if query.present?
 
     if lat.nonzero? && lon.nonzero?
