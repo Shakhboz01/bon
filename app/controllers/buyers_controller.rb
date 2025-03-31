@@ -104,9 +104,16 @@ class BuyersController < ApplicationController
     lon = params[:longitude].to_f
 
     buyers = Buyer.where(active: true)
+    user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
     if params[:fetch_all_buyers] == 'false'
-      user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
-      buyers = buyers.where(agent_user: user)
+      buyers =
+        if user.агент?
+          buyers.where(agent_user: user)
+        elsif user.дилер?
+          buyers.where(diller_user: user)
+        else
+          buyers
+        end
     end
 
     buyers = buyers.where("name ILIKE ?", "%#{query}%") if query.present?
@@ -115,7 +122,7 @@ class BuyersController < ApplicationController
       buyers = buyers.order(Arel.sql("((latitude - #{lat})^2 + (longitude - #{lon})^2) ASC"))
     end
 
-    render json: { success: true, buyers: buyers.select(:id, :name, :longitude, :latitude, :address) }
+    render json: { success: true, buyers: buyers.select(:id, :name, :longitude, :latitude, :address), user_role: user.role }
   end
 
   def webview_sale_form
