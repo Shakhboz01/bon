@@ -60,6 +60,7 @@ Rails.application.routes.draw do
   resources :buyers do
     get :list_buyers, on: :collection
     post :create_via_telegram_bot, on: :collection
+    post :accept_total_paid, on: :member
     post :toggle_active, on: :member
     get 'webview/:telegram_chat_id', action: :webview_sale_form, on: :member
     get :statistics, on: :collection

@@ -1,8 +1,9 @@
 class BuyersController < ApplicationController
-  before_action :set_buyer, only: %i[ webview_sale_form toggle_active show edit update destroy toggle_active ]
-  before_action :verify_by_telegram_chat_authorized, only: %i[list_buyers create_via_telegram_bot webview_sale_form]
-  skip_before_action :authenticate_user!, only: %i[list_buyers create_via_telegram_bot webview_sale_form]
-  skip_before_action :verify_authenticity_token, only: %i[list_buyers create_via_telegram_bot]
+  before_action :set_buyer, only: %i[ webview_sale_form toggle_active show edit update destroy toggle_active accept_total_paid]
+  before_action :verify_by_telegram_chat_authorized, only: %i[accept_total_paid list_buyers create_via_telegram_bot webview_sale_form]
+  skip_before_action :authenticate_user!, only: %i[list_buyers create_via_telegram_bot webview_sale_form accept_total_paid]
+  skip_before_action :verify_authenticity_token, only: %i[list_buyers create_via_telegram_bot accept_total_paid]
+
   # GET /buyers or /buyers.json
   def index
     @q = Buyer.ransack(params[:q])
@@ -141,6 +142,28 @@ class BuyersController < ApplicationController
       price_in_usd: false
     )
     @categories = ProductCategory.includes(:packs).where(packs: { active: true }).order(:name)
+  end
+
+  def accept_total_paid
+    user = User.find_by_telegram_chat_id(params[:telegram_chat_id])
+    return { success: false } unless user&.дилер?
+
+    sale =
+      Sale.new(
+        buyer_id: @buyer.id,
+        user: user,
+        agent_user: @buyer.agent_user,
+        diller_user: user,
+        total_price: 0,
+        total_paid: params[:total_paid],
+        status: :closed,
+        price_in_usd: false
+      )
+    if sale.save
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end
   end
 
   private
