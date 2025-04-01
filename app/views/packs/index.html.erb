@@ -9,6 +9,7 @@
       <table class="table table-hover table-bordered table-striped">
         <thead class='table-dark'>
           <tr>
+            <th>ID</th>
             <th>Название</th>
             <th>Грамм</th>
             <th>Остаток</th>
@@ -21,6 +22,7 @@
         <tbody>
           <% @packs.each do |pack| %>
             <tr class="<%= active_tr(pack.active) %>">
+              <td><%= pack.id %></td>
               <td class='d-flex align-items-center'>
                 <% if pack.image.persisted? %>
                   <div class='pack-image'>
