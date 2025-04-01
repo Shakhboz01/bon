@@ -43,6 +43,17 @@ class Sale < ApplicationRecord
     product_sells.sum(:total_profit)
   end
 
+  def show_sale_via_qr_code_svg
+    qr = RQRCode::QRCode.new("#{ENV.fetch('HOST_URL')}/sales/#{id}")
+    qr.as_svg(
+      color: "000",
+      shape_rendering: "crispEdges",
+      module_size: 1.9,
+      standalone: true,
+      use_path: true
+    )
+  end
+
 
   private
 

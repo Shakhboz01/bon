@@ -12,6 +12,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'bootstrap-sass'
 gem 'devise'
+gem 'rqrcode'
 gem 'pundit'
 gem 'simple_form'
 gem "bulma-rails", "~> 0.9.4"

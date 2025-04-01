@@ -58,6 +58,20 @@
       </tr>
     </tbody>
   </table>
+  <div class='row'>
+    <div class='col-sm-6'>
+      <div class='d-flex flex-column justify-content-center align-items-center'>
+        <div>Сканируйте</div>
+        <div><%= raw sale.show_sale_via_qr_code_svg %></div>
+      </div>
+    </div>
+    <div class='col-sm-6'>
+      <div class='d-flex flex-column justify-content-center align-items-center'>
+        <div>Локация</div>
+        <div><%= raw sale.buyer.qr_code_location_svg %></div>
+      </div>
+    </div>
+  </div>
 
   <% if defined?(total_debt_in_uzs) %>
     <div class='d-flex justify-content-between'>
@@ -69,15 +83,3 @@
   <% end %>
   <br/><hr><br/><br/>
 </div>
-<script>
-  $(document).ready(function(){
-    var qrcode = new QRCode("qrcode", {
-      text: "<%= ENV.fetch('HOST_URL') %>/sales/<%= sale.id %>",
-      width: 100,
-      height: 100,
-      colorDark : "#000000",
-      colorLight : "#ffffff",
-      correctLevel : QRCode.CorrectLevel.H
-    });
-  })
-</script>

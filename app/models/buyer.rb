@@ -26,6 +26,19 @@ class Buyer < ApplicationRecord
     self.sales.price_in_uzs.sum(:total_price) - self.sales.price_in_uzs.sum(:total_paid)
   end
 
+  def qr_code_location_svg
+    map_url = "https://www.google.com/maps?q=#{latitude},#{longitude}"
+    qr = RQRCode::QRCode.new(map_url)
+
+    qr.as_svg(
+      color: "000",
+      shape_rendering: "crispEdges",
+      module_size: 1.8,
+      standalone: true,
+      use_path: true
+    )
+  end
+
   private
 
 
