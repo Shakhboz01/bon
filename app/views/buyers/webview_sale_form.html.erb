@@ -6,16 +6,16 @@
     </div>
 
     <!-- Category Tabs -->
-    <ul class="nav nav-tabs justify-content-center" id="category-tabs">
+    <ul class="nav nav-tabs justify-content-center" id="category-tabs" style="font-size: small;">
       <li class="nav-item">
-        <a class="nav-link active" data-category="all">Все</a>
+      <a class="nav-link active" data-category="all">Все</a>
       </li>
       <% @categories.each do |category| %>
-        <li class="nav-item">
-          <a class="nav-link" data-category="<%= category.id %>">
-            <%= category.name %>
-          </a>
-        </li>
+      <li class="nav-item">
+        <a class="nav-link" data-category="<%= category.id %>">
+        <%= category.name %>
+        </a>
+      </li>
       <% end %>
     </ul>
   </div>
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
       let price = parseFloat(priceText.replace(/[^\d.]/g, '')) || 0;
 
       total += price * cart[id];
-      itemList += `<li>${packName}: ${cart[id]} pcs</li>`;
+      itemList += `<li>${packName}: ${cart[id]} шт.</li>`;
     });
 
     document.querySelector("#total-price").textContent = total.toLocaleString();
