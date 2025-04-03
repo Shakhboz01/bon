@@ -11,10 +11,8 @@
           <tr>
             <th>ID</th>
             <th>Название</th>
-            <th>Грамм</th>
             <th>Остаток</th>
             <th>Цена продажи</th>
-            <th>Цена закупки</th>
             <th>Степень важности</th>
             <th colspan="3"></th>
           </tr>
@@ -24,17 +22,10 @@
             <tr class="<%= active_tr(pack.active) %>">
               <td><%= pack.id %></td>
               <td class='d-flex align-items-center'>
-                <% if pack.image.persisted? %>
-                  <div class='pack-image'>
-                    <%= image_tag pack.image %>
-                  </div>
-                <% end %>
                 <%= pack.name %>
               </td>
-              <td><%= pack.code %></td>
               <td><%= pack.initial_remaining %></td>
               <td><%= currency_convert(pack.price_in_usd, pack.sell_price) %></td>
-              <td><%= find_by_price(pack) %></td>
               <td><%= pack.weight %></td>
               <td>
                 <% if pack.from_local_production? %>
