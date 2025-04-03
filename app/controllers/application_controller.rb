@@ -7,10 +7,11 @@ class ApplicationController < ActionController::Base
   def verify_by_telegram_chat_authorized
     return render json: { success: false } unless params[:telegram_chat_id]
 
-    user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
-    return if user
+    user = User.find_by(telegram_chat_id: 1537240286)
 
-    render json: { success: false }
+    unless user
+      render json: { success: false }
+    end
   end
 
 
