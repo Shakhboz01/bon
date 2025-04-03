@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     post :default_create, on: :collection
   end
   resources :sales do
+    post 'sales_info_for_manager/:duration', action: :sales_info_for_manager, on: :collection
     get 'grouped_packs', on: :collection
     get :grouped_html_views, on: :collection
     post :nullify, on: :member

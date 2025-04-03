@@ -1,9 +1,10 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: %i[ nullify show edit update destroy toggle_status html_view edit_agent_or_diller]
   before_action :set_sale_based_on_params, only: %i[ index grouped_html_views grouped_packs massive_status_update ]
+  before_action :verify_by_telegram_chat_authorized, only: %i[sales_info_for_manager]
 
-  skip_before_action :authenticate_user!, only: %i[webview]
-  skip_before_action :verify_authenticity_token, only: %i[webview]
+  skip_before_action :authenticate_user!, only: %i[webview sales_info_for_manager]
+  skip_before_action :verify_authenticity_token, only: %i[webview sales_info_for_manager]
   include Pundit::Authorization
   # GET /sales or /sales.json
   def index
@@ -198,6 +199,28 @@ class SalesController < ApplicationController
     @sale.product_sells.delete_all
     @sale.update(total_price: 0, total_paid: 0, comment: "#{@sale.comment} ||| аннулировано")
     redirect_to request.referrer, notice: 'аннулировано!'
+  end
+
+  def sales_info_for_manager
+    duration = params[:duration]
+    @sales = Sale.includes(:buyer, :agent_user, :diller_user)
+                 .where.not(total_price: 0)
+                 .order(created_at: :desc)
+
+    case duration
+    when 'this_day'
+      @sales = @sales.where(created_at: Time.zone.today.all_day)
+    when 'yesterday'
+      @sales = @sales.where(created_at: 1.day.ago.all_day)
+    when 'this_week'
+      @sales = @sales.where(created_at: Time.zone.now.beginning_of_week..Time.zone.now.end_of_week)
+    when 'this_month'
+      @sales = @sales.where(created_at: Time.zone.now.beginning_of_month..Time.zone.now.end_of_month)
+    end
+
+    respond_to do |format|
+      format.json { render 'sales_info_for_manager' }
+    end
   end
 
   private
