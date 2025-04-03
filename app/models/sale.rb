@@ -58,19 +58,32 @@ class Sale < ApplicationRecord
   private
 
   def process_status_change
-    if closed? && status_before_last_save != 'closed'
-      if enable_to_send_sms
-        price_sign = price_in_usd ? '$' : 'сум'
-        message =  "Sotuv amalga oshirildi\n" \
-          "<b>Mijoz</b>: #{buyer.name}\n" \
-          "<b>To'lov turi</b>: #{payment_type}\n" \
-          "<b>Jami narx:</b> #{total_price} #{price_sign}\n"
-        message << "&#9888<b>To'landi:</b> #{total_paid} #{price_sign}\n" if total_price != total_paid
-        message << "<b>Комментарие:</b> #{comment}\n" if comment.present?
-        SendMessageJob.perform_later(message)
-      else
-        self.enable_to_send_sms = false
+    if verified_by_agent? && status_before_last_save != 'verified_by_agent'
+      price_sign = price_in_usd ? '$' : 'сум'
+      message =
+        "Новый заказ от агента <b>#{user.name}</b>\n" \
+        "<b>Клиент</b>: #{buyer.name}\n" \
+        "<b>Агент</b>: #{diller_user.name}\n"
+
+      product_sells.each do |product_sell|
+        message << "#{product_sell.pack.name}: #{product_sell.amount} шт.\n"
       end
+
+      message << "<b>Итого цена:</b> #{total_price} #{price_sign}\n"
+      message << "<a href=\"#{ENV.fetch('HOST_URL')}/sales/#{id}\">Посмотреть</a>"
+      SendMessageJob.perform_later(message, 'agent')
+    elsif closed? && status_before_last_save != 'closed'
+      return unless enable_to_send_sms
+
+      message =
+        "Поступление денег\n" \
+        "<b>Диллер:</b>: #{user.name}\n" \
+        "<b>Покупатель:</b>: #{buyer.name}\n" \
+        "<b>Цена заказа:</b>: #{total_price}\n" \
+        "<b>Оплачено:</b>: #{total_paid}\n" \
+        "<a href=\"#{ENV.fetch('HOST_URL')}/sales/#{id}\">Посмотреть</a>"
+      SendMessageJob.perform_later(message)
+      self.enable_to_send_sms = false
     end
   end
 

@@ -10,7 +10,7 @@ class SendMessageJob < ApplicationJob
     chat_id =
       case chat
       when 'tech'
-        ENV["TELEGRAM_CHAT_ID"]
+        ENV["TELEGRAM_REPORT_CHAT_ID"]
       when 'warning'
         ENV["TELEGRAM_WARNING_CHAT_ID"]
       when 'report'

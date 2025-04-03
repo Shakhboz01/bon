@@ -15,6 +15,7 @@ class Buyer < ApplicationRecord
   has_many :sale_from_local_services
   has_many :sale_from_services
   scope :active, -> { where(:active => true) }
+  before_create :send_message
   after_create :set_debt
   validate :valid_roles
 
@@ -41,6 +42,17 @@ class Buyer < ApplicationRecord
 
   private
 
+  def send_message
+    message =
+      "Новый покупатель:\n" \
+      "<b>#{name}</b>\n" \
+      "<b>Агент:</b> #{agent_user.name}\n" \
+      "<b>Диллер:</b> #{diller_user.name}\n" \
+      "<b>Адресс:</b> #{address}\n" \
+      "<b>Номер телефона:</b> #{phone_number}"
+
+    SendMessageJob.perform_later(message, 'agent')
+  end
 
   def valid_roles
     unless agent_user&.агент?
