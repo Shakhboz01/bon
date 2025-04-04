@@ -1,7 +1,6 @@
 class SalesController < ApplicationController
   before_action :set_sale, only: %i[ nullify show edit update destroy toggle_status html_view edit_agent_or_diller]
   before_action :set_sale_based_on_params, only: %i[ index grouped_html_views grouped_packs massive_status_update ]
-  before_action :verify_by_telegram_chat_authorized, only: %i[sales_info_for_manager]
 
   skip_before_action :authenticate_user!, only: %i[webview sales_info_for_manager]
   skip_before_action :verify_authenticity_token, only: %i[webview sales_info_for_manager]
