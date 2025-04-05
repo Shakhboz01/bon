@@ -107,3 +107,8 @@ User.create(role: :менеджер, name: 'Nuriddin', email: 'nuriddin@gmail.co
 User.create(role: :агент, name: 'Диёр Бахриддинов', email: 'diyor@gmail.com', password: 123456, phone_number: '+998942779944')
 User.create(role: :агент, name: 'Умид Иноятов', email: 'umid@gmail.com', password: 123456, phone_number: '+998994820505')
 User.create(role: :дилер, name: 'Дониёр', email: 'doniyor@gmail.com', password: 123456, phone_number: '+998992611000')
+
+User.create(role: :менеджер, name: 'Nuriddin', email: 'nuriddin@gmail.com', password: 654321, phone_number: '+998933335454')
+User.create(role: :менеджер, name: 'Nuriddin', email: 'nuriddin@gmail.com', password: 654321, phone_number: '+998933335454')
+User.create(role: :агент, name: 'Furkat', email: 'furkat@gmail.com', password: 123456, phone_number: '+998904627970')
+User.create(role: :админ, name: 'admin', email: 'admin@gmail.com', password: 123456, phone_number: '+998979302455')
