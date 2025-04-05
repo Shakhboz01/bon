@@ -11,6 +11,7 @@
           <tr>
             <th>ID</th>
             <th>Название</th>
+            <th>количество в пачке</th>
             <th>Остаток</th>
             <th>Цена продажи</th>
             <th>Степень важности</th>
@@ -25,6 +26,7 @@
                 <%= pack.name %>
               </td>
               <td><%= pack.initial_remaining %></td>
+              <td><%= pack.amount_per_pack %></td>
               <td><%= currency_convert(pack.price_in_usd, pack.sell_price) %></td>
               <td><%= pack.weight %></td>
               <td>

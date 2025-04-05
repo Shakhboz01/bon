@@ -16,6 +16,7 @@
         <%= f.input :price_in_usd, label: false, as: :hidden %>
         <%= f.input :sell_price, label: 'Цена продажи (за единицу)', required: true %>
         <%= f.input :buy_price, label: 'Цена закупки (за единицу)', required: true %>
+        <%= f.input :amount_per_pack, lanel: 'количество в пачке' %>
         <%= f.input :weight, label: 'Степень важности' %>
         <%# <%= f.input :image, input_html: { accept: "image/*" }, label: 'Загрузить изображение' %><br/>
         <%= f.submit 'Сохранить', class: 'btn btn-primary' %>
