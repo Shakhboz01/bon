@@ -206,6 +206,9 @@ class SalesController < ApplicationController
                  .where.not(total_price: 0)
                  .order(created_at: :desc)
 
+    user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
+    @sales = @sales.where(agent_user: user) if user&.агент?
+
     case duration
     when 'this_day'
       @sales = @sales.where(created_at: Time.zone.today.all_day)
