@@ -203,11 +203,14 @@ class SalesController < ApplicationController
   def sales_info_for_manager
     duration = params[:duration]
     @sales = Sale.includes(:buyer, :agent_user, :diller_user)
-                 .where.not(total_price: 0)
                  .order(created_at: :desc)
 
     user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
     @sales = @sales.where(agent_user: user) if user&.агент?
+
+    if params[:buyer_id].present?
+      @sales = @sales.where(buyer_id: params[:buyer_id])
+    end
 
     case duration
     when 'this_day'
