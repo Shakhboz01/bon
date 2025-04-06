@@ -1,6 +1,6 @@
 <!-- Search Input -->
 <div style='font-size: small'>
-  <div class='fixed-top bg-warning'>
+  <div class='fixed-top bg-warning' style='opacity: 0.88;'>
     <div class="text-center my-3">
       <input type="text" id="pack-search" class="form-control w-50 mx-auto" placeholder="🔍 Поиск...">
     </div>
@@ -57,8 +57,13 @@
   <!-- Summary -->
   <div id="summary" class="bg-white p-3 mb-5 pb-5 shadow border-top">
     <ul id="selected-items" class="list-unstyled text-center"></ul>
-    <button id="submit-sale" class="fixed-bottom btn btn-success w-100">✅ Oформить продажу <span id="total-price">0</span></button>
+    <button id="submit-sale" style='opacity: 0.7;' class="fixed-bottom btn btn-success w-100">✅ Oформить продажу <span id="total-price">0</span></button>
   </div>
+
+  <!-- Toggle Button -->
+  <button id="toggle-summary-btn" class="btn btn-warning rounded-circle shadow" style="position: fixed; bottom: 90px; right: 20px; z-index: 1050; width: 50px; height: 50px;">
+    🧾
+  </button>
 </div>
 
 <script>
@@ -75,7 +80,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Category tabs
   document.querySelectorAll("#category-tabs .nav-link").forEach(tab => {
     tab.addEventListener("click", function () {
       selectedCategory = this.getAttribute("data-category");
@@ -85,10 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Search input
   document.querySelector("#pack-search").addEventListener("input", filterPacks);
 
-  // Quantity +/- buttons
   document.querySelectorAll(".change-qty").forEach(button => {
     button.addEventListener("click", function () {
       let packId = this.getAttribute("data-pack-id");
@@ -99,7 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Manual quantity input
   document.querySelectorAll(".qty-input").forEach(input => {
     input.addEventListener("input", function () {
       let packId = this.getAttribute("data-pack-id");
@@ -107,7 +108,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Box input logic
   document.querySelectorAll(".box-input").forEach(boxInput => {
     boxInput.addEventListener("input", function () {
       let packId = this.getAttribute("data-pack-id");
@@ -132,12 +132,25 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateSummary() {
     let total = 0;
     let itemList = "";
+
     Object.keys(cart).forEach(id => {
       let card = document.querySelector(`.pack-card[data-pack-id='${id}']`);
       let name = card.querySelector(".card-title").innerText;
       let price = parseFloat(card.querySelector(".card-text").innerText.replace(/[^\d.]/g, '')) || 0;
-      total += price * cart[id];
-      itemList += `<li>${name}: ${cart[id]} шт.</li>`;
+      let qty = cart[id];
+
+      let amountPerPack = parseInt(card.querySelector(".box-input").getAttribute("data-amount-per-pack")) || 1;
+      let boxes = Math.floor(qty / amountPerPack);
+      let pieces = qty % amountPerPack;
+
+      let parts = [];
+      if (boxes > 0) parts.push(`${boxes} коробк${boxes === 1 ? 'а' : (boxes < 5 ? 'и' : '')}`);
+      if (pieces > 0) parts.push(`${pieces} шт`);
+
+      let displayQty = parts.length > 0 ? parts.join(' и ') : '0 шт';
+
+      itemList += `<li>${name}: ${displayQty}</li>`;
+      total += price * qty;
     });
 
     document.querySelector("#total-price").textContent = total.toLocaleString();
@@ -145,6 +158,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   document.querySelector("#submit-sale").addEventListener("click", function () {
+    this.disabled = true;
+    this.innerText = "подождите...";
     const [_, buyers, buyerId, __, telegramChatId] = window.location.pathname.split("/");
     fetch("/sales/webview", {
       method: "POST",
@@ -165,6 +180,24 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch(() => alert("❌ error."));
   });
+
+  // Toggle summary
+  const summary = document.getElementById("summary");
+  const toggleBtn = document.getElementById("toggle-summary-btn");
+  let isItemsVisible = false;
+  const selectedItems = document.getElementById("selected-items");
+
+  toggleBtn.addEventListener("click", function () {
+    isItemsVisible = !isItemsVisible;
+    if (isItemsVisible) {
+      selectedItems.classList.add("center-popup");
+      selectedItems.style.display = "block";
+    } else {
+      selectedItems.classList.remove("center-popup");
+      selectedItems.style.display = "none";
+    }
+  });
+
 });
 </script>
 
@@ -193,6 +226,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
   #summary {
     background-color: #fff;
+    transition: all 0.3s ease-in-out;
+  }
+
+  #toggle-summary-btn {
+    font-size: 20px;
+    line-height: 1;
+    padding: 10px;
+  }
+
+  .center-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    z-index: 2000;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    max-width: 95%;
+    max-height: 70%;
+    overflow-y: auto;
+    text-align: left;
+    font-size: 14px;
   }
 
   @media (max-width: 768px) {
