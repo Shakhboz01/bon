@@ -6,7 +6,7 @@
           <th>#</th>
         <% end %>
         <th>Товар</th>
-        <th>Кол.</th>
+        <th>Кол. упаковки</th>
         <th>Цена</th>
         <th>Сумма</th>
         <% unless defined?(shrink) %>
@@ -28,7 +28,7 @@
                 <%= product_sell.product.name %>
               <% end %>
             </td>
-            <td><%= product_sell.amount.to_f %></td>
+            <td><%= product_sell.amount_in_string %></td>
             <td><%= currency_convert(product_sell.price_in_usd, product_sell.sell_price) %></td>
             <td><%= currency_convert(product_sell.price_in_usd, (product_sell.sell_price * product_sell.amount.to_f)) %></td>
             <% unless defined?(shrink) %>
@@ -43,7 +43,7 @@
         <% if defined?(shrink) %>
           <tr>
             <th></th>
-            <th><%= product_sells.sum(:amount) %></th>
+            <th></th>
             <th></th>
             <th><%= currency_convert sale.price_in_usd, sale.total_price %></th>
             <th></th>

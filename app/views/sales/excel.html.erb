@@ -17,7 +17,7 @@
         <tr>
           <td><%= index + 1 %></td>
           <td><%= product_sell.pack.name %></td>
-          <td><%= product_sell.amount %></td>
+          <td><%= product_sell.amount_in_string %></td>
           <td><%= num_to_usd(product_sell.sell_price) %></td>
           <td><%= num_to_usd(product_sell.amount * product_sell.sell_price) %></td>
         </tr>

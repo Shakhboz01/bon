@@ -27,6 +27,24 @@ class ProductSell < ApplicationRecord
   scope :price_in_uzs, -> { where('price_in_usd = ?', false) }
   scope :price_in_usd, -> { where('price_in_usd = ?', true) }
 
+  def amount_in_string
+    return '' unless amount
+
+    amount_per_pack = pack.amount_per_pack
+    if amount < amount_per_pack
+      return "#{amount} ШТУК"
+    end
+
+    amount_in_box = (amount / amount_per_pack).to_i
+    remaining = (amount % amount_per_pack).to_i
+
+    if remaining.zero?
+      amount_in_box
+    else
+      "#{amount_in_box} УПАКОВКА И #{remaining} ШТУК"
+    end
+  end
+
   private
 
   def increase_total_price

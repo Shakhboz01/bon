@@ -37,7 +37,7 @@
         <tr>
           <td><%= index + 1 %></td>
           <td><%= product_sell.pack.name %></td>
-          <td><%= product_sell.amount %></td>
+          <td><%= product_sell.amount_in_string %></td>
           <td><%= currency_convert(product_sell.price_in_usd, product_sell.sell_price) %></td>
           <td><%= currency_convert(product_sell.price_in_usd, (product_sell.sell_price * product_sell.amount)) %></td>
         </tr>
@@ -45,9 +45,9 @@
       <tr>
         <th><%= 'ИТОГО:'.downcase %></th>
         <th></th>
-        <th><%= sale.product_sells.sum(:amount) %></th>
         <th></th>
-        <th><%= currency_convert(sale.price_in_usd, sale.product_sells.sum('sell_price * amount')) %></th>
+        <th></th>
+        <th><%= sale.product_sells.sum('sell_price * amount') %></th>
       </tr>
       <tr>
         <th><%= 'ИТОГО ОПЛАЧЕНО:'.downcase %></th>

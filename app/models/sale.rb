@@ -66,7 +66,7 @@ class Sale < ApplicationRecord
         "<b>Агент</b>: #{diller_user.name}\n"
 
       product_sells.each do |product_sell|
-        message << "#{product_sell.pack.name}: #{product_sell.amount} шт.\n"
+        message << "#{product_sell.pack.name}: #{product_sell.amount_in_string}\n"
       end
 
       message << "<b>Итого цена:</b> #{total_price} #{price_sign}\n"

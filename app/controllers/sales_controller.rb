@@ -8,7 +8,7 @@ class SalesController < ApplicationController
   # GET /sales or /sales.json
   def index
     @sales_data = @sales
-    @sales = @sales.page(params[:page]).per(70)
+    @sales = @sales.order(created_at: :desc).page(params[:page]).per(70)
   end
 
   # GET /sales/1 or /sales/1.json

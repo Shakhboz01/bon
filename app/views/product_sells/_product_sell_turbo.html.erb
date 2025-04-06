@@ -2,7 +2,7 @@
   <td><%= product_sell.id %></td>
   <td><%= product_sell.buyer.name %></td>
   <td><%= product_sell.product.name %></td>
-  <td><%= product_sell.amount %></td>
+  <td><%= product_sell.amount_in_string %></td>
   <td><%= currency_convert(product_sell.price_in_usd, product_sell.sell_price) %></td>
   <td><%= currency_convert(product_sell.price_in_usd, product_sell.sell_price * product_sell.amount) %></td>
   <td><%= currency_convert(product_sell.price_in_usd, product_sell.total_profit) %></td>
