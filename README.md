@@ -30,3 +30,4 @@ Inside WholesaleReport#show display sales, if agent_diller is present: display o
 After create send report to telegram with link, grouped by AgentDiller
 Fix the way product_sell.amount is defined, display amount_per_pack and remaining out of pack if exists
 Fix monthly/daily report
+Add ability to update buyers location for agents

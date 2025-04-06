@@ -8,97 +8,115 @@
     <!-- Category Tabs -->
     <ul class="nav nav-tabs justify-content-center" id="category-tabs" style="font-size: small;">
       <li class="nav-item">
-      <a class="nav-link active" data-category="all">Все</a>
+        <a class="nav-link active" data-category="all">Все</a>
       </li>
       <% @categories.each do |category| %>
-      <li class="nav-item">
-        <a class="nav-link" data-category="<%= category.id %>">
-        <%= category.name %>
-        </a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link" data-category="<%= category.id %>"><%= category.name %></a>
+        </li>
       <% end %>
     </ul>
   </div>
-    <!-- Pack List -->
-    <div style='margin-top: 100px;'><div>
-    <div class='mt-5'><div>
-    <div class="mt-5 row row-cols-2 row-cols-sm-1 row-cols-md-2 g-3" id="pack-list">
-      <% @categories.each do |category| %>
-        <% category.packs.order(name: :asc).each do |pack| %>
-        <div class="col pack-card" data-category="<%= category.id %>" data-name="<%= pack.name.downcase %>" data-pack-id="<%= pack.id %>">
-            <div class="card h-100 shadow-sm">
-            <img src="<%= asset_path("pack_#{pack.id}.png") if File.exist?(Rails.root.join("app/assets/images/pack_#{pack.id}.png")) %>"
-                class="card-img-top" alt="<%= pack.name %>">
-            <div class="card-body text-center">
-                <span class="card-title fw-bold"><%= pack.name %></span>
-                <p class="card-text text-success fw-bold">💰 <%= num_to_usd pack.sell_price %></p>
-                <div class="d-flex justify-content-center align-items-center gap-1">
-                <button class="btn btn-sm btn-outline-danger change-qty" data-pack-id="<%= pack.id %>" data-change="-1">-</button>
-                <input type="number" class="form-control text-center qty-input" data-pack-id="<%= pack.id %>" value="0" min="0" style="width: 65px;">
-                <button class="btn btn-sm btn-outline-success change-qty" data-pack-id="<%= pack.id %>" data-change="1">+</button>
-                </div>
-            </div>
-            </div>
-        </div>
-        <% end %>
-      <% end %>
-    </div>
 
-    <!-- Summary -->
-    <div id="summary" class="bg-white p-3 mb-5 pb-5 shadow border-top">
-        <ul id="selected-items" class="list-unstyled text-center"></ul>
-        <button id="submit-sale" class="fixed-bottom  btn btn-success w-100">✅ Oформить продажу <span id="total-price">0</span></button>
+  <!-- Pack List -->
+  <div style='margin-top: 100px;'>
+    <div class='mt-5'>
+      <div class="mt-5 row row-cols-2 row-cols-sm-1 row-cols-md-2 g-3" id="pack-list">
+        <% @categories.each do |category| %>
+          <% category.packs.order(name: :asc).each do |pack| %>
+            <div class="col pack-card" data-category="<%= category.id %>" data-name="<%= pack.name.downcase %>" data-pack-id="<%= pack.id %>">
+              <div class="card h-100 shadow-sm">
+                <img src="<%= asset_path("pack_#{pack.id}.png") if File.exist?(Rails.root.join("app/assets/images/pack_#{pack.id}.png")) %>"
+                     class="card-img-top" alt="<%= pack.name %>">
+                <div class="card-body text-center">
+                  <span class="card-title fw-bold"><%= pack.name %></span>
+                  <p class="card-text text-success fw-bold">💰 <%= num_to_usd pack.sell_price %></p>
+                  <div class="d-flex justify-content-center align-items-center gap-1 mb-2">
+                    <button type="button" class="btn btn-sm btn-outline-danger change-qty" data-pack-id="<%= pack.id %>" data-change="-1">-</button>
+                    <input type="number" class="form-control text-center qty-input" data-pack-id="<%= pack.id %>" value="0" min="0" style="width: 65px;">
+                    <button type="button" class="btn btn-sm btn-outline-success change-qty" data-pack-id="<%= pack.id %>" data-change="1">+</button>
+                  </div>
+                  <div class="d-flex justify-content-center align-items-center gap-2">
+                    <input type="number"
+                           class="form-control text-center box-input"
+                           placeholder="коробок"
+                           min="0"
+                           data-pack-id="<%= pack.id %>"
+                           data-amount-per-pack="<%= pack.amount_per_pack || 1 %>"
+                           style="width: 85px; font-size: 13px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
     </div>
+  </div>
+
+  <!-- Summary -->
+  <div id="summary" class="bg-white p-3 mb-5 pb-5 shadow border-top">
+    <ul id="selected-items" class="list-unstyled text-center"></ul>
+    <button id="submit-sale" class="fixed-bottom btn btn-success w-100">✅ Oформить продажу <span id="total-price">0</span></button>
+  </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   let cart = {};
+  let selectedCategory = "all";
 
-  // Filter packs by category
+  function filterPacks() {
+    const searchText = document.querySelector("#pack-search").value.toLowerCase();
+    document.querySelectorAll(".pack-card").forEach(card => {
+      const matchesCategory = (selectedCategory === "all" || card.getAttribute("data-category") === selectedCategory);
+      const matchesSearch = card.getAttribute("data-name").includes(searchText);
+      card.style.display = (matchesCategory && matchesSearch) ? "block" : "none";
+    });
+  }
+
+  // Category tabs
   document.querySelectorAll("#category-tabs .nav-link").forEach(tab => {
     tab.addEventListener("click", function () {
-      let category = this.getAttribute("data-category");
-
+      selectedCategory = this.getAttribute("data-category");
       document.querySelectorAll("#category-tabs .nav-link").forEach(link => link.classList.remove("active"));
       this.classList.add("active");
-
-      document.querySelectorAll(".pack-card").forEach(card => {
-        if (category === "all" || card.getAttribute("data-category") === category) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
-      });
+      filterPacks();
     });
   });
 
-  // Search functionality
-  document.querySelector("#pack-search").addEventListener("input", function () {
-    let searchText = this.value.toLowerCase();
-    document.querySelectorAll(".pack-card").forEach(card => {
-      let packName = card.getAttribute("data-name");
-      card.style.display = packName.includes(searchText) ? "block" : "none";
-    });
-  });
+  // Search input
+  document.querySelector("#pack-search").addEventListener("input", filterPacks);
 
-  // Quantity controls
+  // Quantity +/- buttons
   document.querySelectorAll(".change-qty").forEach(button => {
     button.addEventListener("click", function () {
       let packId = this.getAttribute("data-pack-id");
-      let change = parseInt(this.getAttribute("data-change"));
       let input = document.querySelector(`.qty-input[data-pack-id='${packId}']`);
-      let newQty = Math.max(0, (parseInt(input.value) || 0) + change);
+      let newQty = Math.max(0, (parseInt(input.value) || 0) + parseInt(this.getAttribute("data-change")));
       input.value = newQty;
       updateCart(packId, newQty);
     });
   });
 
+  // Manual quantity input
   document.querySelectorAll(".qty-input").forEach(input => {
     input.addEventListener("input", function () {
       let packId = this.getAttribute("data-pack-id");
-      let qty = Math.max(0, parseInt(this.value) || 0);
-      updateCart(packId, qty);
+      updateCart(packId, Math.max(0, parseInt(this.value) || 0));
+    });
+  });
+
+  // Box input logic
+  document.querySelectorAll(".box-input").forEach(boxInput => {
+    boxInput.addEventListener("input", function () {
+      let packId = this.getAttribute("data-pack-id");
+      let amountPerPack = parseInt(this.getAttribute("data-amount-per-pack")) || 1;
+      let boxCount = parseInt(this.value) || 0;
+      let calculatedQty = boxCount * amountPerPack;
+      let qtyInput = document.querySelector(`.qty-input[data-pack-id='${packId}']`);
+      qtyInput.value = calculatedQty;
+      updateCart(packId, calculatedQty);
     });
   });
 
@@ -114,15 +132,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateSummary() {
     let total = 0;
     let itemList = "";
-
     Object.keys(cart).forEach(id => {
-      let packElement = document.querySelector(`.pack-card[data-pack-id='${id}']`);
-      let packName = packElement.querySelector(".card-title").innerText;
-      let priceText = packElement.querySelector(".card-text").innerText;
-      let price = parseFloat(priceText.replace(/[^\d.]/g, '')) || 0;
-
+      let card = document.querySelector(`.pack-card[data-pack-id='${id}']`);
+      let name = card.querySelector(".card-title").innerText;
+      let price = parseFloat(card.querySelector(".card-text").innerText.replace(/[^\d.]/g, '')) || 0;
       total += price * cart[id];
-      itemList += `<li>${packName}: ${cart[id]} шт.</li>`;
+      itemList += `<li>${name}: ${cart[id]} шт.</li>`;
     });
 
     document.querySelector("#total-price").textContent = total.toLocaleString();
@@ -130,9 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   document.querySelector("#submit-sale").addEventListener("click", function () {
-    const pathSegments = window.location.pathname.split("/");
-    const buyerId = pathSegments[2]; // buyers/10/webview/1537240286 → 10
-    const telegramChatId = pathSegments[4];
+    const [_, buyers, buyerId, __, telegramChatId] = window.location.pathname.split("/");
     fetch("/sales/webview", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -144,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .then(response => response.json())
     .then(data => {
-      if (data.success == true) {
+      if (data.success) {
         window.location.href = "/sale_completed";
       } else {
         alert("❌ Ошибка.");
@@ -167,9 +180,15 @@ document.addEventListener("DOMContentLoaded", function () {
     object-fit: cover;
   }
 
-  .qty-input {
-    width: 50px;
+  .qty-input, .box-input {
+    width: 60px;
     text-align: center;
+    font-size: 13px;
+  }
+
+  .box-input::placeholder {
+    font-size: 12px;
+    color: #888;
   }
 
   #summary {
