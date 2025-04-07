@@ -7,6 +7,14 @@ module ProductSellHelper
     end
   end
 
+  def amount_in_string(pack_name, amount, amount_per_pack = nil)
+    ProductSells::CalculateAmountPerPack.run(
+      pack_name: pack_name,
+      amount: amount,
+      amount_per_pack: amount_per_pack
+    ).result
+  end
+
   def calculate_sale_price_in_uzs(rate, product_sell)
     final_price = nil
     if product_sell.price_in_usd

@@ -6,14 +6,14 @@
     <thead class='table-dark'>
       <tr>
         <th>Товар</th>
-        <th>Количество</th>
+        <th>Количество упаковки</th>
       </tr>
     </thead>
     <tbody>
       <% @grouped_packs.each do |pack_name, total_amount| %>
         <tr>
           <td><%= pack_name %></td>
-          <td><%= total_amount %></td>
+          <td><%= amount_in_string(pack_name, total_amount) %></td>
         </tr>
       <% end %>
     </tbody>

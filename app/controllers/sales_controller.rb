@@ -179,7 +179,7 @@ class SalesController < ApplicationController
 
   def grouped_packs
     @total_price = @sales.sum(:total_price)
-    @grouped_packs = ProductSell.joins(:pack).where(sale_id: @sales.pluck(:id)).group('packs.name').sum(:amount)
+    @grouped_packs = ProductSell.joins(:pack).where(sale_id: @sales.pluck(:id)).group('packs.name').sum('amount')
   end
 
   def grouped_html_views

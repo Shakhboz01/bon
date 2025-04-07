@@ -28,7 +28,7 @@
                 <%= product_sell.product.name %>
               <% end %>
             </td>
-            <td><%= product_sell.amount_in_string %></td>
+            <td><%= amount_in_string(product_sell.pack.name, product_sell.amount, product_sell.pack.amount_per_pack) %></td>
             <td><%= currency_convert(product_sell.price_in_usd, product_sell.sell_price) %></td>
             <td><%= currency_convert(product_sell.price_in_usd, (product_sell.sell_price * product_sell.amount.to_f)) %></td>
             <% unless defined?(shrink) %>

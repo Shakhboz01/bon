@@ -1,4 +1,5 @@
 class Sale < ApplicationRecord
+  include ProductSellHelper
   include ImageUploadable
   attr_accessor :discount_price
   belongs_to :buyer
@@ -63,13 +64,14 @@ class Sale < ApplicationRecord
       message =
         "Новый заказ от агента <b>#{user.name}</b>\n" \
         "<b>Клиент</b>: #{buyer.name}\n" \
-        "<b>Агент</b>: #{diller_user.name}\n"
-
+        "<b>Агент</b>: #{diller_user.name}\n\n"
+      message << "-------------------------"
       product_sells.each do |product_sell|
-        message << "#{product_sell.pack.name}: #{product_sell.amount_in_string}\n"
+        message << "#{product_sell.pack.name}: #{amount_in_string(product_sell.pack.name, product_sell.amount, product_sell.pack.amount_per_pack)}\n\n"
       end
+      message << "-------------------------\n\n"
 
-      message << "<b>Итого цена:</b> #{total_price} #{price_sign}\n"
+      message << "<b>Итого цена:</b> #{ActionController::Base.helpers.number_to_currency(total_price, unit: '', precison: 0)} #{price_sign}\n"
       message << "<a href=\"#{ENV.fetch('HOST_URL')}/sales/#{id}\">Посмотреть</a>"
       SendMessageJob.perform_later(message, 'agent')
     elsif closed? && status_before_last_save != 'closed'
