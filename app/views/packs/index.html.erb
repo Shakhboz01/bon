@@ -22,7 +22,13 @@
           <% @packs.each do |pack| %>
             <tr class="<%= active_tr(pack.active) %>">
               <td><%= pack.id %></td>
-              <td class='d-flex align-items-center'><%= pack.name %></td>
+              <td class='d-flex align-items-center'>
+                <% image_path = "pack_#{pack.id}.png" %>
+                <% if Rails.application.assets.find_asset(image_path) %>
+                  <div><%= image_tag(image_path, class: "img-thumbnail mr-2", size: "80x100") %></div>
+                <% end %>
+                <span><%= pack.name %></span>
+              </td>
               <td><%= pack.amount_per_pack %></td>
               <td><%= pack.initial_remaining %></td>
               <td><%= currency_convert(pack.price_in_usd, pack.sell_price) %></td>
