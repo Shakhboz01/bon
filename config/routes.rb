@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :sale_portions
   resources :agent_presence_in_stores
   resources :pack_usages
   resources :product_size_colors
@@ -94,7 +95,7 @@ Rails.application.routes.draw do
       post "accept_new_participation", action: :accept_new_participation, as: :accept_new_participation
     end
   end
-  root "pages#maps_page"
+  root "sale_portions#index"
   get 'sale_completed', to: 'pages#sale_completed', as: :sale_completed
   get "pages#define_sale_destination", to: "pages#define_sale_destination", as: :define_sale_destination
   get "pages#shortcut", to: "pages#shortcut", as: :shortcut

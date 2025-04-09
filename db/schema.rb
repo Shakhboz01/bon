@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_05_120922) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_07_140921) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -389,6 +389,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_05_120922) do
     t.index ["user_id"], name: "index_sale_from_services_on_user_id"
   end
 
+  create_table "sale_portions", force: :cascade do |t|
+    t.datetime "from"
+    t.datetime "till"
+    t.bigint "user_id", null: false
+    t.decimal "total_price", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sale_portions_on_user_id"
+  end
+
   create_table "sales", force: :cascade do |t|
     t.decimal "total_paid", precision: 17, scale: 2, default: "0.0"
     t.integer "payment_type", default: 0
@@ -542,6 +552,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_05_120922) do
   add_foreign_key "sale_from_local_services", "users"
   add_foreign_key "sale_from_services", "buyers"
   add_foreign_key "sale_from_services", "users"
+  add_foreign_key "sale_portions", "users"
   add_foreign_key "sales", "buyers"
   add_foreign_key "sales", "users"
   add_foreign_key "sales", "users", column: "agent_user_id"
