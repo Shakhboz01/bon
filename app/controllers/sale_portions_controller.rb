@@ -3,17 +3,30 @@ class SalePortionsController < ApplicationController
 
   # GET /sale_portions or /sale_portions.json
   def index
-    @sale_portions = SalePortion.all
+    @q = SalePortion.ransack(params[:q])
+    @sale_portions = @q.result.includes(:user).order(id: :desc).page(params[:page]).per(40)
   end
 
   # GET /sale_portions/1 or /sale_portions/1.json
   def show
-
+    @sales = SalePortion.sales(@sale_portion.from, @sale_portion.till)
+                        .where.not(total_price: 0)
+                        .includes(:buyer, :user).order(id: :desc)
+    @grouped_packs = ProductSell.joins(:pack).where(sale_id: @sales.pluck(:id)).group('packs.name').sum('amount')
+    @total_price = @sales.sum(:total_price)
   end
 
   # GET /sale_portions/new
   def new
-    @sale_portion = SalePortion.new(till: DateTime.now)
+    @sale_portion = SalePortion.new(
+      from: SalePortion.find_from_attribute,
+      till: DateTime.now
+    )
+    @sales = SalePortion.sales(@sale_portion.from, @sale_portion.till)
+                        .where.not(total_price: 0).includes(:buyer, :user)
+                        .order(id: :desc)
+    @grouped_packs = ProductSell.joins(:pack).where(sale_id: @sales.pluck('sales.id')).group('packs.name').sum('amount')
+    @total_price = @sales.sum(:total_price)
   end
 
   # GET /sale_portions/1/edit
@@ -26,7 +39,7 @@ class SalePortionsController < ApplicationController
     @sale_portion.user_id = current_user.id
     respond_to do |format|
       if @sale_portion.save
-        format.html { redirect_to sale_portion_url(@sale_portion), notice: "Sale portion was successfully created." }
+        format.html { redirect_to sale_portions_url(@sale_portion), notice: "successfully created." }
         format.json { render :show, status: :created, location: @sale_portion }
       else
         format.html { render :new, status: :unprocessable_entity }

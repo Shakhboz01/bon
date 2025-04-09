@@ -34,6 +34,9 @@
       <li class="nav-item">
         <%= link_to "Склад", packs_path, class: 'nav-link' %>
       </li>
+      <li class="nav-item">
+        <%= link_to "Клиенты", main_page_path, class: 'nav-link' %>
+      </li>
       <% if %w[руководитель бухгалтер].include?(current_user.role) %>
         <li class="nav-item">
           <%= link_to 'Админ', admin_page_path, class: 'nav-link' %>

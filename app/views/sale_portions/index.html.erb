@@ -1,33 +1,34 @@
 <div class="container my-5">
   <div class="card shadow-lg">
     <div class="card-header d-flex justify-content-between align-items-center">
-      <h3 class="card-title font-weight-bold">Sale Portions</h3>
-      <%= link_to 'Добавить новый', new_sale_portion_path, class: "btn btn-success min-width-btn" %>
+      <h3 class="card-title font-weight-bold">Партии</h3>
+      <%= link_to 'Отправить новый запрос на склад', new_sale_portion_path, class: "btn btn-success min-width-btn" %>
     </div>
 
     <div class="card-body">
       <table class="table table-hover table-bordered table-striped">
         <thead class='table-dark'>
           <tr>
-                        <th>From</th>
-                        <th>Till</th>
-                        <th>User</th>
-                        <th colspan="3"></th>
+            <th>Итого цена (<%= num_to_usd @sale_portions.sum(:total_price) %>)</th>
+            <th>От</th>
+            <th>До</th>
+            <th>Запросник</th>
+            <th colspan="3"></th>
           </tr>
         </thead>
         <tbody>
           <% @sale_portions.each do |sale_portion| %>
             <tr>
-                              <td><%= sale_portion.from %></td>
-                              <td><%= sale_portion.till %></td>
-                              <td><%= sale_portion.user_id %></td>
-                            <td><%= clink_to 'Посмотреть', sale_portion_path(sale_portion), 'fa-search' %></td>
-              <td><%= clink_to 'Редактировать', edit_sale_portion_path(sale_portion), 'fa-edit' %></td>
-              <td><%= cdlink_to 'удалить', sale_portion %></td>
+              <td><%= num_to_usd sale_portion.total_price %></td>
+              <td><%= strf_datetime sale_portion.from %></td>
+              <td><%= strf_datetime sale_portion.till %></td>
+              <td><%= sale_portion.user.name %></td>
+              <td><%= clink_to 'Посмотреть', sale_portion_path(sale_portion), 'fa-search' %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
+      <%= paginate @sale_portions %>
     </div>
   </div>
 </div>

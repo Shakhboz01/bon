@@ -1,9 +1,18 @@
 <div style='background-color: #80d3ff87;' class="container shadow-lg">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <h1 class="text-center mb-4">Добавить новый</h1>
-      <%= render 'form', sale_portion: @sale_portion %>
       <%= link_to 'назад', sale_portions_path, class: "btn btn-light min-width-btn" %>
+      <%= render 'form', sale_portion: @sale_portion %>
     </div>
   </div>
+</div>
+<br><br><br>
+<div class='mb-5 card shadow bg-info'>
+  <h1>Список для склада</h1>
+  <%=  render 'sales/product_sells_total_info', sales: @sales, total_price: @total_price, grouped_packs: @grouped_packs %>
+</div>
+<div class='d-flex flex-column'>
+  <% @sales.each do |sale| %>
+    <%= render 'sales/receipt', sale: sale %>
+  <% end %>
 </div>
