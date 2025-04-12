@@ -18,6 +18,8 @@ class SalePortionsController < ApplicationController
 
   # GET /sale_portions/new
   def new
+    authorize SalePortion, :access?
+
     @sale_portion = SalePortion.new(
       from: SalePortion.find_from_attribute,
       till: DateTime.now
@@ -35,6 +37,8 @@ class SalePortionsController < ApplicationController
 
   # POST /sale_portions or /sale_portions.json
   def create
+    authorize SalePortion, :access?
+
     @sale_portion = SalePortion.new(sale_portion_params)
     @sale_portion.user_id = current_user.id
     respond_to do |format|
@@ -46,6 +50,11 @@ class SalePortionsController < ApplicationController
         format.json { render json: @sale_portion.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def verify_by_factory
+    authorize SalePortion, :manage?
+
   end
 
   # PATCH/PUT /sale_portions/1 or /sale_portions/1.json

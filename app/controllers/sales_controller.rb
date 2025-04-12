@@ -76,8 +76,7 @@ class SalesController < ApplicationController
           pack_id: pack.id,
           amount: amount,
           sell_price: pack.sell_price,
-          buy_price: pack.sell_price,
-          price_in_usd: false
+          buy_price: pack.buy_price
         )
       end
 

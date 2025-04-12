@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_07_140921) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_12_130038) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -396,6 +396,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_07_140921) do
     t.decimal "total_price", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "verified_by_factory", default: false
     t.index ["user_id"], name: "index_sale_portions_on_user_id"
   end
 
