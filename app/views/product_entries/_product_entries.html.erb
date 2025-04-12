@@ -4,7 +4,6 @@
       <% unless defined?(shrink) %>
         <th><%= sort_link q, :id, 'ID' %></th>
       <% end %>
-      <th>Всего</th>
       <th>Товар</th>
       <th><%= sort_link q, :amount, 'Количество' %></th>
       <% unless defined?(shrink) %>
@@ -19,7 +18,6 @@
         <% unless defined?(shrink) %>
           <td class="<%= active_tr(product_entry.amount > product_entry.amount_sold) %>"><%= product_entry.id %></td>
         <% end %>
-        <td><%= currency_convert(product_entry.paid_in_usd, product_entry.amount * product_entry.buy_price) %></td>
         <td><%= product_entry.pack.name %></td>
         <td><%= amount_in_string(product_entry.pack.name, product_entry.amount, product_entry.pack.amount_per_pack) %></td>
         <% unless defined?(shrink) %>
