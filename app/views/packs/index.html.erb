@@ -30,7 +30,7 @@
                 <span><%= pack.name %></span>
               </td>
               <td><%= pack.amount_per_pack %></td>
-              <td><%= pack.initial_remaining %></td>
+              <td><%= amount_in_string(pack.name, pack.initial_remaining, pack.amount_per_pack) %></td>
               <td><%= currency_convert(pack.price_in_usd, pack.sell_price) %></td>
               <td><%= pack.weight %></td>
               <td>

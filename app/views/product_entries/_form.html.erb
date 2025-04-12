@@ -7,7 +7,7 @@
     <%= f.association :delivery_from_counterparty, as: :hidden %>
     <%= f.input :amount_sold, as: :hidden %>
     <div class="form-inputs">
-      <%= f.association :pack, label: 'Выберите товара:', collection: Pack.order('LOWER(name) ASC').pluck(:name, :id, :code), include_blank: true, selected: params.dig(:pack_id).present? ? params.dig(:pack_id) : nil, input_html: { id: 'pack-select' } %>
+      <%= f.association :pack, label: 'Выберите товара:', collection: Pack.order('LOWER(name) ASC').where(active: true).pluck(:name, :id, :code), include_blank: true, selected: params.dig(:pack_id).present? ? params.dig(:pack_id) : nil, input_html: { id: 'pack-select' } %>
       <%= f.input :barcode, label: false, as: :hidden, input_html: {id: 'code-input', autofocus: 'true'} %>
       <%= f.input :amount, label: 'Кол.:', input_html: { id: 'product_entry_amount' } %>
       <%= f.input :buy_price, label: false, as: :hidden, input_html: {id: 'product_entry_buy_price'} %>
