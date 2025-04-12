@@ -128,7 +128,7 @@ class BuyersController < ApplicationController
 
   def webview_sale_form
     user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
-    return render plain: "Unauthorized", status: :unauthorized unless user&.агент?
+    return render plain: "Unauthorized", status: :unauthorized unless user
 
     @sale = Sale.new(
       buyer_id: @buyer.id,
