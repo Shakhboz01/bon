@@ -52,7 +52,7 @@ class DeliveryFromCounterparty < ApplicationRecord
           message << "#{product_entry.pack.name}: #{product_entry.amount} шт.\n"
         end
 
-        SendMessage.run(message: message)
+        SendMessageJob.perform_async(message)
       else
         self.enable_to_send_sms = false
       end
