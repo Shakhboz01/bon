@@ -56,6 +56,38 @@ class SalesController < ApplicationController
     sales_data = params[:sale]
     return render json: { success: false, error: "Invalid sales data" }, status: :unprocessable_entity if sales_data.blank?
 
+    if user.админ?
+      delivery_from_counterparty =
+        DeliveryFromCounterparty.new(
+          user_id: user.id,
+          status: :closed,
+          total_price: 0,
+          total_paid: 0,
+          price_in_usd: false
+        )
+
+      sales_data.each do |pack_id, amount|
+        pack = Pack.find_by(id: pack_id)
+        return render json: { success: false, error: "Pack not found" }, status: :not_found unless pack
+
+        delivery_from_counterparty.product_entries.build(
+          pack_id: pack.id,
+          amount: amount,
+          sell_price: pack.sell_price,
+          buy_price: pack.sell_price,
+          price_in_usd: false
+        )
+      end
+
+      if delivery_from_counterparty.save
+        render json: { success: true, delivery_from_counterparty_id: delivery_from_counterparty.id }
+      else
+        render json: { success: false, errors: delivery_from_counterparty.errors.full_messages }
+      end
+
+      return
+    end
+
     sale = Sale.new(
       buyer_id: buyer.id,
       user_id: user.id,
