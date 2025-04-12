@@ -21,7 +21,7 @@
         <% end %>
         <td><%= currency_convert(product_entry.paid_in_usd, product_entry.amount * product_entry.buy_price) %></td>
         <td><%= product_entry.pack.name %></td>
-        <td><%= product_entry.amount %></td>
+        <td><%= amount_in_string(product_entry.pack.name, product_entry.amount, product_entry.pack.amount_per_pack) %></td>
         <% unless defined?(shrink) %>
           <td><%= strf_datetime(product_entry.created_at) %></td>
         <% end %>
