@@ -48,7 +48,9 @@ class SalesController < ApplicationController
 
   def webview
     user = User.find_by(telegram_chat_id: params[:telegram_chat_id])
-    return render json: { success: false, error: "Unauthorized" }, status: :unauthorized unless user&.агент?
+    if %i[агент админ].exclude?(user&.role)
+      return render json: { success: false, error: "Unauthorized" }, status: :unauthorized
+    end
 
     buyer = Buyer.find_by(id: params[:buyer_id])
     return render json: { success: false, error: "Buyer not found" }, status: :not_found unless buyer
