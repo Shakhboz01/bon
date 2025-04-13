@@ -42,7 +42,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    byebug
     @user = User.new(user_params)
     @user.email = user_params.name + "@gmail.com"
     if @user.save
