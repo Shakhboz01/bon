@@ -50,7 +50,7 @@ class BuyersController < ApplicationController
       debt_in_usd: '',
       debt_in_uzs: '',
       name: params[:name],
-      phone_number: params[:phone],
+      phone_number: params[:phone_number],
       comment: params[:comment],
       longitude: params[:longitude],
       latitude: params[:latitude],
