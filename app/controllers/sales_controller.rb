@@ -273,7 +273,7 @@ class SalesController < ApplicationController
       # It means, currency is changed
       redirect_to request.referrer, notice: "Valyuta o'zgartirildi"
     else
-      redirect_to sales_url
+      redirect_to new_sale_portion_url
     end
   end
 

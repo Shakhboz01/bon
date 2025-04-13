@@ -5,7 +5,7 @@
         <th>#</th>
       <% end %>
 
-      <th>Имя</th>
+      <th>Юридическое название</th>
       <% unless defined?(shrink) %>
         <th>Долг</th>
         <th>Адресс</th>
@@ -25,7 +25,7 @@
         <td>
           <%= link_to buyer.name, default_create_sales_path(buyer_id: buyer.id), method: :post %>
           <% if buyer.images.present? %>
-            <%= link_to image_tag(buyer.images.last, style: 'width: 60px; height:55px; object-fit:contain'), buyer.images.last %>
+            <%= link_to image_tag(buyer.images.last, style: 'width: 60px; height: 55px; object-fit: contain'), buyer.images.last %>
           <% end %>
         </td>
         <% unless defined?(shrink) %>

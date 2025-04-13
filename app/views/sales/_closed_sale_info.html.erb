@@ -1,8 +1,6 @@
 <% if sale.closed? %>
   <ul class='col-sm-5 p-3' style='font-size: large; list-style: none; color: black; box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;'>
     <li>Агент: <%= sale.user.name %></li>
-    <li>Агент принял: <%= strf_datetime(sale.created_at) %></li>
-
     <% if sale.diller_user_id %>
       <li>дилер: <%= User.find(sale.diller_user_id).name %></li>
     <% end %>

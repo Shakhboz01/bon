@@ -2,7 +2,7 @@
   <%= render 'product_sells/product_categories_select' %>
 <% end %>
 <div class='row'>
-  <% if @sale.processing? && policy(@product_sell).create? %>
+  <% if @sale.processing? || @sale.verified_by_agent? %>
     <div class='col-xs-12 col-md-4'>
       <%= render 'product_sells/form', product_sell: @product_sell, rate: @rate %>
     </div>

@@ -128,7 +128,7 @@
         <tr>
           <th class='text-center'>Товар</th>
           <th>Цена</th>
-          <th>Остаток</th>
+          <th>Количество в пачке</th>
         </tr>
       </thead>
       <tbody>
@@ -143,7 +143,7 @@
               <%= product.name %>
             </td>
             <td><%= currency_convert sale_in_usd, product.sell_price_based_on_sale_currency(sale_in_usd, rate) %></td>
-            <td><%= product.initial_remaining %></td>
+            <td><%= product.amount_per_pack %></td>
           </tr>
         <% end %>
       </tbody>

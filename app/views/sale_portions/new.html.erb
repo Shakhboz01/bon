@@ -13,6 +13,6 @@
 </div>
 <div class='d-flex flex-column'>
   <% @sales.each do |sale| %>
-    <%= render 'sales/receipt', sale: sale %>
+    <%= render 'sales/receipt', sale: sale, enable_to_edit: true %>
   <% end %>
 </div>
