@@ -23,7 +23,6 @@
           Операции
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <%= link_to 'Оформить продажу', buyers_path, class: 'dropdown-item' %>
           <%= button_to 'Склад приход', default_create_delivery_from_counterparties_path, method: :post, class: 'dropdown-item' %>
           <%= link_to 'Добавить покупателя', new_buyer_path, class: 'dropdown-item' %>
           <%= link_to 'Добавить товар', new_pack_path, class: 'dropdown-item' %>
@@ -34,7 +33,10 @@
         <%= link_to "Склад", packs_path, class: 'nav-link' %>
       </li>
       <li class="nav-item">
-        <%= link_to "Клиенты", main_page_path, class: 'nav-link' %>
+        <%= link_to "Клиенты", buyers_path, class: 'nav-link' %>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Карта", maps_page_path, class: 'nav-link' %>
       </li>
       <% if %w[руководитель бухгалтер].include?(current_user.role) %>
         <li class="nav-item">
