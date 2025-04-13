@@ -18,12 +18,15 @@
         </thead>
         <tbody>
           <% @sale_portions.each do |sale_portion| %>
-            <tr>
+            <tr class="<%= sale_portion.verified_by_factory ? '' : 'table-warning' %>">
               <td><%= num_to_usd sale_portion.total_price %></td>
               <td><%= strf_datetime sale_portion.from %></td>
               <td><%= strf_datetime sale_portion.till %></td>
               <%# <td><%= sale_portion.user.name </td> %>
               <td><%= clink_to 'Посмотреть', sale_portion_path(sale_portion), 'fa-search' %></td>
+              <% unless sale_portion.verified_by_factory %>
+                <td><%= clink_to 'Потвердить', verify_by_factory_sale_portion_path(sale_portion), 'fa-check', :post %></td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :sale_portions
+  resources :sale_portions do
+    post :verify_by_factory, on: :member
+  end
   resources :agent_presence_in_stores
   resources :pack_usages
   resources :product_size_colors

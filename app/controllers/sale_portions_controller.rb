@@ -1,5 +1,5 @@
 class SalePortionsController < ApplicationController
-  before_action :set_sale_portion, only: %i[ show edit update destroy ]
+  before_action :set_sale_portion, only: %i[ show edit update destroy verify_by_factory ]
 
   # GET /sale_portions or /sale_portions.json
   def index
@@ -55,6 +55,8 @@ class SalePortionsController < ApplicationController
   def verify_by_factory
     authorize SalePortion, :manage?
 
+    @sale_portion.update(verified_by_factory: true)
+    redirect_to sale_portions_url, notice: 'Остаток склада изменены'
   end
 
   # PATCH/PUT /sale_portions/1 or /sale_portions/1.json
