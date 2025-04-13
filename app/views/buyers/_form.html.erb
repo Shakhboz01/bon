@@ -5,7 +5,8 @@
   <div class="">
     <%= f.input :latitude, as: :hidden, input_html: {id: 'latitude_field'} %>
     <%= f.input :longitude, as: :hidden, input_html: {id: 'longitude_field'} %>
-    <%= f.input :name, label: false, placeholder: 'Юридическое название' %>
+    <%= f.input :name, label: false, placeholder: 'название' %>
+    <%= f.input :official_name, label: false, placeholder: 'Юридическое название' %>
     <%= f.input :phone_number, label: false, placeholder: 'Телефон номер' %>
     <%= f.input :address, label: false, placeholder: 'Адрес' %>
     <% unless buyer.persisted? %>

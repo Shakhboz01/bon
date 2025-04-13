@@ -5,6 +5,7 @@
         <th>#</th>
       <% end %>
 
+      <th>Hазвание</th>
       <th>Юридическое название</th>
       <% unless defined?(shrink) %>
         <th>Долг</th>
@@ -28,6 +29,7 @@
             <%= link_to image_tag(buyer.images.last, style: 'width: 60px; height: 55px; object-fit: contain'), buyer.images.last %>
           <% end %>
         </td>
+        <td><%= buyer.official_name %></td>
         <% unless defined?(shrink) %>
           <td><%= link_to num_to_usd(buyer.calculate_debt_in_uzs), sales_url(q: {buyer_id_eq: buyer.id, price_in_usd_true: false}), method: :get, style: "color: #{ (buyer.calculate_debt_in_uzs < 0) ? 'red' : 'blue' }; font-size: large" %></td>
           <td><%= buyer.address %></td>
