@@ -104,13 +104,39 @@
 # Pack.create(name: '"Tango" 0,5кг', sell_price: 12000, product_category: kilo, code: rand(10000..100000))
 # Pack.create(name: 'Сатилча', sell_price: 12000, product_category: kilo, code: rand(10000..100000))
 
-User.create(role: :админ, name: 'Manucher', email: 'manucher@gmail.com', password: 123456, phone_number: '+998979171222')
-User.create(role: :менеджер, name: 'Nuriddin', email: 'nuriddin@gmail.com', password: 654321, phone_number: '+998933335454')
-User.create(role: :агент, name: 'Диёр Бахриддинов', email: 'diyor@gmail.com', password: 123456, phone_number: '+998942779944')
-User.create(role: :агент, name: 'Умид Иноятов', email: 'umid@gmail.com', password: 123456, phone_number: '+998994820505')
-User.create(role: :дилер, name: 'Дониёр', email: 'doniyor@gmail.com', password: 123456, phone_number: '+998992611000')
+# User.create(role: :админ, name: 'Manucher', email: 'manucher@gmail.com', password: 123456, phone_number: '+998979171222')
+# User.create(role: :менеджер, name: 'Nuriddin', email: 'nuriddin@gmail.com', password: 654321, phone_number: '+998933335454')
+# User.create(role: :агент, name: 'Диёр Бахриддинов', email: 'diyor@gmail.com', password: 123456, phone_number: '+998942779944')
+# User.create(role: :агент, name: 'Умид Иноятов', email: 'umid@gmail.com', password: 123456, phone_number: '+998994820505')
+# User.create(role: :дилер, name: 'Дониёр', email: 'doniyor@gmail.com', password: 123456, phone_number: '+998992611000')
 
-User.create(role: :менеджер, name: 'Nuriddin', email: 'nuriddin@gmail.com', password: 654321, phone_number: '+998933335454')
-User.create(role: :менеджер, name: 'Nuriddin', email: 'nuriddin@gmail.com', password: 654321, phone_number: '+998933335454')
-User.create(role: :агент, name: 'Furkat', email: 'furkat@gmail.com', password: 123456, phone_number: '+998904627970')
-User.create(role: :админ, name: 'admin', email: 'admin@gmail.com', password: 123456, phone_number: '+998979302455')
+# User.create(role: :менеджер, name: 'Nuriddin', email: 'nuriddin@gmail.com', password: 654321, phone_number: '+998933335454')
+# User.create(role: :менеджер, name: 'Nuriddin', email: 'nuriddin@gmail.com', password: 654321, phone_number: '+998933335454')
+# User.create(role: :агент, name: 'Furkat', email: 'furkat@gmail.com', password: 123456, phone_number: '+998904627970')
+# User.create(role: :админ, name: 'admin', email: 'admin@gmail.com', password: 123456, phone_number: '+998979302455')
+
+
+
+# Pack.find(30).update(sell_price: 1350) # 30 1350
+# Pack.find(31).update(sell_price: 1350) # 31 1350
+# Pack.find(33).update(sell_price: 1350) # 33 1350
+# Pack.find(34).update(sell_price: 1350) # 34 1350
+# Pack.find(35).update(sell_price: 1350) # 35 1350
+# Pack.find(36).update(sell_price: 1350) # 36 1350
+# Pack.find(37).update(sell_price: 1350) # 37 1350
+
+# Pack.find(42).update(sell_price: 720)  # 42 720
+# Pack.find(43).update(sell_price: 720)  # 43 720
+# Pack.find(44).update(sell_price: 720)  # 44 720
+# Pack.find(45).update(sell_price: 720)  # 45 720
+# Pack.find(46).update(sell_price: 720)  # 46 720
+
+
+kilo = ProductCategory.find_by(name: 'Кило')
+others = ProductCategory.find_by(name: 'Другие')
+Pack.create(name: 'Пломбир 0.45 кг', sell_price: 12500, product_category: kilo, code: rand(10000..100000))
+Pack.create(name: 'Пломбир кофейный 0.45 кг', sell_price: 12500, product_category: kilo, code: rand(10000..100000))
+Pack.create(name: 'Крем брюле 0.45 кг', sell_price: 12500, product_category: kilo, code: rand(10000..100000))
+
+Pack.create(name: 'Стаканчик вафельный Bon', sell_price: 1500, product_category: others, code: rand(10000..100000))
+Pack.create(name: 'Стаканчик плас фишка с сгуш', sell_price: 1500, product_category: others, code: rand(10000..100000))
