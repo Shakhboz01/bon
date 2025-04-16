@@ -16,9 +16,9 @@ module ProductSells
       remaining = (amount % amount_per_pack).to_i
 
       if remaining.zero?
-        "#{amount_in_box} упаковки"
+        "#{amount_in_box} коробки"
       else
-        "#{amount_in_box} УПАКОВКА И #{remaining} ШТУК"
+        "#{amount_in_box} КОРОБКИ И #{remaining} ШТУК"
       end
     end
   end
