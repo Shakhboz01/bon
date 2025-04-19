@@ -5,6 +5,7 @@ class SendMessageJob < ApplicationJob
   queue_as :default
 
   def perform(message, chat = 'tech')
+    return
     token = ENV["TELEGRAM_TOKEN"]
     bot = Telegram::Bot::Client.new(token)
     chat_id =
