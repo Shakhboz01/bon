@@ -18,10 +18,10 @@
     </tr>
   </thead>
   <tbody style='font-size: large' id='buyers-list'>
-    <% buyers.order(:name).each do |buyer| %>
+    <% buyers.order(:name).each_with_index do |buyer, index| %>
       <tr data-buyer-name="<%= buyer.name %>" class="<%= active_tr(buyer.active) %>">
         <% unless defined?(shrink) %>
-          <td><%= buyer.id %></td>
+          <td><%= (@buyers.current_page - 1) * @buyers.limit_value + index + 1 %></td>
         <% end %>
         <td>
           <%= link_to buyer.name, default_create_sales_path(buyer_id: buyer.id), method: :post %>
