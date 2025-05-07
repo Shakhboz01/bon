@@ -1,11 +1,5 @@
 <div class="container shadow-lg">
   <%= render 'form_filter_form' %>
-  <div class="mt-5 row justify-content-center">
-    <div>
-      <%= link_to 'назад', sale_portions_path, class: "btn btn-light min-width-btn" %>
-      <%= render 'form', sale_portion: @sale_portion %>
-    </div>
-  </div>
 </div>
 <br><br><br>
 <div class='mb-5 card shadow bg-info'>
@@ -16,4 +10,10 @@
   <% @sales.each do |sale| %>
     <%= render 'sales/receipt', sale: sale, enable_to_edit: true %>
   <% end %>
+</div>
+<div class="mt-5 row justify-content-center">
+  <div>
+    <%= link_to 'назад', sale_portions_path, class: "btn btn-light min-width-btn" %>
+    <%= render 'form', sale_portion: @sale_portion %>
+  </div>
 </div>
