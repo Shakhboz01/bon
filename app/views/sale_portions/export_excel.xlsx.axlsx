@@ -1,0 +1,87 @@
+wb = xlsx_package.workbook
+
+styles = wb.styles
+
+# Define reusable styles
+header_style        = styles.add_style(b: true, sz: 14, alignment: { horizontal: :center })
+section_title_style = styles.add_style(b: true, bg_color: "D9E1F2", alignment: { horizontal: :left })
+bold_style          = styles.add_style(b: true)
+currency_style      = styles.add_style(num_fmt: 4, alignment: { horizontal: :right }) # "#,##0.00"
+table_header_style  = styles.add_style(b: true, bg_color: "BDD7EE", border: { style: :thin, color: "000000" }, alignment: { horizontal: :center })
+border_style        = styles.add_style(border: { style: :thin, color: "000000" })
+border_currency     = styles.add_style(border: { style: :thin, color: "000000" }, num_fmt: 4, alignment: { horizontal: :right })
+
+
+
+wb.add_worksheet(name: "Склад") do |sheet|
+  sheet.add_row ["Название", "Количество"], style: header_style
+  @grouped_packs.each do |name, amount|
+    formatted = amount_in_string(name, amount) # You can now call your helper directly
+    sheet.add_row [name, formatted]
+  end
+end
+
+
+wb.add_worksheet(name: "Invoices") do |sheet|
+  @sales.each_with_index do |sale, i|
+    start_row = sheet.rows.size + 1
+
+    # Merge header and center title
+    sheet.merge_cells("A#{start_row}:E#{start_row}")
+    sheet.add_row(
+      ["Счет-фактура № #{sale.id} от #{strf_datetime(sale.updated_at)}"],
+      style: header_style,
+      height: 20
+    )
+
+    # Buyer & Seller block
+    sheet.add_row ["Информация о покупателе и поставщике"], style: section_title_style
+    sheet.add_row ["Покупатель", "", "", "Поставщик"], style: bold_style
+    sheet.add_row [
+      sale.buyer.name.capitalize,
+      sale.buyer.address,
+      sale.buyer.phone_number,
+      "#{sale.diller_user.name} / #{sale.diller_user.phone_number}"
+    ], style: [border_style] * 4
+
+    # Agent info
+    sheet.add_row ["Агент: #{sale.agent_user&.name} / #{sale.agent_user&.phone_number}"], style: border_style
+
+    # Product Table
+    sheet.add_row []
+    sheet.add_row ["№", "Название", "Количество", "Цена", "Итого"], style: table_header_style
+
+    sale.product_sells.each_with_index do |ps, index|
+      sheet.add_row [
+        index + 1,
+        ps.pack.name,
+        amount_in_string(ps.pack.name, ps.amount, ps.pack.amount_per_pack),
+        currency_convert(ps.price_in_usd, ps.sell_price),
+        currency_convert(ps.price_in_usd, ps.sell_price * ps.amount)
+      ], style: [border_style, border_style, border_style, border_currency, border_currency]
+    end
+
+    # Totals
+    sheet.add_row []
+    sheet.add_row ["", "", "", "ИТОГО", num_to_usd(sale.product_sells.sum('sell_price * amount'))],
+                  style: [nil, nil, nil, bold_style, border_currency]
+    sheet.add_row ["", "", "", "ОПЛАЧЕНО", currency_convert(sale.price_in_usd, sale.total_paid)],
+                  style: [nil, nil, nil, bold_style, border_currency]
+    sheet.add_row ["", "", "", "Задолженность", num_to_usd(sale.buyer.calculate_debt_in_uzs)],
+                  style: [nil, nil, nil, bold_style, border_currency]
+
+    # Global total debt if available
+    if defined?(@total_debt_in_uzs)
+      sheet.add_row []
+      sheet.add_row [
+        "Задолженность на #{strf_datetime(DateTime.now)}", "", "", "", num_to_usd(@total_debt_in_uzs)
+      ], style: [bold_style, nil, nil, nil, border_currency]
+    end
+
+    # Thin border separator between sales
+    sheet.add_row []
+    sheet.add_row ["-" * 80], style: styles.add_style(sz: 8, italic: true)
+    sheet.add_row []
+  end
+end
+

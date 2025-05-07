@@ -10,6 +10,7 @@ gem "ransack"
 gem "byebug"
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'axlsx_rails'
 gem 'bootstrap-sass'
 gem 'devise'
 gem 'rqrcode'

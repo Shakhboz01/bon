@@ -68,6 +68,23 @@ class SalePortionsController < ApplicationController
     end
   end
 
+  def export_excel
+    @q = Sale.ransack(params[:q])
+    @sales = @q.result.where.not(total_price: 0).includes(:buyer, :user)
+                      .order(id: :desc)
+
+    if params.dig(:q_other, :agent_user_id_eq)
+      @sales = @sales.where(agent_user: User.find(params.dig(:q_other, :agent_user_id_eq)))
+    end
+
+    @grouped_packs = ProductSell.joins(:pack).where(sale_id: @sales.pluck(:id)).group('packs.name').sum('amount')
+    respond_to do |format|
+      format.xlsx {
+        response.headers['Content-Disposition'] = "attachment; filename=export_#{Time.now.strftime('%Y%m%d%H%M')}.xlsx"
+      }
+    end
+  end
+
   def verify_by_factory
     authorize SalePortion, :manage?
 

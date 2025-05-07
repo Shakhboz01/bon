@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :sale_portions do
     post :verify_by_factory, on: :member
+    collection do
+      get :export_excel
+    end
   end
   resources :agent_presence_in_stores
   resources :pack_usages
