@@ -34,3 +34,6 @@ en:
     currency:
       format:
         precision: 0
+  time:
+    formats:
+      short_date: "%d-%m-%Y"

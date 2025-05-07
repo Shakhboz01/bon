@@ -1,6 +1,7 @@
-<div style='background-color: #80d3ff87;' class="container shadow-lg">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
+<div class="container shadow-lg">
+  <%= render 'form_filter_form' %>
+  <div class="mt-5 row justify-content-center">
+    <div>
       <%= link_to 'назад', sale_portions_path, class: "btn btn-light min-width-btn" %>
       <%= render 'form', sale_portion: @sale_portion %>
     </div>

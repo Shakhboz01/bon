@@ -1,5 +1,5 @@
 class SalePortion < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
   validates :till, presence: true
   before_create :set_default_values
   before_create :send_notify

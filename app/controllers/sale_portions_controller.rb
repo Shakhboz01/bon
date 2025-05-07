@@ -12,6 +12,10 @@ class SalePortionsController < ApplicationController
     @sales = SalePortion.sales(@sale_portion.from, @sale_portion.till)
                         .where.not(total_price: 0)
                         .includes(:buyer, :user).order(id: :desc)
+    if @sale_portion.user_id
+      @sales = @sales.where(agent_user: User.find(@sale_portion.user_id))
+    end
+
     @grouped_packs = ProductSell.joins(:pack).where(sale_id: @sales.pluck(:id)).group('packs.name').sum('amount')
     @total_price = @sales.sum(:total_price)
   end
@@ -19,14 +23,27 @@ class SalePortionsController < ApplicationController
   # GET /sale_portions/new
   def new
     authorize SalePortion, :access?
+    unless params.dig(:q, :created_at_gteq)
+      params[:q] ||= {}
+      params[:q][:created_at_gteq] = DateTime.current.beginning_of_day
+    end
+
+    unless params.dig(:q, :created_at_end_of_day_lteq)
+      params[:q][:created_at_end_of_day_lteq] = DateTime.current.end_of_day
+    end
 
     @sale_portion = SalePortion.new(
-      from: SalePortion.find_from_attribute,
-      till: DateTime.now
+      from: params.dig(:q, :created_at_gteq),
+      till: params.dig(:q, :created_at_end_of_day_lteq),
+      user_id: params.dig(:q, :agent_user_id_eq)
     )
-    @sales = SalePortion.sales(@sale_portion.from, @sale_portion.till)
-                        .where.not(total_price: 0).includes(:buyer, :user)
+    @q = Sale.ransack(params[:q])
+    @sales = @q.result.where.not(total_price: 0).includes(:buyer, :user)
                         .order(id: :desc)
+    if params.dig(:q_other, :agent_user_id_eq)
+      @sales = @sales.where(agent_user: User.find(params.dig(:q_other, :agent_user_id_eq)))
+    end
+
     @grouped_packs = ProductSell.joins(:pack).where(sale_id: @sales.pluck('sales.id')).group('packs.name').sum('amount')
     @total_price = @sales.sum(:total_price)
   end
@@ -40,7 +57,6 @@ class SalePortionsController < ApplicationController
     authorize SalePortion, :access?
 
     @sale_portion = SalePortion.new(sale_portion_params)
-    @sale_portion.user_id = current_user.id
     respond_to do |format|
       if @sale_portion.save
         format.html { redirect_to sale_portions_url(@sale_portion), notice: "successfully created." }

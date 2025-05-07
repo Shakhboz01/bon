@@ -1,0 +1,32 @@
+<%= search_form_for @q, url: request.path, html: { class: 'form form-horizontal filter-form'} do |f| %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 col-sm-6 col-xs-12">
+        <div class="container-liquid">
+          <div class="row">
+            <div class="form-group col-md-4 col-sm-6 col-xs-12">
+              <%= f.label :created_at_gteq, 'Дата начала' %>
+              <%= f.text_field :created_at_gteq, value: (@q.created_at_gteq.nil? ? '' : I18n.l(@q.created_at_gteq, format: :short_date)), class: 'datepicker', autocomplete: :off %>
+            </div>
+            <div class="form-group col-md-4 col-sm-6 col-xs-12">
+              <%= f.label :created_at_end_of_day_lteq, 'Дата окончания' %>
+              <%= f.text_field :created_at_end_of_day_lteq, value: (@q.created_at_end_of_day_lteq.nil? ? '' : I18n.l(@q.created_at_end_of_day_lteq, format: :short_date)), class: 'datepicker', autocomplete: :off %>
+            </div>
+              <%= simple_fields_for :q_other do |o| %>
+                <div class="form-group col-md-4 col-sm-6 col-xs-12">
+                <%= f.label :agent_user_id_eq, 'агент' %>
+                <%= f.select :agent_user_id_eq, User.where(role: :агент).pluck(:name, :id), include_blank: true, input_html: { selected: params.dig(:q_other, :agent_user_id_eq) } %>
+                </div>
+              <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-3 col-xs-6">
+        <%= f.submit 'Фильтр' %>
+        <%= link_to 'Сброс', request.path, class: "cancel-button" %>
+      </div>
+    </div>
+  </div>
+<% end %>

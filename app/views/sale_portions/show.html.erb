@@ -2,6 +2,7 @@
   <li>От: <%= strf_datetime @sale_portion.from %></li>
   <li>До: <%= strf_datetime @sale_portion.till %></li>
   <li>Итого сумма: <%= num_to_usd @sale_portion.total_price %></li>
+  <li>Aгент: <%= @sale_portion.user&.name %></li>
 </ul>
 
 <div class='bg-info'>
