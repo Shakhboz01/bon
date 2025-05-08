@@ -19,6 +19,8 @@ wb.add_worksheet(name: "Склад") do |sheet|
     formatted = amount_in_string(name, amount) # You can now call your helper directly
     sheet.add_row [name, formatted]
   end
+
+  sheet.add_row ["ИТОГО", currency_convert(false, @sales.sum(:total_price)), ""], style: header_style
 end
 
 
