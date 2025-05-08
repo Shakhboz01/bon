@@ -22,7 +22,7 @@ wb.add_worksheet(name: "Склад") do |sheet|
 end
 
 
-wb.add_worksheet(name: "Invoices") do |sheet|
+wb.add_worksheet(name: "Накладные") do |sheet|
   @sales.each_with_index do |sale, i|
     start_row = sheet.rows.size + 1
 
@@ -85,3 +85,22 @@ wb.add_worksheet(name: "Invoices") do |sheet|
   end
 end
 
+
+wb.add_worksheet(name: "Итого Сумма") do |sheet|
+  sheet.add_row ["№", "Дата заказа", "Покупатель", "Адрес", "Телефон", "Поставщик", "Агент", "Сумма", ""], style: header_style
+  @sales.each_with_index do |sale, i|
+    sheet.add_row [
+      i + 1,
+      sale.created_at.strftime("%d.%m.%Y %H:%M"),
+      sale.buyer.name.capitalize,
+      sale.buyer.address,
+      sale.buyer.phone_number,
+      "#{sale.diller_user.name} / #{sale.diller_user.phone_number}",
+      "#{sale.agent_user.name} / #{sale.agent_user.phone_number}",
+      currency_convert(false, sale.total_price),
+      "",
+    ], style: [border_style] * 8
+  end
+
+  sheet.add_row ["", "", "", "", "", "", "", currency_convert(false, @sales.sum(:total_price)), ""], style: header_style
+end

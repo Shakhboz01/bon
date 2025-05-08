@@ -69,11 +69,12 @@ class SalePortionsController < ApplicationController
   end
 
   def export_excel
+    params.permit!
     @q = Sale.ransack(params[:q])
     @sales = @q.result.where.not(total_price: 0).includes(:buyer, :user)
                       .order(id: :desc)
 
-    if params.dig(:q_other, :agent_user_id_eq)
+    if params.dig(:q_other, :agent_user_id_eq).present?
       @sales = @sales.where(agent_user: User.find(params.dig(:q_other, :agent_user_id_eq)))
     end
 

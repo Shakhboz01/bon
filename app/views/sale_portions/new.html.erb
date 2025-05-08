@@ -3,7 +3,11 @@
 </div>
 <br><br><br>
 <div class="mb-3">
-  <%= button_to '📥 Export to Excel', export_excel_sale_portions_path(format: :xlsx, params: params.to_unsafe_h), method: :get, class: 'btn btn-success' %>
+  <%= link_to '📥 Export to Excel',
+    export_excel_sale_portions_path(format: :xlsx, q: params[:q]&.to_unsafe_h, q_other: { agent_user_id_eq: params.dig(:q, :agent_user_id_eq) }),
+    method: :get,
+    class: 'btn btn-success' %>
+
 </div>
 <div class='mb-5 card shadow bg-info'>
   <h1>Список для склада</h1>
