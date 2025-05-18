@@ -12,6 +12,10 @@
             <%= f.input :sale_ids, as: :hidden, input_html: { value: @sales_data.pluck(:id).join(',')} %>
             <%= f.submit 'сверка', class: 'btn btn-warning' %>
           <% end %>
+          <%= link_to '📥 Export to Excel',
+            sales_path(format: :xlsx, q: params[:q]&.to_unsafe_h),
+            method: :get,
+            class: 'btn btn-success' %>
         </div>
         <%= render 'sale_from_local_services/filter_form', q: @q, url: request.path %>
       </div><hr>
@@ -34,27 +38,5 @@
           </tr>
         </tbody>
       </table><br/>
-      <ul>
-        <li class='d-flex align-items-center'>
-          <span class='status-color shadow-lg' style='background: white'></span>
-          <span>processing (В процессе) - </span>
-          <span> - На данный момент, агент принимает заявки от покупателя</span>
-        </li>
-        <li class='d-flex align-items-center'>
-          <span class='status-color shadow-lg' style='background: yellow'></span>
-          <span>verified_by_agent - </span>
-          <span> - Агент принял заявку, осталось доставить товар</span>
-        </li>
-        <li class='d-flex align-items-center'>
-          <span class='status-color shadow-lg' style='background: #7272f7'></span>
-          <span>verified_by_diller - </span>
-          <span> - дилер взял товар данные от супервайзера, осталось загрузить и доставить</span>
-        </li>
-        <li class='d-flex align-items-center'>
-          <span class='status-color shadow-lg' style='background: #1cd91c'></span>
-          <span>closed - </span>
-          <span> - дилер доставил товар и принял деньги от покупателя </span>
-        </li>
-      </ul>
     </div>
   </div>

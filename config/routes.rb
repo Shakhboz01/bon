@@ -100,7 +100,7 @@ Rails.application.routes.draw do
       post "accept_new_participation", action: :accept_new_participation, as: :accept_new_participation
     end
   end
-  root "sale_portions#index"
+  root "sale_portions#new"
   get 'sale_completed', to: 'pages#sale_completed', as: :sale_completed
   get "pages#define_sale_destination", to: "pages#define_sale_destination", as: :define_sale_destination
   get "pages#shortcut", to: "pages#shortcut", as: :shortcut

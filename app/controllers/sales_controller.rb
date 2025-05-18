@@ -7,8 +7,14 @@ class SalesController < ApplicationController
   include Pundit::Authorization
   # GET /sales or /sales.json
   def index
-    @sales_data = @sales
-    @sales = @sales.order(created_at: :desc).page(params[:page]).per(70)
+    @sales_data = @sales.order(created_at: :desc)
+    @sales = @sales.page(params[:page]).per(70)
+    respond_to do |format|
+      format.html
+      format.xlsx {
+        response.headers['Content-Disposition'] = "attachment; filename=sales_#{Time.now.strftime('%Y%m%d%H%M')}.xlsx"
+      }
+    end
   end
 
   # GET /sales/1 or /sales/1.json
