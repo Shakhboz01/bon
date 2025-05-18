@@ -1,6 +1,3 @@
-<% if policy(@sale).hide_for_diller? && @sale.processing? %>
-  <%= render 'product_sells/product_categories_select' %>
-<% end %>
 <div class='row'>
   <div class='col-xs-12 col-md-6 product-sells' style='max-height: 800px; overflow: auto'>
     <% if !@product_sells.count.zero? %>
