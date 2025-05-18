@@ -2,12 +2,6 @@
   <%= render 'product_sells/product_categories_select' %>
 <% end %>
 <div class='row'>
-  <% if @sale.processing? || @sale.verified_by_agent? %>
-    <div class='col-xs-12 col-md-4'>
-      <%= render 'product_sells/form', product_sell: @product_sell, rate: @rate %>
-    </div>
-  <% end %>
-
   <div class='col-xs-12 col-md-6 product-sells' style='max-height: 800px; overflow: auto'>
     <% if !@product_sells.count.zero? %>
       <div style='border: 5px solid #6bf56b ' id='active-sale'>
