@@ -1,3 +1,6 @@
+require 'rqrcode'
+require 'chunky_png'
+
 module ApplicationHelper
   def currency_convert(in_usd, price)
     if in_usd
@@ -6,6 +9,7 @@ module ApplicationHelper
       num_to_usd(price)
     end
   end
+
 
   def clink_to(title, link, image_name, method = :get)
     styled_image = raw("<i class=\"fa fa-fw #{image_name}\"></i>")
@@ -110,5 +114,25 @@ module ApplicationHelper
       product_entry = product_entries.order(created_at: :asc).last
       currency_convert(product_entry.paid_in_usd, product_entry.buy_price)
     end
+  end
+
+  def add_google_maps_qr(sheet, buyer, start_column: 5, start_row: 0)
+    return unless buyer.latitude.present? && buyer.longitude.present?
+
+    maps_url = "https://www.google.com/maps?q=#{buyer.latitude},#{buyer.longitude}"
+    qr = RQRCode::QRCode.new(maps_url)
+    png = qr.as_png(size: 200)
+
+    # Save to tmp folder with unique filename
+    filename = Rails.root.join('tmp', "qr_#{buyer.id}_#{SecureRandom.hex(4)}.png")
+    File.binwrite(filename, png.to_s)
+
+    sheet.add_image(image_src: filename.to_s, noSelect: true, noMove: true) do |image|
+      image.width = 100
+      image.height = 100
+      image.start_at(start_column, start_row)
+    end
+
+    filename # Return path for cleanup if needed
   end
 end

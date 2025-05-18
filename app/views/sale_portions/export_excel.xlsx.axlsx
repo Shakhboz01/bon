@@ -14,13 +14,17 @@ border_currency     = styles.add_style(border: { style: :thin, color: "000000" }
 
 
 wb.add_worksheet(name: "Склад") do |sheet|
-  sheet.add_row ["Название", "Количество"], style: header_style
-  @grouped_packs.each do |name, amount|
+  sheet.add_row ["№", "Название", "Количество", "Цена", "Cумма"], style: header_style
+  @grouped_packs.each_with_index do |(name, amount), index|
+    pack = Pack.find_by(name: name)
     formatted = amount_in_string(name, amount) # You can now call your helper directly
-    sheet.add_row [name, formatted]
+    unit_price = "#{currency_convert(false, pack.sell_price)} * #{amount}"
+    total_price = currency_convert(false, pack.sell_price * amount)
+
+    sheet.add_row [index + 1, name, formatted, unit_price, total_price]
   end
 
-  sheet.add_row ["ИТОГО", currency_convert(false, @sales.sum(:total_price)), ""], style: header_style
+  sheet.add_row ["", "", "", "ИТОГО", currency_convert(false, @sales.sum(:total_price)), ""], style: header_style
 end
 
 
@@ -37,7 +41,6 @@ wb.add_worksheet(name: "Накладные") do |sheet|
     )
 
     # Buyer & Seller block
-    sheet.add_row ["Информация о покупателе и поставщике"], style: section_title_style
     sheet.add_row ["Покупатель", "", "", "Поставщик"], style: bold_style
     sheet.add_row [
       sale.buyer.name.capitalize,
@@ -58,10 +61,14 @@ wb.add_worksheet(name: "Накладные") do |sheet|
         index + 1,
         ps.pack.name,
         amount_in_string(ps.pack.name, ps.amount, ps.pack.amount_per_pack),
-        currency_convert(ps.price_in_usd, ps.sell_price),
-        currency_convert(ps.price_in_usd, ps.sell_price * ps.amount)
+        "#{ps.amount.to_i} * #{currency_convert(false, ps.sell_price)}",
+        currency_convert(false, ps.sell_price * ps.amount)
       ], style: [border_style, border_style, border_style, border_currency, border_currency]
     end
+
+    # Now we are right after product_sells table
+    qr_image_row = sheet.rows.size
+    tmp_path = add_google_maps_qr(sheet, sale.buyer, start_column: 0, start_row: qr_image_row)
 
     # Totals
     sheet.add_row []

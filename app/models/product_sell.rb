@@ -18,8 +18,7 @@ class ProductSell < ApplicationRecord
   enum payment_type: %i[наличные карта click предоплата перечисление дригие]
   scope :price_in_uzs, -> { where('price_in_usd = ?', false) }
   scope :price_in_usd, -> { where('price_in_usd = ?', true) }
-  before_save :change_sell_price_based_on_currency
-  before_create :increase_amount_sold_and_check_currency
+  before_create :increase_amount_sold
   after_create :increase_total_price
   before_destroy :decrease_amount_sold
   before_destroy :decrease_total_price
@@ -45,20 +44,8 @@ class ProductSell < ApplicationRecord
     pack.increment!(:initial_remaining, amount)
   end
 
-  def increase_amount_sold_and_check_currency
-    self.price_in_usd = sale.price_in_usd
+  def increase_amount_sold
     pack.decrement!(:initial_remaining, amount)
-  end
-
-  def change_sell_price_based_on_currency
-    return if price_in_usd == price_in_usd_was
-
-    rate = CurrencyRate.last.rate
-    if price_in_usd_was
-      self.sell_price = (rate * sell_price).round(2)
-    else
-      self.sell_price = (sell_price / rate).round(2)
-    end
   end
 end
 

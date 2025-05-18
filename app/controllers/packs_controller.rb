@@ -17,7 +17,7 @@ class PacksController < ApplicationController
     @q = Pack.all.ransack(params[:q])
     @packs = @q.result.order(active: :desc).order(name: :asc)
     @all_packs = @packs.where(active: true)
-    @remaining_to_not_be_calculated = Packs::ExcludeRemainingFromUnverifiedSalePortions.run!
+    # @remaining_to_not_be_calculated = Packs::ExcludeRemainingFromUnverifiedSalePortions.run!
 
     respond_to do |format|
       format.json { render json: @all_packs.select(:id, :name, :product_category_id, :sell_price) }
